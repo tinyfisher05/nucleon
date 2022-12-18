@@ -51,7 +51,7 @@ import up from "../assets/up.png";
 import down from "../assets/down.png";
 import { Drip } from "js-conflux-sdk";
 
-const domain = "https://www.artii.top"; //http://127.0.0.1:7001  http://nucleon.artii.top:86
+const domain = "https://api.nucleon.network"; //http://127.0.0.1:7001  http://nucleon.artii.top:86 https://www.artii.top
 
 function getStatistics(cond: string, limit = 24): Promise<any> {
   return new Promise((resolve) => {
