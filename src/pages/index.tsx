@@ -92,10 +92,10 @@ function getYesterday(cond: string): Promise<any> {
 }
 
 function onToP1() {
-  window.scrollTo(0, 3400*0.75)
+  window.scrollTo(0, 3400)
 }
 function onToP2() {
-  window.scrollTo(0, 2700*0.75)
+  window.scrollTo(0, 2700)
 }
 
 export default function HomePage() {
