@@ -1,0 +1,71 @@
+.nav0 {
+  
+    .sub_nav {
+      position: relative;
+      padding : 30px 0 0;
+      height  : 130px;
+    }
+  
+    .sub_nav_sub {
+      position: absolute;
+      left    : 370px;
+      top     : 43px;
+  
+      a {
+        margin-right: 60px;
+        font-size   : 18px;
+      }
+    }
+  
+    .account_box {
+      position: absolute;
+      top     : 33px;
+      right   : 0;
+    }
+  
+    .account {
+      display      : inline-block;
+      position     : relative;
+      background   : linear-gradient(180deg, rgba(222, 128, 53, 0.6) 0%, rgba(234, 183, 100, 0.6) 100%);
+      border-radius: 80px;
+      padding      : 8px 13px 8px 23px;
+      width        : 252px;
+      font-family  : 'Univa Nova Regular';
+      font-size    : 20px;
+      line-height  : 32px;
+      color        : #FFFFFF;
+    }
+  
+    .yuan {
+      background-color: #EAB966;
+      border-radius   : 50%;
+      position        : absolute;
+      height          : 37px;
+      width           : 37px;
+      top             : 6px;
+      right           : 7px;
+    }
+  
+    .sub_nav2 {
+      margin: 50px 0 35px;
+  
+      a {
+        margin-left: 20px;
+        font-size  : 24px;
+      }
+  
+    }
+}
+  
+  /* 当页面宽度大于960px小于1200px */
+  @media screen and (min-width:960px) and (max-width:1200px) {
+    .ant-modal-content {
+      width: "80%"
+    }
+  }
+  
+  /* 当页面宽度大于600px小于960px */
+  @media screen and (min-width:600px) and (max-width:960px) {}
+  
+  /* 当页面宽度大于300px小于600px @media screen and (min-width:300px) and (max-width:600px) */
+  @media screen and (max-width:600px) {}

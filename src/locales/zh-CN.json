@@ -1,0 +1,17 @@
+{
+    "header": {
+        "register":"注册钱包",
+        "signin":"连接钱包",
+        "home": "首页"
+    },
+    "footer": {
+        "detail" : "版权所有 @nucleon"
+    },
+    "stake": {
+        "nav_stake": "股本",
+        "nav_pools": "资金池",
+        "nav_nut": "NUT",
+        "nav_rewards": "收益",
+        "nav_analytics": "统计报表"
+    }
+}

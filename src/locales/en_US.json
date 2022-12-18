@@ -1,0 +1,69 @@
+{
+    "header": {
+        "register": "Register",
+        "signin": "Sign In",
+        "home": "Home"
+    },
+    "footer": {
+        "detail": "All rights reserved @nucleon"
+    },
+    "stake": {
+        "nav_stake": "Stake",
+        "nav_pools": "Pools",
+        "nav_nut": "NUT",
+        "nav_rewards": "Rewards",
+        "nav_analytics": "Analytics",
+        "btn_confirm": "Confirm",
+        "confirm_txt1": "I’m not a resident of or located in the United States of America (including its territories: American Samoa, Guam, Puerto Rico, the Northern Mariana Islands and the U.S. Virgin Islands) or any other Restricted Jurisdiction (as defined in the Terms of Service);",
+        "confirm_txt2": "I’m not a Prohibited Person (as defined in the Terms of Service) nor acting on behalf of a Prohibited Person;",
+        "confirm_txt3": "I acknowledge that Nucleon Protocol and related software are experimental, and that the use of experimental software may result in complete loss of my funds.",
+        "confirm_txt4": "By accessing or using Nucleon Protocol, I agree to the Terms of Service and confirm that I have read and understood the Privacy Notice and Risk Disclosure Statement.",
+        "confirm_tit1": "Risk Disclaimer",
+        "confirm_tit2": "Nucleon Risk Disclosure Statement",
+        "unStake_CFX": "unStake CFX",
+        "Stake_CFX": "Stake CFX",
+        "user_analytics": "User Analytics",
+        "nucleon_analytics": "Nucleon Analytics",
+        "Claim": "Claim",
+        "QueueHistory": "Queue History",
+        "UnstakedxCFX": "Unstaked xCFX",
+        "LockingCFX": "Unlocking Values(CFX)",
+        "EstimatedUnlockDate": "Estimated Unlock Date",
+        "Status": "Status"
+    },
+    "analytics": {
+        "TVL": "TVL",
+        "Total_Emission_xCFX": "Total Emission xCFX",
+        "Value_Growth": "Value Growth",
+        "Interest_Earned": "Interest Earned",
+        "Total_Emission_of_NUT": "Total Emission of NUT",
+        "Total_CFX_In_Pool": "Total CFX In Pool"
+    },
+    "pools": {
+        "pools": "Pools",
+        "mypools": "My Pools",
+        "otherpools": "Other Pools",
+        "PoolName": "Pool Name",
+        "APR": "APR",
+        "TotalLiquidity": "Total LPs",
+        "AvailableLquidity":"Available LPs",
+        "StakedLquidity":"Staked LPs",
+        "StakeLiquidity":"Approve Liquility/Stake Liquility",
+        "Myliquidity": "My LPs",
+        "Manage":"Manage",
+        "Claimrewards":"Claim Rewards",
+        "AddLiquidity": "Add Liquility",
+        "Stake": "Stake",
+        "WithdrawLiquidity": "Withdraw Liquility"
+    },
+    "nut": {
+        "Withdraw": "Withdraw",
+        "Claim": "Claim",
+        "Manage": "Manage",
+        "NFTID": "NF TID",
+        "VestAmount": "Vest Amount",
+        "VestValue": "Vest Value",
+        "VestExpires": "Vest Expires",
+        "APR": "APR"
+    }
+}

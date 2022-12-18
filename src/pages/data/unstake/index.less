@@ -1,0 +1,272 @@
+.unstake {
+  z-index         : 10;
+  min-height      : 900px;
+  left            : 0;
+  width           : 100%;
+  position        : relative;
+  background-color: #171520;
+
+  input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+  input[type="number"] {
+      -moz-appearance: textfield;
+  }
+
+  .sub_nav {
+    position: relative;
+    padding : 30px 0 0;
+    height  : 130px;
+  }
+
+  .sub_nav_sub {
+    position: absolute;
+    left    : 370px;
+    top     : 43px;
+
+    a {
+      margin-right: 60px;
+      font-size   : 18px;
+    }
+  }
+
+  .account_box {
+    position: absolute;
+    top     : 33px;
+    right   : 0;
+  }
+
+  .account {
+    display      : inline-block;
+    position     : relative;
+    background   : linear-gradient(180deg, rgba(222, 128, 53, 0.6) 0%, rgba(234, 183, 100, 0.6) 100%);
+    border-radius: 80px;
+    padding      : 8px 13px 8px 23px;
+    width        : 252px;
+    font-family  : 'Univa Nova Regular';
+    font-size    : 20px;
+    line-height  : 32px;
+    color        : #FFFFFF;
+  }
+
+  .yuan {
+    background-color: #EAB966;
+    border-radius   : 50%;
+    position        : absolute;
+    height          : 37px;
+    width           : 37px;
+    top             : 6px;
+    right           : 7px;
+  }
+
+  .sub_nav2 {
+    margin: 50px 0 35px;
+
+    a {
+      margin-left: 20px;
+      font-size  : 24px;
+    }
+
+  }
+
+  .line {
+    opacity   : 0.3;
+    border-top: 1px solid #FFFFFF;
+    transform : rotate(-179.78deg);
+    width     : 100%;
+    margin    : 25px auto 25px;
+  }
+
+  .arrow {
+    border-radius   : 50%;
+    border          : 1px solid #EAB966;
+    display         : inline-block;
+    padding         : 29px 33px;
+    position        : absolute;
+    bottom          : 130px;
+    top             : 400px;
+    left            : 50%;
+    transform       : translate(-50%, -50%);
+    background-color: #3a3841;
+  }
+
+  .box6 {
+    padding-top: 20px;
+  }
+
+  .box1 {
+    font-family    : 'Univa Nova Regular';
+    background     : linear-gradient(127.48deg, #EAB966 10.11%, #DD7C32 100%);
+    backdrop-filter: blur(10px);
+    border-radius  : 24px;
+    padding        : 35px;
+    margin-bottom  : 20px;
+    font-size      : 22px;
+    line-height    : 31px;
+    height         : 100%;
+
+    b {
+      display    : inline-block;
+      font-family: 'Univa Nova Bold';
+      font-size  : 32px;
+      margin-top : 10px;
+    }
+  }
+
+  .box2 {
+    font-family    : 'Univa Nova Regular';
+    background     : rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius  : 24px;
+    padding        : 35px;
+    margin-bottom  : 20px;
+    font-size      : 22px;
+    line-height    : 31px;
+    color          : #FFFFFF;
+    height         : 100%;
+    position       : relative;
+  }
+
+
+  .box3 {
+    font-family    : 'Univa Nova Regular';
+    background     : #EAB966;
+    backdrop-filter: blur(10px);
+    border-radius  : 24px;
+    margin-top     : 30px;
+    padding        : 35px;
+    font-size      : 22px;
+    line-height    : 45px;
+    height         : 250px;
+  }
+
+  .box4 {
+    margin-top   : 30px;
+    background   : rgba(255, 255, 255, 0.1);
+    border       : 1px solid #EAB966;
+    border-radius: 12px;
+    line-height  : 40px;
+    color        : #FFF;
+
+    .disclaimer {
+      background-color: rgba(22, 22, 33, 0.4);
+    }
+
+    .in {
+      padding-left: 10px;
+
+    }
+
+    span {
+      font-family: "Univa Nova Regular";
+    }
+
+
+    .disclaimer {
+      color: #fff;
+    }
+  }
+
+  .box5 {
+    box-sizing   : border-box;
+    width        : 100%;
+    max-width    : 960px;
+    margin       : 40px auto;
+    padding      : 50px 60px;
+    background   : rgba(255, 255, 255, 0.15);
+    color        : #FFFFFF;
+    border-radius: 24px;
+    font-size    : 26px;
+    line-height  : 52px;
+  }
+
+  h4 {
+    margin     : 0 0 0;
+    font-size  : 30px;
+    line-height: 140.5%;
+  }
+
+  .unstake_btn {
+    font-family  : 'Univa Nova';
+    padding-top  : 5px;
+    height       : 100px;
+    border-radius: 50px;
+    font-size    : 32px;
+  }
+
+  .stake_btn {
+    font-family  : 'Univa Nova';
+    padding-top  : 5px;
+    height       : 100px;
+    border-radius: 50px;
+    font-size    : 32px;
+  }
+
+  .plus {
+    position      : relative;
+    display       : inline-block;
+    background    : rgba(255, 255, 255, 0.4);
+    width         : 30px;
+    height        : 30px;
+    line-height   : 28px;
+    text-align    : center;
+    border-radius : 15px;
+    margin-left   : 10px;
+    vertical-align: middle;
+    top           : -6px;
+  }
+
+  .board {
+    display      : inline-block;
+    background   : #03D07D;
+    width        : 16px;
+    height       : 16px;
+    border-radius: 8px;
+  }
+
+  .board2 {
+    display      : inline-block;
+    background   : #EAB966;
+    width        : 16px;
+    height       : 16px;
+    margin       : 0 10px;
+    border-radius: 8px;
+  }
+
+  .box2 .tabbtn {
+    border-radius: 10px;
+    padding      : 10px 20px;
+    margin-left  : 13px;
+    display      : inline-block;
+    font-size    : 16px;
+    background   : rgba(22, 22, 33, 0.4);
+  }
+
+  .vbar {
+    text-align  : center;
+    border-left : 1px solid rgba(#161621, 0.3);
+    border-right: 1px solid rgba(#161621, 0.3);
+
+    b {
+      display    : inline-block;
+      font-family: 'Univa Nova Bold';
+      font-size  : 32px;
+      margin-top : 0;
+    }
+  }
+
+  .mintxt {
+    font-size: 16px;
+  }
+
+  .tip {
+    color: #03D07D;
+  }
+
+}
