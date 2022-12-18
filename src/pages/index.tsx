@@ -295,7 +295,7 @@ export default function HomePage() {
       );
 
       const myChartT = echarts.getInstanceByDom(
-        document.getElementById("main") as HTMLElement
+        document.getElementById("main0") as HTMLElement
       );
       var optionT = (myChartT as any).getOption();
       optionT.series[0].data = goToSchool;
@@ -1548,7 +1548,7 @@ export default function HomePage() {
       setTimeout(async () => {
         try {
           myChart = echarts.init(
-            document.getElementById("main") as HTMLElement
+            document.getElementById("main0") as HTMLElement
           );
           // 绘制图表1
           myChart.setOption(option0);
@@ -1761,7 +1761,7 @@ export default function HomePage() {
                     <div
                       className={styles.main}
                       style={{ height: "160px", width: "105%" }}
-                      id="main"
+                      id="main0"
                     ></div>
                     <div
                       style={{
