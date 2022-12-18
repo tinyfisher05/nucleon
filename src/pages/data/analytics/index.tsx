@@ -31,7 +31,7 @@ const { formatNumber} = require("../../../utils/tools.js");
 
 
 // AJAX获取数据
-const domain = "https://www.artii.top";
+const domain = "https://api.nucleon.network";
 function getStatistics(cond: string, limit = 24): Promise<any> {
   return new Promise((resolve) => {
     setTimeout(() => {

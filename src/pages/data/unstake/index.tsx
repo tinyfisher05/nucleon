@@ -38,7 +38,7 @@ const { addressXcfx, abiXcfx } = require("./../../../ABI/Xcfx.json");
 const { addressNut, abiNut } = require("./../../../ABI/Nut.json");
 const { formatNumber} = require("../../../utils/tools.js");
 
-const domain = "https://www.artii.top"; //http://127.0.0.1:7001
+const domain = "https://api.nucleon.network";
 function getStatistics(cond: string, limit = 24): Promise<any> {
   return new Promise((resolve) => {
     setTimeout(() => {
