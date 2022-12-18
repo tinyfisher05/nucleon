@@ -519,7 +519,7 @@ export default function Page() {
                 <Row>
                   <Col span={14} style={{ textAlign: "right" }}>
                     {" "}
-                    The Finial Unlock Time :
+                    The Final Unlock Time :
                   </Col>
                   <Col span={10}>{finialUnlockTime}</Col>
                 </Row>

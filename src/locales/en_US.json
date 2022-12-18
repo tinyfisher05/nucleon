@@ -48,13 +48,13 @@
         "TotalLiquidity": "Total LPs",
         "AvailableLquidity":"Available LPs",
         "StakedLquidity":"Staked LPs",
-        "StakeLiquidity":"Approve Liquility/Stake Liquility",
+        "StakeLiquidity":"Approve Liquidity/Stake Liquidity",
         "Myliquidity": "My LPs",
         "Manage":"Manage",
         "Claimrewards":"Claim Rewards",
-        "AddLiquidity": "Add Liquility",
+        "AddLiquidity": "Add Liquidity",
         "Stake": "Stake",
-        "WithdrawLiquidity": "Withdraw Liquility"
+        "WithdrawLiquidity": "Withdraw Liquidity"
     },
     "nut": {
         "Withdraw": "Withdraw",

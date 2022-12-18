@@ -855,7 +855,7 @@ const nutoInterface = new utils.Interface(abiNut);
                 >
                   <Button
                     target="_blank"
-                    href="https://app.swappi.io/#/swap"
+                    href="https://integration.swappi.io/#/swap"
                     shape="round"
                     style={{
                       background: "#161621",
@@ -1174,12 +1174,12 @@ const nutoInterface = new utils.Interface(abiNut);
             <p>
               Nucleon is a liquid staking solution for Conflux PoS backed by
               industry-leading staking providers. Nucleon lets users stake their
-              CFX by exchange CFX to xCFX - without locking assets or
+              CFX by exchanging CFX to xCFX - without locking assets or
               maintaining infrastructure.
             </p>
             <p>
               The value in xCFX will be automatically compounded and the xCFX
-              value expands automatically
+              value expands automatically.
             </p>
             <p>
               Our goal is to solve the problems associated with Conflux PoS

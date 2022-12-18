@@ -144,7 +144,7 @@ export default function Layout() {
                   {status === "active" && <WalletInfo />}
                 </p>
                 <p>
-                  <Link to="/stake" style={{ color: "#FFF" }}>
+                  <Link to="/data/analytics" style={{ color: "#FFF" }}>
                     Analytics
                   </Link>
                 </p>
@@ -165,7 +165,7 @@ export default function Layout() {
                 <p>Developers</p>
                 <p>Community</p>
                 <p>
-                  <Link to="/stake" style={{ color: "#FFF" }}>
+                  <Link to="/data/analytics" style={{ color: "#FFF" }}>
                     Analytics
                   </Link>
                 </p>
