@@ -644,7 +644,7 @@ export default function HomePage() {
 
       //console.log(goToSchoolP4);
 
-      let option = {
+      let option0 = {
         backgroundColor: "rgba(255,255,255,0)",
         tooltip: {
           trigger: "axis",
@@ -1551,7 +1551,7 @@ export default function HomePage() {
             document.getElementById("main") as HTMLElement
           );
           // 绘制图表1
-          myChart.setOption(option);
+          myChart.setOption(option0);
           myChart2 = echarts.init(
             document.getElementById("main2") as HTMLElement
           );
