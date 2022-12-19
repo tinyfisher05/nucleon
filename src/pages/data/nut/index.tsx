@@ -872,11 +872,11 @@ export default function Page() {
           display: "block"
         }}>
           <div style={{
-            width: "500px",
+            width: "600px",
             margin: "260px auto",
             color: "#ccc",
             fontSize: "26px"
-          }}>Let's start the journey of NUT empowerment together in the near future！</div>
+          }}>Let's start the journey of NUT in the near future！</div>
         </div>
     </div>
   );

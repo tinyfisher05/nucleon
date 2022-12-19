@@ -161,11 +161,13 @@ export default function Page() {
     } else if (+isModalOpen1Val === 1) {
       allowance = await xcfxContract.allowance(myacc, addressPool);
     }
+    clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     let LPInterface: any;
     // 授权
     console.log(Drip(allowance).toCFX());
     console.log(isModalOpen1Val3);
+    let time = 0;
     if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
       // +Drip(allowance).toCFX() <= +isModalOpen1Val3
       // 对应币种合约
@@ -177,15 +179,25 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit() + 1,
+        Unit.fromStandardUnit(+isModalOpen1Val3 + 1).toHexMinUnit(),
       ]);
 
       const txParams = {
         to: +isModalOpen1Val === 0 ? addressNUT_CFX : addressXCFX_CFX,
         data,
       };
-      const TxnHash = await sendTransaction(txParams);
+      try {
+        const TxnHash = await sendTransaction(txParams);
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+        return;
+      }
+
+      time = 10000;
     }
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
       // 执行
       const data = poolsInterface.encodeFunctionData("deposit", [
@@ -198,20 +210,18 @@ export default function Page() {
         data,
       };
       try {
-        
         const TxnHash = await sendTransaction(txParams);
       } catch (error) {
         setIsModalOpen2("none");
         (document.getElementById("spinner") as any).style.display = "none";
       }
 
-      clearTimeout(timer);
       timer = setTimeout(() => {
         init();
         (document.getElementById("spinner") as any).style.display = "none";
         setIsModalOpen2("none");
       }, 10000);
-    }, 5000);
+    }, time);
   };
   // manage handleOkWithdraw
   const handleOkWithdraw = async () => {
@@ -349,12 +359,15 @@ export default function Page() {
     } else if (+isModalOpen3Val === 1) {
       allowance = await xcfxContract.allowance(myacc, addressPool);
     }
+    clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
+
     // 对应币种合约
     let LPInterface: any;
     console.log(Drip(allowance).toCFX());
     console.log(isModalOpen3Val3);
-    if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+    let time = 0;
+    if (+Drip(allowance).toCFX() <= +isModalOpen3Val3) {
       if (+isModalOpen3Val === 0) {
         LPInterface = nutInterface;
       } else if (+isModalOpen3Val === 1) {
@@ -363,7 +376,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(isModalOpen3Val3).toHexMinUnit() + 1,
+        Unit.fromStandardUnit(+isModalOpen3Val3 + 1).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -371,9 +384,18 @@ export default function Page() {
         data,
         //value: Unit.fromStandardUnit(0).toHexMinUnit(),
       };
-      const TxnHash = await sendTransaction(txParams);
+
+      try {
+        const TxnHash = await sendTransaction(txParams);
+      } catch (error) {
+        setIsModalOpen3("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+        return;
+      }
+      time = 10000;
     }
-    //console.log(isModalOpen3Val);
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
       const data = poolsInterface.encodeFunctionData("deposit", [
         +isModalOpen3Val,
@@ -391,13 +413,13 @@ export default function Page() {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
       }
-      clearTimeout(timer);
+      
       timer = setTimeout(() => {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
         init();
       }, 10000);
-    }, 5000);
+    }, time);
   };
 
   useEffect(() => {
@@ -1224,7 +1246,7 @@ export default function Page() {
                       className="disclaimer2"
                       style={{
                         fontSize: "24px",
-                        display: stake === true ? "block" : "none",
+                        display: "block"
                       }}
                     >
                       <img
