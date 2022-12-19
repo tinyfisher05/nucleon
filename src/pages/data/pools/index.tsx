@@ -161,52 +161,67 @@ export default function Page() {
     } else if (+isModalOpen1Val === 1) {
       allowance = await xcfxContract.allowance(myacc, addressPool);
     }
-
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
     let LPInterface: any;
     // 授权
-    if (allowance <= Drip.fromCFX(isModalOpen1Val3)) {
+    console.log(Drip(allowance).toCFX());
+    console.log(isModalOpen1Val3);
+    let time = 0;
+    if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+      // +Drip(allowance).toCFX() <= +isModalOpen1Val3
       // 对应币种合约
       if (+isModalOpen1Val === 0) {
         LPInterface = nutInterface;
-      } else if (+isModalOpen1Val3 === 1) {
+      } else if (+isModalOpen1Val === 1) {
         LPInterface = xcfxInterface;
       }
-      
+
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit() + 1,
+        Unit.fromStandardUnit(+isModalOpen1Val3 + 1).toHexMinUnit(),
       ]);
 
       const txParams = {
         to: +isModalOpen1Val === 0 ? addressNUT_CFX : addressXCFX_CFX,
         data,
       };
-      const TxnHash = await sendTransaction(txParams);
+      try {
+        const TxnHash = await sendTransaction(txParams);
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+        return;
+      }
+
+      time = 10000;
     }
-    // 执行
-    const data = poolsInterface.encodeFunctionData("deposit", [
-      +isModalOpen1Val,
-      Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit(),
-      myacc,
-    ]);
-    const txParams = {
-      to: addressPool,
-      data,
-    };
-    try {
-      (document.getElementById("spinner") as any).style.display = "block";
-      const TxnHash = await sendTransaction(txParams);
-    } catch (error) {
-      setIsModalOpen2("none");
-      (document.getElementById("spinner") as any).style.display = "none";
-    }
-    
     clearTimeout(timer);
-    timer = setTimeout(() => {
-      init();
-      (document.getElementById("spinner") as any).style.display = "none";
-      setIsModalOpen2("none");
-    }, 10000);
+    (document.getElementById("spinner") as any).style.display = "block";
+    setTimeout(async () => {
+      // 执行
+      const data = poolsInterface.encodeFunctionData("deposit", [
+        +isModalOpen1Val,
+        Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit(),
+        myacc,
+      ]);
+      const txParams = {
+        to: addressPool,
+        data,
+      };
+      try {
+        const TxnHash = await sendTransaction(txParams);
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
+
+      timer = setTimeout(() => {
+        init();
+        (document.getElementById("spinner") as any).style.display = "none";
+        setIsModalOpen2("none");
+      }, 10000);
+    }, time);
   };
   // manage handleOkWithdraw
   const handleOkWithdraw = async () => {
@@ -228,7 +243,7 @@ export default function Page() {
       setIsModalOpen2("none");
       (document.getElementById("spinner") as any).style.display = "none";
     }
-    
+
     clearTimeout(timer);
     timer = setTimeout(() => {
       init();
@@ -242,17 +257,27 @@ export default function Page() {
   };
   // 弹出
   const manage = (val: any, val2: any, val3: any) => {
-    return (e: any) => {
+    return async (e: any) => {
+      // withdraw
       setIsModalOpen2("block");
       setIsModalOpen2Val(val);
       setIsModalOpen2Val2(val3);
       setPercentage2(25);
       setIsModalOpen2Val3(parseFloat((val3 * 0.25).toString()).toFixed(2));
 
+      // stake
       setIsModalOpen1Val(val);
       setIsModalOpen1Val2(val2);
       setPercentage1(25);
       setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+
+      // 显示授权额度
+      let allowance = "";
+      if (+isModalOpen1Val === 0) {
+        allowance = await nutContract.allowance(myacc, addressPool);
+      } else if (+isModalOpen1Val === 1) {
+        allowance = await xcfxContract.allowance(myacc, addressPool);
+      }
     };
   };
   // 选择百分比
@@ -334,10 +359,15 @@ export default function Page() {
     } else if (+isModalOpen3Val === 1) {
       allowance = await xcfxContract.allowance(myacc, addressPool);
     }
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
 
     // 对应币种合约
     let LPInterface: any;
-    if (+allowance <= +Drip.fromCFX(isModalOpen3Val3)) {
+    console.log(Drip(allowance).toCFX());
+    console.log(isModalOpen3Val3);
+    let time = 0;
+    if (+Drip(allowance).toCFX() <= +isModalOpen3Val3) {
       if (+isModalOpen3Val === 0) {
         LPInterface = nutInterface;
       } else if (+isModalOpen3Val === 1) {
@@ -346,7 +376,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(isModalOpen3Val3).toHexMinUnit() + 1,
+        Unit.fromStandardUnit(+isModalOpen3Val3 + 1).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -354,9 +384,18 @@ export default function Page() {
         data,
         //value: Unit.fromStandardUnit(0).toHexMinUnit(),
       };
-      const TxnHash = await sendTransaction(txParams);
+
+      try {
+        const TxnHash = await sendTransaction(txParams);
+      } catch (error) {
+        setIsModalOpen3("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+        return;
+      }
+      time = 10000;
     }
-    //console.log(isModalOpen3Val);
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
       const data = poolsInterface.encodeFunctionData("deposit", [
         +isModalOpen3Val,
@@ -369,19 +408,18 @@ export default function Page() {
       };
 
       try {
-        (document.getElementById("spinner") as any).style.display = "block";
         const TxnHash = await sendTransaction(txParams);
       } catch (error) {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
       }
-      clearTimeout(timer);
+      
       timer = setTimeout(() => {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
         init();
       }, 10000);
-    }, 800);
+    }, time);
   };
 
   useEffect(() => {
@@ -437,7 +475,7 @@ export default function Page() {
             totalLiquidity: Drip(val).toCFX(),
             myLiquidity: Drip(myLiquidity).toCFX(),
             totalLPs: totalLPs,
-            pendingrewards: Drip(pendingrewards).toCFX()
+            pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
       }
@@ -464,7 +502,7 @@ export default function Page() {
               float: "right",
             }}
           >
-            Your NUTs：{ parseFloat(mynut).toFixed(2) }
+            Your NUTs：{parseFloat(mynut).toFixed(2)}
           </span>
         </div>
         <div className={style.box2}>
@@ -475,9 +513,7 @@ export default function Page() {
             <Col span={3}>LPs in Pool</Col>
             <Col span={3}>{t("pools.StakedLquidity")}</Col>
             <Col span={3}>{t("pools.AvailableLquidity")}</Col>
-            <Col span={2}>
-              Pending Rewards
-            </Col>
+            <Col span={2}>Pending Rewards</Col>
           </Row>
           {userOutQueue1.map((item: any) => {
             return (
@@ -527,7 +563,7 @@ export default function Page() {
                         border: 0,
                         fontSize: "14px",
                         marginRight: "10px",
-                        width:"90px"
+                        width: "90px",
                       }}
                     >
                       {t("pools.Manage")}
@@ -542,7 +578,7 @@ export default function Page() {
                         color: "#EAB966",
                         border: 0,
                         fontSize: "14px",
-                        width:"140px"
+                        width: "140px",
                       }}
                     >
                       {t("pools.Claimrewards")}
@@ -611,7 +647,7 @@ export default function Page() {
                         border: 0,
                         fontSize: "14px",
                         marginRight: "10px",
-                        width:"90px"
+                        width: "90px",
                       }}
                     >
                       {t("pools.Stake")}
@@ -625,7 +661,7 @@ export default function Page() {
                         color: "#EAB966",
                         border: 0,
                         fontSize: "14px",
-                        width:"140px"
+                        width: "140px",
                       }}
                       target="_blank"
                       href="https://integration.swappi.io/#/pool/v2"
@@ -652,7 +688,9 @@ export default function Page() {
               zIndex: "100000",
               width: "100%",
               top: "25%",
-              left: "0",
+              left: "50%",
+              right: "50%",
+              transform: "translate(-50%, 0)",
               position: "fixed",
               borderRadius: "20px",
             }}
@@ -732,9 +770,7 @@ export default function Page() {
                       </b>
                     </Button>
                   </div>
-                  <div className={style.shuom}>
-                    
-                  </div>
+                  <div className={style.shuom}></div>
                 </div>
               </div>
             </div>
@@ -754,7 +790,9 @@ export default function Page() {
               zIndex: "100000",
               width: "100%",
               top: "1%",
-              left: "0",
+              left: "50%",
+              right: "50%",
+              transform: "translate(-50%, 0)",
               position: "fixed",
               borderRadius: "20px",
             }}
@@ -1072,8 +1110,7 @@ export default function Page() {
                                 fontSize: "12px",
                               }}
                             >
-                              In Pool:{" "}
-                              {parseFloat(isModalOpen2Val2).toFixed(2)}
+                              In Pool: {parseFloat(isModalOpen2Val2).toFixed(2)}
                             </div>
                           </Col>
                         </Row>
@@ -1177,7 +1214,9 @@ export default function Page() {
               zIndex: "100000",
               width: "100%",
               top: "1%",
-              left: "0",
+              left: "50%",
+              right: "50%",
+              transform: "translate(-50%, 0)",
               position: "fixed",
               borderRadius: "20px",
             }}
@@ -1207,7 +1246,7 @@ export default function Page() {
                       className="disclaimer2"
                       style={{
                         fontSize: "24px",
-                        display: stake === true ? "block" : "none",
+                        display: "block"
                       }}
                     >
                       <img

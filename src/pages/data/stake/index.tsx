@@ -18,7 +18,7 @@ import logo8 from "../../../assets/logo8.png";
 import { Button, Col, Row, Input, Checkbox } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
-import "./../../../locales/config"; // 引用配置文件
+import "../../../locales/config"; // 引用配置文件
 import { useTranslation, Trans } from "react-i18next"; // https://blog.csdn.net/r657225738/article/details/124035454
 
 // 区块链部分
@@ -37,7 +37,7 @@ const { Drip } = require("js-conflux-sdk");
 const { addressExc, abiExc } = require("./../../../ABI/ExchangeRoom.json");
 const { addressXcfx, abiXcfx } = require("./../../../ABI/Xcfx.json");
 const { addressNut, abiNut } = require("./../../../ABI/Nut.json");
-const { formatNumber} = require("../../../utils/tools.js");
+const { formatNumber } = require("../../../utils/tools.js");
 
 const domain = "https://api.nucleon.network";
 function getStatistics(cond: string, limit = 24): Promise<any> {
@@ -77,8 +77,8 @@ export default function Page() {
   const [chart3Tab, setChart3Tab] = useState(0);
   const [blockNumber, setBlockNumber] = useState(0);
   const [rate, setRate] = useState("0.00");
-  let xLabel = [""];
-  let goToSchool: { date: any; value: any }[] = [];
+  let xLabel0 = [""];
+  let xgoToSchool0: { date: any; value: any }[] = [];
 
   const provider = new ethers.providers.JsonRpcProvider(
     "https://evmtestnet.confluxrpc.com"
@@ -87,9 +87,9 @@ export default function Page() {
   const excinterface = new utils.Interface(abiExc);
   const xcfxContract = new ethers.Contract(addressXcfx, abiXcfx, provider);
   //币种
-const nutoContract = new ethers.Contract(addressNut, abiNut, provider);
-const nutoInterface = new utils.Interface(abiNut);
- 
+  const nutoContract = new ethers.Contract(addressNut, abiNut, provider);
+  const nutoInterface = new utils.Interface(abiNut);
+
   // web3 钱包登录状态
   const status = useStatus();
   // web3 钱包登录
@@ -251,8 +251,8 @@ const nutoInterface = new utils.Interface(abiNut);
       limit
     );
 
-    goToSchool = [];
-    xLabel = [];
+    xgoToSchool0 = [];
+    xLabel0 = [];
     let T: {
       created_at: any;
       apy: any;
@@ -314,17 +314,17 @@ const nutoInterface = new utils.Interface(abiNut);
           let objT = { date: dayT, value: valT };
           objT.value = valT;
           objT.date = dayT;
-          xLabel.push(i);
-          goToSchool.push(objT);
+          xLabel0.push(i);
+          xgoToSchool0.push(objT);
         }
       );
 
       const myChartT = echarts.getInstanceByDom(
-        document.getElementById("main") as HTMLElement
+        document.getElementById("main0") as HTMLElement
       );
       var optionT = (myChartT as any).getOption();
-      optionT.series[0].data = goToSchool;
-      optionT.xAxis.data = xLabel;
+      optionT.series[0].data = xgoToSchool0;
+      optionT.xAxis.data = xLabel0;
       (myChartT as any).setOption(optionT);
       return;
     }
@@ -365,61 +365,8 @@ const nutoInterface = new utils.Interface(abiNut);
     // 监听
     //window.addEventListener("resize", resizeChange);
     (async () => {
-      
-
-      goToSchool = [
-        { value: 1.5067, date: "Mon" },
-        { value: 1.5467, date: "Tue" },
-        { value: 1.6067, date: "Wed" },
-        { value: 1.7867, date: "Thu" },
-        { value: 1.0475, date: "Fri" },
-        { value: 1.8067, date: "Sat" },
-        { value: 1.9067, date: "Sun" },
-      ];
-      xLabel = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-      const res = await getStatistics("");
-      goToSchool = [];
-      xLabel = [];
-
-      res.data.rows.reverse().forEach(
-        (
-          element: {
-            created_at: any;
-            apy: any;
-            price: any;
-            xcfxvalues: any;
-            totalxcfxs: string;
-          },
-          i: any
-        ) => {
-          const xcfxvalues = element.xcfxvalues;
-          const y = new BigNumber(xcfxvalues);
-
-          if (i % 2 === 1) {
-          }
-          // if (i === 1) {
-          //   // 收盘价
-          //   setClosingPrice(parseFloat((y * + balancevalue).toString()).toFixed(4));
-          // }
-
-          //setTotal(y.toFixed(4));
-          // const balancevalueT2 = parseFloat(
-          //   (+element.xcfxvalues * +element.price).toString()
-          // ).toFixed(4);
-
-          const val4 = +y.toString() * +element.price;
-          const day4 = element.created_at.toString();
-          let obj4 = { date: day4, value: val4 };
-          obj4.value = val4;
-          obj4.date = day4;
-          goToSchool.push(obj4);
-          xLabel.push("");
-        }
-      );
-
-      var len = goToSchool.length - 1;
-      setClosingPrice(parseFloat(goToSchool[len].value.toString()).toFixed(4));
+      xgoToSchool0 = [];
+      xLabel0 = [];
 
       let option = {
         backgroundColor: "rgba(255,255,255,0)",
@@ -505,7 +452,7 @@ const nutoInterface = new utils.Interface(abiNut);
             axisTick: {
               show: false,
             },
-            data: xLabel,
+            data: xLabel0,
           },
         ],
         yAxis: [
@@ -583,16 +530,14 @@ const nutoInterface = new utils.Interface(abiNut);
               shadowColor: "rgba(255, 255, 255, 0.5)", //阴影颜色
               shadowBlur: 0, //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
             },
-            data: goToSchool,
+            data: xgoToSchool0,
           },
         ],
       };
 
-      const resY: { data: { count: any; rows: [] } } = await getStatistics(
-        "",
-        8640
-      );
-      resY.data.rows.reverse().forEach(
+      const res = await getStatistics("", 24);
+
+      res.data.rows.reverse().forEach(
         (
           element: {
             created_at: any;
@@ -603,24 +548,43 @@ const nutoInterface = new utils.Interface(abiNut);
           },
           i: any
         ) => {
-          const n = 365 - 1;
-          const apyT = 1 + element.apy / 365;
-          const t = Math.pow(apyT, n);
-          const val = (element.apy * t * 100).toFixed(3);
-          setRate(val.toString());
-          return;
+          const xcfxvalues = element.xcfxvalues;
+          const y = new BigNumber(xcfxvalues);
+
+          if (i % 2 === 1) {
+          }
+          // if (i === 1) {
+          //   // 收盘价
+          //   setClosingPrice(parseFloat((y * + balancevalue).toString()).toFixed(4));
+          // }
+
+          //setTotal(y.toFixed(4));
+          // const balancevalueT2 = parseFloat(
+          //   (+element.xcfxvalues * +element.price).toString()
+          // ).toFixed(4);
+
+          const val4 = +y.toString() * +element.price;
+          const day4 = element.created_at.toString();
+          let obj4 = { date: day4, value: val4 };
+          obj4.value = val4;
+          obj4.date = day4;
+          xgoToSchool0.push(obj4);
+          xLabel0.push("");
         }
       );
 
-      setTimeout(async () => {
-        try {
-          myChart = echarts.init(
-            document.getElementById("main") as HTMLElement
-          );
-          // 绘制图表1
-          myChart.setOption(option);
-        } catch (error) {}
-      }, 10);
+      //setTimeout(async () => { }, 10);
+      try {
+        myChart = echarts.init(document.getElementById("main0") as HTMLElement);
+        // 绘制图表1
+        myChart.setOption(option);
+      } catch (error) {}
+
+
+      var len = xgoToSchool0.length - 1;
+      setClosingPrice(
+        parseFloat(xgoToSchool0[len].value.toString()).toFixed(4)
+      );
 
       const mynut = await nutoContract.balanceOf(myacc);
       setMynut(Drip(mynut.toString()).toCFX().toString());
@@ -693,8 +657,6 @@ const nutoInterface = new utils.Interface(abiNut);
           setBlockNumber(response.data.result.blockNumber);
         });
 
-      
-
       axios
         .get(
           " https://evmtestnet.confluxscan.net/stat/tokens/by-address?address=0x3e3608c5145e6bb303947e77d329811f14e76d26&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
@@ -702,6 +664,29 @@ const nutoInterface = new utils.Interface(abiNut);
         .then(async (response) => {
           setHolderCount(response.data.result.holderCount);
         });
+
+        const resY: { data: { count: any; rows: [] } } = await getStatistics(
+          ""
+        );
+        resY.data.rows.reverse().forEach(
+          (
+            element: {
+              created_at: any;
+              apy: any;
+              price: any;
+              xcfxvalues: any;
+              totalxcfxs: string;
+            },
+            i: any
+          ) => {
+            const n = 365 - 1;
+            const apyT = 1 + element.apy / 365;
+            const t = Math.pow(apyT, n);
+            const val = (element.apy * t * 100).toFixed(3);
+            setRate(val.toString());
+            return;
+          }
+        );
     })();
   }
 
@@ -834,7 +819,7 @@ const nutoInterface = new utils.Interface(abiNut);
               float: "right",
             }}
           >
-            Your NUTs：{ parseFloat(mynut).toFixed(2) }
+            Your NUTs：{parseFloat(mynut).toFixed(2)}
           </span>
         </div>
         <Row gutter={32} className={style.brief}>
@@ -983,7 +968,7 @@ const nutoInterface = new utils.Interface(abiNut);
               <div
                 className={styles.main5}
                 style={{ height: "340px", width: "100%", marginTop: "70px" }}
-                id="main"
+                id="main0"
               ></div>
               <div
                 className={style.tabbtn}
