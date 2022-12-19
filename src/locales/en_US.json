@@ -5,7 +5,7 @@
         "home": "Home"
     },
     "footer": {
-        "detail": "All rights reserved @nucleon"
+        "detail": "All rights reserved @nucleon 2022-2023"
     },
     "stake": {
         "nav_stake": "Stake",
@@ -60,7 +60,7 @@
         "Withdraw": "Withdraw",
         "Claim": "Claim",
         "Manage": "Manage",
-        "NFTID": "NF TID",
+        "NFTID": "NFT ID",
         "VestAmount": "Vest Amount",
         "VestValue": "Vest Value",
         "VestExpires": "Vest Expires",
