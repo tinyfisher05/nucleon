@@ -860,6 +860,24 @@ export default function Page() {
           </div>
         </div>
       </div>
+
+      <div style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "120%",
+          zIndex: "100000",
+          background: "rgba(0,0,0,.76)",
+          display: "block"
+        }}>
+          <div style={{
+            width: "500px",
+            margin: "260px auto",
+            color: "#ccc",
+            fontSize: "26px"
+          }}>Let's start the journey of NUT empowerment together in the near future！</div>
+        </div>
     </div>
   );
 }

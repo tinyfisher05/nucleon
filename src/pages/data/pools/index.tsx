@@ -652,7 +652,9 @@ export default function Page() {
               zIndex: "100000",
               width: "100%",
               top: "25%",
-              left: "0",
+              left: "50%",
+              right: "50%",
+              transform: "translate(-50%, 0)",
               position: "fixed",
               borderRadius: "20px",
             }}
@@ -754,7 +756,9 @@ export default function Page() {
               zIndex: "100000",
               width: "100%",
               top: "1%",
-              left: "0",
+              left: "50%",
+              right: "50%",
+              transform: "translate(-50%, 0)",
               position: "fixed",
               borderRadius: "20px",
             }}
@@ -1177,7 +1181,9 @@ export default function Page() {
               zIndex: "100000",
               width: "100%",
               top: "1%",
-              left: "0",
+              left: "50%",
+              right: "50%",
+              transform: "translate(-50%, 0)",
               position: "fixed",
               borderRadius: "20px",
             }}
