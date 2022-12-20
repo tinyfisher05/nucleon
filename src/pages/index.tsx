@@ -31,7 +31,7 @@ import { ethers, utils } from "ethers";
 const nutContract = new ethers.Contract(addressNut, abiNut, provider);
 
 import logo from "../assets/logo.svg";
-import logotxt from "../assets/logotxt.svg";
+import logotxt from "../assets/logotxt.png";
 
 import logomp4 from "../assets/logo.mp4";
 import phone from "../assets/phone.png";
@@ -137,6 +137,7 @@ export default function HomePage() {
   const [closingPrice4, setClosingPrice4] = useState("");
   const [nutPrice, setNutPrice] = useState("");
   const [circulatingNUT, setCirculatingNUT] = useState("--");
+  const [nutSupply, setNutSupply] = useState("--"); 
 
   const [xcfxvalues, setXcfxvalues] = useState("");
 
@@ -1578,6 +1579,7 @@ export default function HomePage() {
 
       const nutbalance = await nutContract.balanceOf(addressPool);
       const nutbalanceCFX:any = new Drip(nutbalance).toCFX();
+      setNutSupply((300000 - nutbalanceCFX).toString());
       setCirculatingNUT(((300000 - nutbalanceCFX)/3000).toString());
 
     })();
@@ -2401,7 +2403,7 @@ export default function HomePage() {
                     </Col>
                     <Col span={12}>NUT Circulating Supply:</Col>
                     <Col span={12} style={{ textAlign: "right" }}>
-                      0000000
+                      { parseFloat(nutSupply).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }
                     </Col>
                   </Row>
                   <Row style={{ padding: "0 50px 0 37px" }} gutter={22}>
