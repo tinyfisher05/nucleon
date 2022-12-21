@@ -210,7 +210,7 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        for(var t = Date.now;Date.now - t <= d;);
+        for(var t = Date.now;Date.now - t <= time;){console.log('good idea');}
       }
       else{
         break;
@@ -427,7 +427,7 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        for(var t = Date.now;Date.now - t <= d;);
+        for(var t = Date.now;Date.now - t <= time;){console.log('good idea');}
       }
       else{
         break;
