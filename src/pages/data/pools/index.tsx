@@ -16,6 +16,26 @@ import type { SliderMarks } from "antd/es/slider";
 import { Button, Col, Row, Slider, Divider, InputNumber } from "antd";
 import Icon, { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  });
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
 const marks: SliderMarks = {
   0: {
     style: {
@@ -210,7 +230,10 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        for(var t = Date.now;Date.now - t <= time;){console.log('good idea');}
+        useInterval(() => {
+          // Your custom logic here
+          // setCount(count + 1);
+        }, 5000);
       }
       else{
         break;
@@ -427,7 +450,10 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        for(var t = Date.now;Date.now - t <= time;){console.log('good idea');}
+        useInterval(() => {
+          // Your custom logic here
+          // setCount(count + 1);
+        }, 5000);
       }
       else{
         break;
