@@ -196,16 +196,18 @@ export default function Page() {
 
       time = 5000;
     }
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
     var step;
     for(step=0;step<10;step++){
-      clearTimeout(timer);
-      (document.getElementById("spinner") as any).style.display = "block";
       if (+isModalOpen1Val === 0) {
         allowance = await nutContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxContract.allowance(myacc, addressPool);
       }
-
+      // 测试授权金额状态
+      console.log(Drip(allowance).toCFX());
+      console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
         time = 5000;
       }
@@ -409,18 +411,20 @@ export default function Page() {
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
-      time = 15000;
+      time = 5000;
     }
+    clearTimeout(timer);
+    (document.getElementById("spinner") as any).style.display = "block";
     var step;
     for(step=0;step<10;step++){
-      clearTimeout(timer);
-      (document.getElementById("spinner") as any).style.display = "block";
       if (+isModalOpen1Val === 0) {
         allowance = await nutContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxContract.allowance(myacc, addressPool);
       }
-
+      // 测试授权金额状态
+      console.log(Drip(allowance).toCFX());
+      console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
         time = 5000;
       }
