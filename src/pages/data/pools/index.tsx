@@ -194,7 +194,7 @@ export default function Page() {
         return;
       }
 
-      time = 10000;
+      time = 15000;
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -392,7 +392,7 @@ export default function Page() {
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
-      time = 10000;
+      time = 15000;
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";

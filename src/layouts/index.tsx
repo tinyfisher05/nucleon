@@ -1,7 +1,7 @@
 import { Link, Outlet } from "umi";
 import styles from "./index.less";
 import logo from "../assets/logo.svg";
-import logotxt from "../assets/logotxt.svg";
+import logotxt from "../assets/logotxt.png";
 
 import logomp4 from "../assets/logo.mp4";
 import phone from "../assets/phone.png";

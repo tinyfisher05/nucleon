@@ -110,36 +110,7 @@ export default function Page() {
     // 监听
     //window.addEventListener("resize", resizeChange);
     (async () => {
-      const mynut = await nutoContract.balanceOf(myacc);
-      setMynut(Drip(mynut.toString()).toCFX().toString());
-
-      const nutbalance = await nutContract.balanceOf(addressPool);
-      const nutbalanceCFX:any = new Drip(nutbalance).toCFX();
-      setTotalEmissionNUT(nutbalanceCFX.toString());
-
-      const confluxscanData = await axios.get(
-        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
-      );
-      const data = confluxscanData.data.data;
-      const summary = await excContract.Summary();
-      const xcfxvalues = Drip(summary.xcfxvalues).toCFX();
-      const totalxcfxs = Drip(summary.totalxcfxs).toCFX();
-      const price = data.price;
-      const x = totalxcfxs;
-      const y = xcfxvalues;
-      const p = price;
-      const totalvalues = x * y;
-      const val = BigNumber(totalvalues * p).toFixed(2);
-      setTotal1(val);
-      setTotal2(x);
-      const poolval = y * x;
-      setTotal3(poolval.toString());
-
-      const accountsData = await axios.get(
-        "https://testnet.confluxscan.io/stat/pos-account-detail?identifier=0xbb10ad7826fcf0be25ff8aa0089198d3a6fd550e23d8d3e6e252880b56fc2188"
-      );
-      const totalReward = Drip(accountsData.data.data.totalReward).toCFX();
-      setTotal4(totalReward);
+    
 
       // 图1变量
       goToSchool1 = [];
@@ -1252,7 +1223,39 @@ export default function Page() {
           // 绘制图表1
           myChart6.setOption(option6);
         } catch (error) {}
-      }, 500);
+      }, 100);
+
+      const nutbalance = await nutContract.balanceOf(addressPool);
+      const nutbalanceCFX:any = new Drip(nutbalance).toCFX();
+      setTotalEmissionNUT(nutbalanceCFX.toString());
+
+      const confluxscanData = await axios.get(
+        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+      );
+      const data = confluxscanData.data.data;
+      const summary = await excContract.Summary();
+      const xcfxvalues = Drip(summary.xcfxvalues).toCFX();
+      const totalxcfxs = Drip(summary.totalxcfxs).toCFX();
+      const price = data.price;
+      const x = totalxcfxs;
+      const y = xcfxvalues;
+      const p = price;
+      const totalvalues = x * y;
+      const val = BigNumber(totalvalues * p).toFixed(2);
+      setTotal1(val);
+      setTotal2(x);
+      const poolval = y * x;
+      setTotal3(poolval.toString());
+
+      const accountsData = await axios.get(
+        "https://testnet.confluxscan.io/stat/pos-account-detail?identifier=0xbb10ad7826fcf0be25ff8aa0089198d3a6fd550e23d8d3e6e252880b56fc2188"
+      );
+      const totalReward = Drip(accountsData.data.data.totalReward).toCFX();
+      setTotal4(totalReward);
+
+      const mynut = await nutoContract.balanceOf(myacc);
+      setMynut(Drip(mynut.toString()).toCFX().toString());
+      
     })();
   }, []);
 

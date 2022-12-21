@@ -12,7 +12,7 @@ import styles from "./../../../../layouts/index.less";
 import style from "./index.less";
 
 import logo from "./../../../../assets/logo.svg";
-import logotxt from "./../../../../assets/logotxt.svg";
+import logotxt from "./../../../../assets/logotxt.png";
 
 import "./../../../../locales/config"; // 引用配置文件
 import { useTranslation } from "react-i18next";

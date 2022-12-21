@@ -365,6 +365,41 @@ export default function Page() {
     // 监听
     //window.addEventListener("resize", resizeChange);
     (async () => {
+      axios
+        .get("https://evmtestnet.confluxscan.net/v1/homeDashboard")
+        .then(async (response) => {
+          setBlockNumber(response.data.result.blockNumber);
+        });
+
+      axios
+        .get(
+          " https://evmtestnet.confluxscan.net/stat/tokens/by-address?address=0x3e3608c5145e6bb303947e77d329811f14e76d26&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+        )
+        .then(async (response) => {
+          setHolderCount(response.data.result.holderCount);
+        });
+
+      const resY: { data: { count: any; rows: [] } } = await getStatistics("");
+      resY.data.rows.reverse().forEach(
+        (
+          element: {
+            created_at: any;
+            apy: any;
+            price: any;
+            xcfxvalues: any;
+            totalxcfxs: string;
+          },
+          i: any
+        ) => {
+          const n = 365 - 1;
+          const apyT = 1 + element.apy / 365;
+          const t = Math.pow(apyT, n);
+          const val = (element.apy * t * 100).toFixed(3);
+          setRate(val.toString());
+          return;
+        }
+      );
+
       xgoToSchool0 = [];
       xLabel0 = [];
 
@@ -580,7 +615,6 @@ export default function Page() {
         myChart.setOption(option);
       } catch (error) {}
 
-
       var len = xgoToSchool0.length - 1;
       setClosingPrice(
         parseFloat(xgoToSchool0[len].value.toString()).toFixed(4)
@@ -645,48 +679,11 @@ export default function Page() {
       //     ).toFixed(4);
       //     setCfxapy(apy);
       //   });
-      const res3: {
-        data: { count: any; rows: [{ apy: 0.0 }] };
-      } = await getStatistics("", 1);
-      const apy = parseFloat(res3.data.rows[0].apy.toString()).toFixed(4);
+      // const res3: {
+      //   data: { count: any; rows: [{ apy: 0.0 }] };
+      // } = await getStatistics("", 1);
+      const apy = parseFloat(res.data.rows[0].apy.toString()).toFixed(4);
       setCfxapy(apy);
-
-      axios
-        .get("https://evmtestnet.confluxscan.io/v1/homeDashboard")
-        .then(async (response) => {
-          setBlockNumber(response.data.result.blockNumber);
-        });
-
-      axios
-        .get(
-          " https://evmtestnet.confluxscan.net/stat/tokens/by-address?address=0x3e3608c5145e6bb303947e77d329811f14e76d26&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
-        )
-        .then(async (response) => {
-          setHolderCount(response.data.result.holderCount);
-        });
-
-        const resY: { data: { count: any; rows: [] } } = await getStatistics(
-          ""
-        );
-        resY.data.rows.reverse().forEach(
-          (
-            element: {
-              created_at: any;
-              apy: any;
-              price: any;
-              xcfxvalues: any;
-              totalxcfxs: string;
-            },
-            i: any
-          ) => {
-            const n = 365 - 1;
-            const apyT = 1 + element.apy / 365;
-            const t = Math.pow(apyT, n);
-            const val = (element.apy * t * 100).toFixed(3);
-            setRate(val.toString());
-            return;
-          }
-        );
     })();
   }
 
@@ -696,7 +693,7 @@ export default function Page() {
         <link rel="stylesheet" href="style.css"></link>
       </Helmet>
       <div style={{ display: isModalOpen }}>
-        <div className="ant-modal-mask"></div>
+        <div className="ant-modal-mask" style={{ height: "3000px" }}></div>
         <div
           role="dialog"
           aria-modal="true"
@@ -705,6 +702,7 @@ export default function Page() {
             zIndex: "100000",
             width: "100%",
             top: "5%",
+            left: "10%",
             position: "absolute",
             borderRadius: "20px",
           }}
