@@ -194,7 +194,24 @@ export default function Page() {
         return;
       }
 
-      time = 15000;
+      time = 5000;
+    }
+    var step;
+    for(step=0;step<10;step++){
+      clearTimeout(timer);
+      (document.getElementById("spinner") as any).style.display = "block";
+      if (+isModalOpen1Val === 0) {
+        allowance = await nutContract.allowance(myacc, addressPool);
+      } else if (+isModalOpen1Val === 1) {
+        allowance = await xcfxContract.allowance(myacc, addressPool);
+      }
+
+      if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+        time = 5000;
+      }
+      else{
+        break;
+      }
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -393,6 +410,23 @@ export default function Page() {
         return;
       }
       time = 15000;
+    }
+    var step;
+    for(step=0;step<10;step++){
+      clearTimeout(timer);
+      (document.getElementById("spinner") as any).style.display = "block";
+      if (+isModalOpen1Val === 0) {
+        allowance = await nutContract.allowance(myacc, addressPool);
+      } else if (+isModalOpen1Val === 1) {
+        allowance = await xcfxContract.allowance(myacc, addressPool);
+      }
+
+      if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+        time = 5000;
+      }
+      else{
+        break;
+      }
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
