@@ -209,7 +209,11 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        time = 5000;
+        timer =setTimeout(() => {
+          (async() => {
+              //await this._doSomething();
+          })();
+          }, 5000);
       }
       else{
         break;
@@ -426,7 +430,12 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        time = 5000;
+        timer =setTimeout(() => {
+          (async() => {
+              //await this._doSomething();
+          })();
+          }, 5000);
+        // time = 5000;
       }
       else{
         break;
