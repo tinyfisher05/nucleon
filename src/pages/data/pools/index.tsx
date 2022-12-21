@@ -479,14 +479,17 @@ export default function Page() {
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
+        let arp = '---';
         if (index === 0) {
           val = await nutContract.totalSupply();
           myLiquidity = await nutContract.balanceOf(myacc);
           totalLPs = await poolsContract.PoolLPSum(index);
-        } else {
+          arp= '';
+        } else if(index === 1) {
           val = await xcfxContract.totalSupply();
           myLiquidity = await xcfxContract.balanceOf(myacc);
           totalLPs = await poolsContract.PoolLPSum(index);
+          arp= '';
         }
         totalLPs = Drip(totalLPs).toCFX();
 
@@ -494,6 +497,7 @@ export default function Page() {
           tmp2.push({
             i: index,
             val: Drip(pools[0]).toCFX(),
+            arp: arp,
             totalLiquidity: Drip(val).toCFX(),
             myLiquidity: Drip(myLiquidity).toCFX(),
             totalLPs: totalLPs,
@@ -502,6 +506,7 @@ export default function Page() {
           tmp1.push({
             i: index,
             val: Drip(pools[0]).toCFX(),
+            arp: arp,
             totalLiquidity: Drip(val).toCFX(),
             myLiquidity: Drip(myLiquidity).toCFX(),
             totalLPs: totalLPs,
@@ -561,7 +566,7 @@ export default function Page() {
                   <Col span={3}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
-                  <Col span={2}>--%</Col>
+                  <Col span={2}>{parseFloat(item.arp.toString()).toFixed(2)}%</Col>
                   <Col span={3}>
                     {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
                   </Col>
@@ -652,7 +657,7 @@ export default function Page() {
                   <Col span={3}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
-                  <Col span={2}>--%</Col>
+                  <Col span={2}>{parseFloat(item.arp.toString()).toFixed(2)}%</Col>
                   <Col span={3}>
                     {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
                   </Col>
