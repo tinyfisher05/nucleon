@@ -86,6 +86,11 @@ const nutoInterface = new utils.Interface(abiNut);
 
 let myacc: any;
 let timer: any;
+
+function sleep(d){
+  for(var t = Date.now;Date.now - t <= d;);
+}
+
 export default function Page() {
   const { t, i18n } = useTranslation();
 
@@ -209,7 +214,7 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        setTimeout(async () => {},time);
+        sleep(5000);
       }
       else{
         break;
@@ -426,7 +431,7 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        setTimeout(async () => {},time);
+        sleep(5000);
       }
       else{
         break;
