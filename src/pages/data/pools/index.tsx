@@ -197,8 +197,6 @@ export default function Page() {
 
       time = 5000;
     }
-    clearTimeout(timer);
-    (document.getElementById("spinner") as any).style.display = "block";
     var step;
     for(step=0;step<10;step++){
       if (+isModalOpen1Val === 0) {
@@ -206,11 +204,7 @@ export default function Page() {
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxContract.allowance(myacc, addressPool);
       }
-      // 测试授权金额状态
-      console.log(Drip(allowance).toCFX());
-      console.log(isModalOpen1Val3);
-      console.log(Date.now);
-      if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+      if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
         for(var t = parseInt((new Date().getTime()).toString());parseInt((new Date().getTime()).toString()) - t <= time;);
       }
       else{
@@ -415,8 +409,6 @@ export default function Page() {
       }
       time = 5000;
     }
-    clearTimeout(timer);
-    (document.getElementById("spinner") as any).style.display = "block";
     var step;
     for(step=0;step<10;step++){
       if (+isModalOpen1Val === 0) {
@@ -424,11 +416,8 @@ export default function Page() {
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxContract.allowance(myacc, addressPool);
       }
-      // 测试授权金额状态
-      console.log(Drip(allowance).toCFX());
-      console.log(isModalOpen1Val3);
-      console.log(Date.now);
-      if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+
+      if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
         for(var t = parseInt((new Date().getTime()).toString());parseInt((new Date().getTime()).toString()) - t <= time;);
       }
       else{
