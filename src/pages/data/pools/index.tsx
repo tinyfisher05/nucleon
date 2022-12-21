@@ -87,10 +87,6 @@ const nutoInterface = new utils.Interface(abiNut);
 let myacc: any;
 let timer: any;
 
-function sleep(d){
-  for(var t = Date.now;Date.now - t <= d;);
-}
-
 export default function Page() {
   const { t, i18n } = useTranslation();
 
@@ -184,7 +180,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen1Val3 + 1).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen1Val3).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -214,7 +210,7 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        sleep(5000);
+        for(var t = Date.now;Date.now - t <= d;){console.log('good idea');}
       }
       else{
         break;
@@ -400,7 +396,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen3Val3 + 1).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen3Val3).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -431,7 +427,7 @@ export default function Page() {
       console.log(Drip(allowance).toCFX());
       console.log(isModalOpen1Val3);
       if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
-        sleep(5000);
+        for(var t = Date.now;Date.now - t <= d;){console.log('good idea');}
       }
       else{
         break;
