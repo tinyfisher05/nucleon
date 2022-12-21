@@ -86,6 +86,7 @@ const nutoInterface = new utils.Interface(abiNut);
 
 let myacc: any;
 let timer: any;
+
 export default function Page() {
   const { t, i18n } = useTranslation();
 
@@ -179,7 +180,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen1Val3 + 1).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen1Val3).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -194,7 +195,21 @@ export default function Page() {
         return;
       }
 
-      time = 15000;
+      time = 5000;
+    }
+    var step;
+    for(step=0;step<10;step++){
+      if (+isModalOpen1Val === 0) {
+        allowance = await nutContract.allowance(myacc, addressPool);
+      } else if (+isModalOpen1Val === 1) {
+        allowance = await xcfxContract.allowance(myacc, addressPool);
+      }
+      if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
+        for(var t = parseInt((new Date().getTime()).toString());parseInt((new Date().getTime()).toString()) - t <= time;);
+      }
+      else{
+        break;
+      }
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -376,7 +391,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen3Val3 + 1).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen3Val3).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -392,7 +407,22 @@ export default function Page() {
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
-      time = 15000;
+      time = 5000;
+    }
+    var step;
+    for(step=0;step<10;step++){
+      if (+isModalOpen1Val === 0) {
+        allowance = await nutContract.allowance(myacc, addressPool);
+      } else if (+isModalOpen1Val === 1) {
+        allowance = await xcfxContract.allowance(myacc, addressPool);
+      }
+
+      if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
+        for(var t = parseInt((new Date().getTime()).toString());parseInt((new Date().getTime()).toString()) - t <= time;);
+      }
+      else{
+        break;
+      }
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
