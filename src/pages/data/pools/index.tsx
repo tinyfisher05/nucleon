@@ -499,12 +499,12 @@ export default function Page() {
         if (index === 0) {
           val = nutContract.totalSupply();
           myLiquidity = nutContract.balanceOf(myacc);
-          totalLPs = poolsContract.PoolLPSum(index);
+          totalLPs = await poolsContract.PoolLPSum(index);
           arp = "";
         } else if (index === 1) {
-          val = xcfxContract.totalSupply();
-          myLiquidity = xcfxContract.balanceOf(myacc);
-          totalLPs = poolsContract.PoolLPSum(index);
+          val =  xcfxContract.totalSupply();
+          myLiquidity =  xcfxContract.balanceOf(myacc);
+          totalLPs = await poolsContract.PoolLPSum(index);
           arp = "";
         }
         totalLPs = Drip(totalLPs).toCFX();
