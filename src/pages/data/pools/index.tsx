@@ -15,6 +15,7 @@ import { useTranslation, Trans } from "react-i18next";
 import type { SliderMarks } from "antd/es/slider";
 import { Button, Col, Row, Slider, Divider, InputNumber } from "antd";
 import Icon, { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const marks: SliderMarks = {
   0: {
@@ -116,6 +117,10 @@ export default function Page() {
   const [isModalOpen3Val3, setIsModalOpen3Val3] = useState("0"); // 货币默认值
   const [percentage, setPercentage] = useState(25);
 
+  const [myLiquility, setMyLiquility] = useState("--");
+  const [shareOfPool, setShareOfPool] = useState("--");
+  const [apr, setApr] = useState("--");
+
   myacc = useAccount();
 
   const claimRewards = (i: any) => {
@@ -198,16 +203,19 @@ export default function Page() {
       time = 5000;
     }
     var step;
-    for(step=0;step<10;step++){
+    for (step = 0; step < 10; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxContract.allowance(myacc, addressPool);
       }
       if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
-        for(var t = parseInt((new Date().getTime()).toString());parseInt((new Date().getTime()).toString()) - t <= time;);
-      }
-      else{
+        for (
+          var t = parseInt(new Date().getTime().toString());
+          parseInt(new Date().getTime().toString()) - t <= time;
+
+        );
+      } else {
         break;
       }
     }
@@ -410,7 +418,7 @@ export default function Page() {
       time = 5000;
     }
     var step;
-    for(step=0;step<10;step++){
+    for (step = 0; step < 10; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -418,9 +426,12 @@ export default function Page() {
       }
 
       if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
-        for(var t = parseInt((new Date().getTime()).toString());parseInt((new Date().getTime()).toString()) - t <= time;);
-      }
-      else{
+        for (
+          var t = parseInt(new Date().getTime().toString());
+          parseInt(new Date().getTime().toString()) - t <= time;
+
+        );
+      } else {
         break;
       }
     }
@@ -443,7 +454,7 @@ export default function Page() {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
       }
-      
+
       timer = setTimeout(() => {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
@@ -468,6 +479,16 @@ export default function Page() {
         const pools = await poolsContract.userInfo(index, myacc);
         const pendingrewards = await poolsContract.pendingSushi(index, myacc);
 
+        const confluxscanData = await axios.get(
+          "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+        );
+        const data = confluxscanData.data.data;
+        const price = data.price;
+
+        setMyLiquility("--");
+        setShareOfPool("--");
+        setApr("--");
+
         // 每个lp的价值
         // nut的价值
         // 常数：sushiPerBlock
@@ -479,17 +500,17 @@ export default function Page() {
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
-        let arp = '---';
+        let arp = "---";
         if (index === 0) {
           val = await nutContract.totalSupply();
           myLiquidity = await nutContract.balanceOf(myacc);
           totalLPs = await poolsContract.PoolLPSum(index);
-          arp= '';
-        } else if(index === 1) {
+          arp = "";
+        } else if (index === 1) {
           val = await xcfxContract.totalSupply();
           myLiquidity = await xcfxContract.balanceOf(myacc);
           totalLPs = await poolsContract.PoolLPSum(index);
-          arp= '';
+          arp = "";
         }
         totalLPs = Drip(totalLPs).toCFX();
 
@@ -566,7 +587,9 @@ export default function Page() {
                   <Col span={3}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
-                  <Col span={2}>{parseFloat(item.arp.toString()).toFixed(2)}%</Col>
+                  <Col span={2}>
+                    {parseFloat(item.arp.toString()).toFixed(2)}%
+                  </Col>
                   <Col span={3}>
                     {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
                   </Col>
@@ -657,7 +680,9 @@ export default function Page() {
                   <Col span={3}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
-                  <Col span={2}>{parseFloat(item.arp.toString()).toFixed(2)}%</Col>
+                  <Col span={2}>
+                    {parseFloat(item.arp.toString()).toFixed(2)}%
+                  </Col>
                   <Col span={3}>
                     {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
                   </Col>
@@ -1014,16 +1039,18 @@ export default function Page() {
                             <div
                               style={{ color: "#ffffff", fontWeight: "bold" }}
                             >
-                              --
+                              {myLiquility}
                             </div>
                             My Liquility
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>--</div>
+                            <div style={{ color: "#ffffff" }}>
+                              {shareOfPool}
+                            </div>
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>--%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
                           </Col>
                         </Row>
                       </div>
@@ -1170,16 +1197,18 @@ export default function Page() {
                             <div
                               style={{ color: "#ffffff", fontWeight: "bold" }}
                             >
-                              --
+                              {myLiquility}
                             </div>
                             My Liquility
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>--</div>
+                            <div style={{ color: "#ffffff" }}>
+                              {shareOfPool}
+                            </div>
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>--%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
                           </Col>
                         </Row>
                       </div>
@@ -1281,7 +1310,7 @@ export default function Page() {
                       className="disclaimer2"
                       style={{
                         fontSize: "24px",
-                        display: "block"
+                        display: "block",
                       }}
                     >
                       <img
@@ -1412,16 +1441,18 @@ export default function Page() {
                             <div
                               style={{ color: "#ffffff", fontWeight: "bold" }}
                             >
-                              --
+                              {myLiquility}
                             </div>
                             My Liquility
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>--</div>
+                            <div style={{ color: "#ffffff" }}>
+                              {shareOfPool}
+                            </div>
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>--%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
                           </Col>
                         </Row>
                       </div>
