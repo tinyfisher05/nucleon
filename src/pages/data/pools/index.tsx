@@ -470,10 +470,9 @@ export default function Page() {
 
   async function init() {
     if (myacc) {
-      const mynut = nutoContract.balanceOf(myacc);
-
+      const mynut = await nutoContract.balanceOf(myacc);
       setMynut(Drip(mynut.toString()).toCFX().toString());
-      const confluxscanData = axios.get(
+      const confluxscanData = await axios.get(
         "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
       );
       const data = confluxscanData.data.data;
@@ -481,8 +480,8 @@ export default function Page() {
       let tmp1: any = [];
       let tmp2: any = [];
       for (let index = 0; index < 2; index++) {
-        const pools = poolsContract.userInfo(index, myacc);
-        const pendingrewards = poolsContract.pendingSushi(index, myacc);
+        const pools = await poolsContract.userInfo(index, myacc);
+        const pendingrewards = await poolsContract.pendingSushi(index, myacc);
         
         // 每个lp的价值
         // nut的价值
@@ -497,13 +496,13 @@ export default function Page() {
         let totalLPs = 0;
         let arp = "---";
         if (index === 0) {
-          val = nutContract.totalSupply();
-          myLiquidity = nutContract.balanceOf(myacc);
+          val = await nutContract.totalSupply();
+          myLiquidity = await nutContract.balanceOf(myacc);
           totalLPs = await poolsContract.PoolLPSum(index);
           arp = "";
         } else if (index === 1) {
-          val =  xcfxContract.totalSupply();
-          myLiquidity =  xcfxContract.balanceOf(myacc);
+          val = await xcfxContract.totalSupply();
+          myLiquidity = await xcfxContract.balanceOf(myacc);
           totalLPs = await poolsContract.PoolLPSum(index);
           arp = "";
         }
