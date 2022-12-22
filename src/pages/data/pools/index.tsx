@@ -470,25 +470,20 @@ export default function Page() {
 
   async function init() {
     if (myacc) {
-      const mynut = await nutoContract.balanceOf(myacc);
-      setMynut(Drip(mynut.toString()).toCFX().toString());
+      const mynut = nutoContract.balanceOf(myacc);
 
+      setMynut(Drip(mynut.toString()).toCFX().toString());
+      const confluxscanData = axios.get(
+        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+      );
+      const data = confluxscanData.data.data;
+      const price = data.price;
       let tmp1: any = [];
       let tmp2: any = [];
       for (let index = 0; index < 2; index++) {
-        const pools = await poolsContract.userInfo(index, myacc);
-        const pendingrewards = await poolsContract.pendingSushi(index, myacc);
-
-        const confluxscanData = await axios.get(
-          "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
-        );
-        const data = confluxscanData.data.data;
-        const price = data.price;
-
-        setMyLiquility("--");
-        setShareOfPool("--");
-        setApr("--");
-
+        const pools = poolsContract.userInfo(index, myacc);
+        const pendingrewards = poolsContract.pendingSushi(index, myacc);
+        
         // 每个lp的价值
         // nut的价值
         // 常数：sushiPerBlock
@@ -502,14 +497,14 @@ export default function Page() {
         let totalLPs = 0;
         let arp = "---";
         if (index === 0) {
-          val = await nutContract.totalSupply();
-          myLiquidity = await nutContract.balanceOf(myacc);
-          totalLPs = await poolsContract.PoolLPSum(index);
+          val = nutContract.totalSupply();
+          myLiquidity = nutContract.balanceOf(myacc);
+          totalLPs = poolsContract.PoolLPSum(index);
           arp = "";
         } else if (index === 1) {
-          val = await xcfxContract.totalSupply();
-          myLiquidity = await xcfxContract.balanceOf(myacc);
-          totalLPs = await poolsContract.PoolLPSum(index);
+          val = xcfxContract.totalSupply();
+          myLiquidity = xcfxContract.balanceOf(myacc);
+          totalLPs = poolsContract.PoolLPSum(index);
           arp = "";
         }
         totalLPs = Drip(totalLPs).toCFX();
@@ -534,7 +529,11 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
+        setMyLiquility("--");
+        setShareOfPool("--");
+        setApr("--");
       }
+
       setUserOutQueue1(tmp1);
       setUserOutQueue2(tmp2);
     }
