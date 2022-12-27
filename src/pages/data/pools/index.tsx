@@ -473,14 +473,22 @@ export default function Page() {
       const mynut = await nutContract.balanceOf(myacc);
       //const nutinfo = await nutContract.getReserves();
       const totalpoint = await poolsContract.totalAllocPoint();
+      console.log(totalpoint);
       const nutPerBlock = await poolsContract.sushiPerBlock();
+      console.log(nutPerBlock);
       setMynut(Drip(mynut.toString()).toCFX().toString());
       const confluxscanData = await axios.get(
         "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
       );
       const data = confluxscanData.data.data;
       const price = data.price;
-      
+      // 每个lp的价值
+      // nut的价值
+      // 常数：sushiPerBlock
+      // 此种lp的总量
+      // totalAllocPoint获取一个值为Alloc总值
+      // poolInfo获取三个值，取第三个值：allocPoint
+      // 常数：一年的总秒数：31,536,000
       const secondperyear = 31536000;
       let tmp1: any = [];
       let tmp2: any = [];
@@ -488,14 +496,7 @@ export default function Page() {
         const pools = await poolsContract.userInfo(index, myacc);
         const pendingrewards = await poolsContract.pendingSushi(index, myacc);
         const pointInfo = await poolsContract.pointInfo(index);
-        // 每个lp的价值
-        // nut的价值
-        // 常数：sushiPerBlock
-        // 此种lp的总量
-        // totalAllocPoint获取一个值为Alloc总值
-        // poolInfo获取三个值，取第三个值：allocPoint
-        // 常数：一年的总秒数：31,536,000
-
+        console.log(pointInfo);
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
@@ -505,17 +506,17 @@ export default function Page() {
           val = await nutCfxContract.totalSupply();
           myLiquidity = await nutCfxContract.balanceOf(myacc);
           lpinfo = await nutCfxContract.getReserves();
-          
-          
         } else if (index === 1) {
           val = await xcfxCfxContract.totalSupply();
           myLiquidity = await xcfxCfxContract.balanceOf(myacc);
           lpinfo = await xcfxCfxContract.getReserves();
         }
+        console.log(lpinfo);
         const lpToken2Price = lpinfo[0]/lpinfo[1];
+        console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
         arp = (lpToken2Price*secondperyear*nutPerBlock*pointInfo[2]*totalLPs/(totalpoint*totalLPs)*lpinfo[0]*2);
-
+        console.log(arp);
         totalLPs = Drip(totalLPs).toCFX();
 
         if (pools[0].toString() === "0") {
@@ -540,7 +541,7 @@ export default function Page() {
         }
         setMyLiquility("--");
         setShareOfPool("--");
-        setApr(arp);
+        setApr("--");
       }
 
       setUserOutQueue1(tmp1);
