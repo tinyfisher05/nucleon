@@ -76,14 +76,14 @@ const provider = new ethers.providers.JsonRpcProvider(
 const poolsContract = new ethers.Contract(addressPool, abiPool, provider);
 const poolsInterface = new utils.Interface(abiPool);
 //LP
-const nutContract = new ethers.Contract(addressNUT_CFX, abiLP, provider);
-const nutInterface = new utils.Interface(abiLP);
+const nutCfxContract = new ethers.Contract(addressNUT_CFX, abiLP, provider);
+const nutCfxInterface = new utils.Interface(abiLP);
 //LP
-const xcfxContract = new ethers.Contract(addressXCFX_CFX, abiLP, provider);
-const xcfxInterface = new utils.Interface(abiLP);
+const xcfxCfxContract = new ethers.Contract(addressXCFX_CFX, abiLP, provider);
+const xcfxCfxInterface = new utils.Interface(abiLP);
 //币种
-const nutoContract = new ethers.Contract(addressNut, abiNut, provider);
-const nutoInterface = new utils.Interface(abiNut);
+const nutContract = new ethers.Contract(addressNut, abiNut, provider);
+const nutInterface = new utils.Interface(abiNut);
 
 let myacc: any;
 let timer: any;
@@ -163,9 +163,9 @@ export default function Page() {
   const handleOkStake = async () => {
     let allowance = "";
     if (+isModalOpen1Val === 0) {
-      allowance = await nutContract.allowance(myacc, addressPool);
+      allowance = await nutCfxContract.allowance(myacc, addressPool);
     } else if (+isModalOpen1Val === 1) {
-      allowance = await xcfxContract.allowance(myacc, addressPool);
+      allowance = await xcfxCfxContract.allowance(myacc, addressPool);
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -178,9 +178,9 @@ export default function Page() {
       // +Drip(allowance).toCFX() <= +isModalOpen1Val3
       // 对应币种合约
       if (+isModalOpen1Val === 0) {
-        LPInterface = nutInterface;
+        LPInterface = nutCfxInterface;
       } else if (+isModalOpen1Val === 1) {
-        LPInterface = xcfxInterface;
+        LPInterface = xcfxCfxInterface;
       }
 
       const data = LPInterface.encodeFunctionData("approve", [
@@ -205,9 +205,9 @@ export default function Page() {
     var step;
     for (step = 0; step < 10; step++) {
       if (+isModalOpen1Val === 0) {
-        allowance = await nutContract.allowance(myacc, addressPool);
+        allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
-        allowance = await xcfxContract.allowance(myacc, addressPool);
+        allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
       if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
         for (
@@ -297,9 +297,9 @@ export default function Page() {
       // 显示授权额度
       let allowance = "";
       if (+isModalOpen1Val === 0) {
-        allowance = await nutContract.allowance(myacc, addressPool);
+        allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
-        allowance = await xcfxContract.allowance(myacc, addressPool);
+        allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
     };
   };
@@ -378,9 +378,9 @@ export default function Page() {
     // 授权与否
     let allowance = "";
     if (+isModalOpen3Val === 0) {
-      allowance = await nutContract.allowance(myacc, addressPool);
+      allowance = await nutCfxContract.allowance(myacc, addressPool);
     } else if (+isModalOpen3Val === 1) {
-      allowance = await xcfxContract.allowance(myacc, addressPool);
+      allowance = await xcfxCfxContract.allowance(myacc, addressPool);
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -392,9 +392,9 @@ export default function Page() {
     let time = 0;
     if (+Drip(allowance).toCFX() <= +isModalOpen3Val3) {
       if (+isModalOpen3Val === 0) {
-        LPInterface = nutInterface;
+        LPInterface = nutCfxInterface;
       } else if (+isModalOpen3Val === 1) {
-        LPInterface = xcfxInterface;
+        LPInterface = xcfxCfxInterface;
       }
 
       const data = LPInterface.encodeFunctionData("approve", [
@@ -420,9 +420,9 @@ export default function Page() {
     var step;
     for (step = 0; step < 10; step++) {
       if (+isModalOpen1Val === 0) {
-        allowance = await nutContract.allowance(myacc, addressPool);
+        allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
-        allowance = await xcfxContract.allowance(myacc, addressPool);
+        allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
 
       if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
@@ -470,19 +470,24 @@ export default function Page() {
 
   async function init() {
     if (myacc) {
-      const mynut = await nutoContract.balanceOf(myacc);
+      const mynut = await nutContract.balanceOf(myacc);
+      //const nutinfo = await nutContract.getReserves();
+      const totalpoint = await poolsContract.totalAllocPoint();
+      const nutPerBlock = await poolsContract.sushiPerBlock();
       setMynut(Drip(mynut.toString()).toCFX().toString());
       const confluxscanData = await axios.get(
         "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
       );
       const data = confluxscanData.data.data;
       const price = data.price;
+      
+      const secondperyear = 31536000;
       let tmp1: any = [];
       let tmp2: any = [];
       for (let index = 0; index < 2; index++) {
         const pools = await poolsContract.userInfo(index, myacc);
         const pendingrewards = await poolsContract.pendingSushi(index, myacc);
-        
+        const pointInfo = await poolsContract.pointInfo(index);
         // 每个lp的价值
         // nut的价值
         // 常数：sushiPerBlock
@@ -494,18 +499,23 @@ export default function Page() {
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
+        let lpinfo = 0;
         let arp = "---";
         if (index === 0) {
-          val = await nutContract.totalSupply();
-          myLiquidity = await nutContract.balanceOf(myacc);
-          totalLPs = await poolsContract.PoolLPSum(index);
-          arp = "";
+          val = await nutCfxContract.totalSupply();
+          myLiquidity = await nutCfxContract.balanceOf(myacc);
+          lpinfo = await nutCfxContract.getReserves();
+          
+          
         } else if (index === 1) {
-          val = await xcfxContract.totalSupply();
-          myLiquidity = await xcfxContract.balanceOf(myacc);
-          totalLPs = await poolsContract.PoolLPSum(index);
-          arp = "";
+          val = await xcfxCfxContract.totalSupply();
+          myLiquidity = await xcfxCfxContract.balanceOf(myacc);
+          lpinfo = await nutCfxContract.getReserves();
         }
+        const lpToken2Price = lpinfo[0]/lpinfo[1];
+        totalLPs = await poolsContract.PoolLPSum(index);
+        arp = (lpToken2Price*secondperyear*nutPerBlock*pointInfo[2]*totalLPs/(totalpoint*totalLPs)*lpinfo[0]*2);
+
         totalLPs = Drip(totalLPs).toCFX();
 
         if (pools[0].toString() === "0") {
@@ -530,7 +540,7 @@ export default function Page() {
         }
         setMyLiquility("--");
         setShareOfPool("--");
-        setApr("--");
+        setApr(arp);
       }
 
       setUserOutQueue1(tmp1);
