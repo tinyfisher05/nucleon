@@ -2345,7 +2345,7 @@ export default function HomePage() {
                     </Col>
                     <Col span={12}>Estimated Transaction Fee</Col>
                     <Col span={12} style={{ textAlign: "right" }}>
-                      ~0.003 CFX
+                      ~0.001 CFX
                     </Col>
                     <Col span={12}>Nucleon Service Fee</Col>
                     <Col span={12} style={{ textAlign: "right" }}>
