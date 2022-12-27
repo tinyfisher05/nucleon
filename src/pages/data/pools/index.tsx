@@ -783,7 +783,7 @@ export default function Page() {
                           />
                         </Col>
                         <Col span={12} style={{ padding: "10px 0" }}>
-                          Total Rewards
+                          Pending Rewards
                         </Col>
                         <Col
                           span={12}
