@@ -510,7 +510,7 @@ export default function Page() {
         } else if (index === 1) {
           val = await xcfxCfxContract.totalSupply();
           myLiquidity = await xcfxCfxContract.balanceOf(myacc);
-          lpinfo = await nutCfxContract.getReserves();
+          lpinfo = await xcfxCfxContract.getReserves();
         }
         const lpToken2Price = lpinfo[0]/lpinfo[1];
         totalLPs = await poolsContract.PoolLPSum(index);
