@@ -33,10 +33,10 @@
     },
     "analytics": {
         "TVL": "TVL",
-        "Total_Emission_xCFX": "Total Emission xCFX",
+        "Total_Emission_xCFX": "Total xCFX Emission",
         "Value_Growth": "Value Growth",
         "Interest_Earned": "Interest Earned",
-        "Total_Emission_of_NUT": "Total Emission of NUT",
+        "Total_Emission_of_NUT": "Total NUT Emission",
         "Total_CFX_In_Pool": "Total CFX In Pool"
     },
     "pools": {
