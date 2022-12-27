@@ -44,7 +44,7 @@
         "mypools": "My Pools",
         "otherpools": "Other Pools",
         "PoolName": "Pool Name",
-        "APR": "APR",
+        "APR": "APY",
         "TotalLiquidity": "Total LPs",
         "AvailableLquidity":"Available LPs",
         "StakedLquidity":"Staked LPs",
@@ -64,6 +64,6 @@
         "VestAmount": "Vest Amount",
         "VestValue": "Vest Value",
         "VestExpires": "Vest Expires",
-        "APR": "APR"
+        "APR": "APY"
     }
 }
