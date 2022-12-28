@@ -473,9 +473,9 @@ export default function Page() {
       const mynut = await nutContract.balanceOf(myacc);
       //const nutinfo = await nutContract.getReserves();
       const totalpoint = await poolsContract.totalAllocPoint();
-      // console.log(Drip(totalpoint).toCFX());
+      console.log(Drip(totalpoint).toCFX());
       const nutPerBlock = await poolsContract.sushiPerBlock();
-      // console.log(Drip(nutPerBlock).toCFX());
+      console.log(Drip(nutPerBlock).toCFX());
       setMynut(Drip(mynut.toString()).toCFX().toString());
       const confluxscanData = await axios.get(
         "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
@@ -496,12 +496,12 @@ export default function Page() {
         const pools = await poolsContract.userInfo(index, myacc);
         const pendingrewards = await poolsContract.pendingSushi(index, myacc);
         const pointInfo = await poolsContract.poolInfo(index);
-        // console.log(pointInfo);
+        //console.log(pointInfo);
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
-        let lpinfo = 0;
-        let arp = "--";
+        let lpinfo:any;
+        let arp:any;
         if (index === 0) {
           val = await nutCfxContract.totalSupply();
           myLiquidity = await nutCfxContract.balanceOf(myacc);
@@ -511,13 +511,12 @@ export default function Page() {
           myLiquidity = await xcfxCfxContract.balanceOf(myacc);
           lpinfo = await xcfxCfxContract.getReserves();
         }
-        // console.log(lpinfo);
+        //console.log(lpinfo);
         const lpToken2Price = lpinfo[0]/lpinfo[1];
-        // console.log(lpToken2Price);
+        //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
-        arp = 100*(lpToken2Price*secondperyear*nutPerBlock*pointInfo[2]*totalLPs/(totalpoint*totalLPs)*lpinfo[0]*2);
+        arp = (100*lpToken2Price*secondperyear*nutPerBlock*pointInfo[2]*totalLPs/(totalpoint*totalLPs)*lpinfo[0]*2).toString();
         arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
-        // console.log(arp);
         totalLPs = Drip(totalLPs).toCFX();
 
         if (pools[0].toString() === "0") {
