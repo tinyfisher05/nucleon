@@ -174,7 +174,7 @@ export default function Page() {
     console.log(Drip(allowance).toCFX());
     console.log(isModalOpen1Val3);
     let time = 0;
-    if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+    if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
       // +Drip(allowance).toCFX() <= +isModalOpen1Val3
       // 对应币种合约
       if (+isModalOpen1Val === 0) {
@@ -203,7 +203,7 @@ export default function Page() {
       time = 5000;
     }
     var step;
-    for (step = 0; step < 10; step++) {
+    for (step = 0; step < 12; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -390,7 +390,7 @@ export default function Page() {
     console.log(Drip(allowance).toCFX());
     console.log(isModalOpen3Val3);
     let time = 0;
-    if (+Drip(allowance).toCFX() <= +isModalOpen3Val3) {
+    if (+Drip(allowance).toCFX() < +isModalOpen3Val3) {
       if (+isModalOpen3Val === 0) {
         LPInterface = nutCfxInterface;
       } else if (+isModalOpen3Val === 1) {
@@ -418,7 +418,7 @@ export default function Page() {
       time = 5000;
     }
     var step;
-    for (step = 0; step < 10; step++) {
+    for (step = 0; step < 12; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
