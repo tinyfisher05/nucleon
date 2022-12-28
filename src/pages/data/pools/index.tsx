@@ -516,7 +516,9 @@ export default function Page() {
         //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
         arp = (100*lpToken2Price*secondperyear*nutPerBlock*pointInfo[2]*totalLPs/(totalpoint*totalLPs)*lpinfo[0]*2).toString();
+        console.log(arp);
         arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
+        console.log(arp);
         totalLPs = Drip(totalLPs).toCFX();
 
         if (pools[0].toString() === "0") {
