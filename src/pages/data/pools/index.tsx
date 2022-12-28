@@ -541,9 +541,9 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
-        setMyLiquility("--");
-        setShareOfPool("--");
-        setApr("--");
+        setMyLiquility(Drip(myLiquidity).toCFX().toString());
+        setShareOfPool((myLiquidity/val).toString());
+        setApr(arp);
       }
 
       setUserOutQueue1(tmp1);
@@ -1033,6 +1033,7 @@ export default function Page() {
                       <div className={style.innerbox}>
                         <Slider
                           className={style.slider}
+                          tooltip={{ open: false }}
                           marks={marks}
                           onChange={onChange1}
                           value={percentage1}
@@ -1191,6 +1192,7 @@ export default function Page() {
                       <div className={style.innerbox}>
                         <Slider
                           className={style.slider}
+                          tooltip={{ open: false }}
                           marks={marks}
                           onChange={onChange2}
                           value={percentage2}
@@ -1435,6 +1437,7 @@ export default function Page() {
                       <div className={style.innerbox}>
                         <Slider
                           className={style.slider}
+                          tooltip={{ open: false }}
                           marks={marks}
                           onChange={onChange}
                           value={percentage}
