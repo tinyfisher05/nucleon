@@ -243,7 +243,7 @@ export default function Page() {
       setBurnVal(BigNumber(0));
       setXcfxVal(BigNumber(0));
     } else {
-      const val = parseInt(((+xcfxAmount - 1) * 10000).toString());
+      const val = parseInt(((+xcfxAmount) * 10000).toString());
       setBurnVal(parseFloat((val / 10000).toString()).toFixed(4));
       const rest = await excContract.CFX_exchange_estim(val);
       setXcfxVal(parseFloat((rest.toNumber() / 10000).toString()).toFixed(2));
