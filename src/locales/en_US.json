@@ -5,7 +5,7 @@
         "home": "Home"
     },
     "footer": {
-        "detail": "All rights reserved @nucleon"
+        "detail": "All rights reserved @nucleon 2022-2023"
     },
     "stake": {
         "nav_stake": "Stake",
@@ -33,10 +33,10 @@
     },
     "analytics": {
         "TVL": "TVL",
-        "Total_Emission_xCFX": "Total Emission xCFX",
+        "Total_Emission_xCFX": "Total xCFX Emission",
         "Value_Growth": "Value Growth",
-        "Interest_Earned": "Interest Earned",
-        "Total_Emission_of_NUT": "Total Emission of NUT",
+        "Interest_Earned": "Interest Earned(CFX)",
+        "Total_Emission_of_NUT": "Total NUT Emission",
         "Total_CFX_In_Pool": "Total CFX In Pool"
     },
     "pools": {
@@ -44,7 +44,7 @@
         "mypools": "My Pools",
         "otherpools": "Other Pools",
         "PoolName": "Pool Name",
-        "APR": "APR",
+        "APR": "APY",
         "TotalLiquidity": "Total LPs",
         "AvailableLquidity":"Available LPs",
         "StakedLquidity":"Staked LPs",
@@ -64,6 +64,6 @@
         "VestAmount": "Vest Amount",
         "VestValue": "Vest Value",
         "VestExpires": "Vest Expires",
-        "APR": "APR"
+        "APR": "APY"
     }
 }
