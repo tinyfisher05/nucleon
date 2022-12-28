@@ -541,9 +541,9 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
-        setMyLiquility(Drip(myLiquidity).toCFX().toString());
-        setShareOfPool((myLiquidity/val).toString());
-        setApr(arp);
+        setMyLiquility(parseFloat(Drip(myLiquidity).toCFX().toString()).toFixed(2));
+        setShareOfPool(parseFloat((100*myLiquidity/pools[0]).toString()).toFixed(2)+'%');
+        setApr(parseFloat((arp).toString()).toFixed(1));
       }
 
       setUserOutQueue1(tmp1);
