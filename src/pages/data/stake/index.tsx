@@ -1143,7 +1143,7 @@ export default function Page() {
               <Col span={12} style={{ textAlign: "right" }}>
                 {formatNumber(holderCount)}
               </Col>
-              <Col span={12}>xCFX market cap</Col>
+              <Col span={12}>xCFX Market Cap</Col>
               <Col span={12} style={{ textAlign: "right" }}>
                 $
                 {formatNumber(
