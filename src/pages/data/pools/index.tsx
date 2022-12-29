@@ -100,7 +100,7 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState("none");
   const [isModalOpen2, setIsModalOpen2] = useState("none");
   const [isModalOpen3, setIsModalOpen3] = useState("none");
-  const [isModalOpen4, setIsModalOpen4] = useState("none");
+  // const [isModalOpen4, setIsModalOpen4] = useState("none");
   const [stake, setStake] = useState(true);
   const [mynut, setMynut] = useState("--");
 
@@ -305,7 +305,7 @@ export default function Page() {
       setPercentage1(25);
       setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
       setuserhave(parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
-
+      console.log(val2 * 0.25 *LpPricearr[val]);
       // 显示授权额度
       let allowance = "";
       if (+isModalOpen1Val === 0) {
