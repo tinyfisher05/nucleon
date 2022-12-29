@@ -130,7 +130,7 @@ export default function Layout() {
                   </a>
                 </div>
                 <div style={{color:"#fff",fontSize: "22px"}}>Audited by Hacken</div>
-                <div style={{color:"#fff",fontSize: "12px"}}> <p> <br> </p> </div>
+                <div style={{color:"#fff",fontSize: "12px"}}>---<----------->---</div>
                 <div style={{color:"#fff",fontSize: "18px"}}>2022-2023 Nucleon. All Rights Reserved.</div>
               </Col>
               <Col span={4} style={{ display: "none" }}>
