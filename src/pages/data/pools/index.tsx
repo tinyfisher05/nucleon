@@ -513,6 +513,7 @@ export default function Page() {
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
+        let lpinfoNUT:any;
         let lpinfo:any;
         let arp:any;
         if (index === 0) {
@@ -525,7 +526,8 @@ export default function Page() {
           lpinfo = await xcfxCfxContract.getReserves();
         }
         //console.log(lpinfo);
-        const lpToken2Price = lpinfo[0]/lpinfo[1];
+        lpinfoNUT = await nutCfxContract.getReserves();
+        const lpToken2Price = lpinfoNUT[0]/lpinfoNUT[1];
         //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
         arp = (100*lpToken2Price*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
