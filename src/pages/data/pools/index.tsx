@@ -87,6 +87,9 @@ const nutInterface = new utils.Interface(abiNut);
 
 let myacc: any;
 let timer: any;
+let MyLiquilityarr = [];
+let ShareOfPoolarr = [];
+let Aprarr = [];
 
 export default function Page() {
   const { t, i18n } = useTranslation();
@@ -282,9 +285,9 @@ export default function Page() {
   const manage = (val: any, val2: any, val3: any) => {
     return async (e: any) => {
       
-      setMyLiquility();
-      setShareOfPool();
-      setApr();
+      setMyLiquility(MyLiquilityarr[val]);
+      setShareOfPool(ShareOfPoolarr[val]);
+      setApr(Aprarr[val]);
       // withdraw
       setIsModalOpen2("block");
       setIsModalOpen2Val(val);
@@ -351,9 +354,9 @@ export default function Page() {
   // Other Pools -> Stake
   const handleStake2 = (val: any, val2: any) => {
     return (e: any) => {
-      setMyLiquility();
-      setShareOfPool();
-      setApr();
+      setMyLiquility(MyLiquilityarr[val]);
+      setShareOfPool(ShareOfPoolarr[val]);
+      setApr(Aprarr[val]);
 
       setIsModalOpen3("block");
       setIsModalOpen3Val(val);
@@ -499,9 +502,7 @@ export default function Page() {
       // poolInfo获取三个值，取第三个值：allocPoint
       // 常数：一年的总秒数：31,536,000
       const secondperyear = 31536000;
-      var MyLiquilityarr = [];
-      var ShareOfPoolarr = [];
-      var Aprarr = [];
+      
       let tmp1: any = [];
       let tmp2: any = [];
       for (let index = 0; index < 2; index++) {
@@ -556,6 +557,7 @@ export default function Page() {
       MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(2);
       ShareOfPoolarr[index]=parseFloat((100*pools[0]/totalLPs).toString()).toFixed(2)+'%';
       Aprarr[index]=parseFloat((arp).toString()).toFixed(1);
+      console.log(MyLiquilityarr[index],ShareOfPoolarr[index],Aprarr[index]);
       }
 
       setUserOutQueue1(tmp1);
