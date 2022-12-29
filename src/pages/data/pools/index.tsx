@@ -125,6 +125,7 @@ export default function Page() {
   const [shareOfPool, setShareOfPool] = useState("--");
   const [apr, setApr] = useState("--");
   const [lpprice, setlpprice] = useState("$--");
+  const [userhave, setuserhave] = useState("$--");
 
   myacc = useAccount();
 
@@ -303,6 +304,7 @@ export default function Page() {
       setIsModalOpen1Val2(val2);
       setPercentage1(25);
       setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      setuserhave(parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
 
       // 显示授权额度
       let allowance = "";
@@ -320,12 +322,14 @@ export default function Page() {
     }
     setPercentage1((value / +isModalOpen1Val2) * 100);
     setIsModalOpen1Val3(value.toString());
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
   const onChange1 = (value: number) => {
     setPercentage1(value);
     setIsModalOpen1Val3(
       parseFloat(((+isModalOpen1Val2 * +value) / 100).toString()).toFixed(2)
     );
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen1Val2 * +value) / 100).toString()).toFixed(4))
   };
   const dateChangeHandler2 = (value: number) => {
     if (isNaN(value)) {
@@ -333,12 +337,14 @@ export default function Page() {
     }
     setPercentage2((value / +isModalOpen2Val2) * 100);
     setIsModalOpen2Val3(value.toString());
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
   const onChange2 = (value: number) => {
     setPercentage2(value);
     setIsModalOpen2Val3(
       parseFloat(((+isModalOpen2Val2 * +value) / 100).toString()).toFixed(2)
     );
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen2Val2 * +value) / 100).toString()).toFixed(4))
   };
 
   const handleClose2 = () => {
@@ -366,6 +372,7 @@ export default function Page() {
       setIsModalOpen3Val2(val2);
       setPercentage(25);
       setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      setuserhave(parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
     };
   };
   // Other Pools -> Stake -> close
@@ -379,6 +386,7 @@ export default function Page() {
     }
     setPercentage((value / +isModalOpen3Val2) * 100);
     setIsModalOpen3Val3(value.toString());
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
   // Other Pools -> Percentage
   const onChange = (value: number) => {
@@ -386,6 +394,7 @@ export default function Page() {
     setIsModalOpen3Val3(
       parseFloat(((+isModalOpen3Val2 * +value) / 100).toString()).toFixed(2)
     );
+    setuserhave(parseFloat('$'+(LpPricearr[isModalOpen1Val]* (+isModalOpen3Val2 * +value) / 100).toString()).toFixed(4))
   };
   // Other Pools -> Stake -> Stake Liquidity
   const handleStakeNow = async () => {
@@ -531,7 +540,7 @@ export default function Page() {
         //console.log(lpinfo);
         lpinfoNUT = await nutCfxContract.getReserves();
         const lpToken2Price = lpinfoNUT[0]/lpinfoNUT[1];
-        LpPricearr[index] = cfxprice*lpinfo[0]/lpinfo[1];
+        LpPricearr[index] = '$'+parseFloat((cfxprice*lpinfo[0]/lpinfo[1]).toString()).toFixed(4);
         //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
         arp = (100*lpToken2Price*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
