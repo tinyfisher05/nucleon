@@ -1044,7 +1044,7 @@ export default function Page() {
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>userhave</div>
+                              <div style={{ fontSize: "14px" }}>{userhave}</div>
                             </div>
                             <div
                               style={{
@@ -1204,7 +1204,7 @@ export default function Page() {
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>userhave</div>
+                              <div style={{ fontSize: "14px" }}>{userhave}</div>
                             </div>
                             <div
                               style={{
@@ -1448,7 +1448,7 @@ export default function Page() {
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>userhave</div>
+                              <div style={{ fontSize: "14px" }}>{userhave}</div>
                             </div>
                             <div
                               style={{
