@@ -281,6 +281,10 @@ export default function Page() {
   // 弹出
   const manage = (val: any, val2: any, val3: any) => {
     return async (e: any) => {
+      
+      setMyLiquility();
+      setShareOfPool();
+      setApr();
       // withdraw
       setIsModalOpen2("block");
       setIsModalOpen2Val(val);
@@ -347,6 +351,10 @@ export default function Page() {
   // Other Pools -> Stake
   const handleStake2 = (val: any, val2: any) => {
     return (e: any) => {
+      setMyLiquility();
+      setShareOfPool();
+      setApr();
+
       setIsModalOpen3("block");
       setIsModalOpen3Val(val);
       setIsModalOpen3Val2(val2);
@@ -473,15 +481,16 @@ export default function Page() {
       const mynut = await nutContract.balanceOf(myacc);
       //const nutinfo = await nutContract.getReserves();
       const totalpoint = await poolsContract.totalAllocPoint();
-      console.log(Drip(totalpoint).toCFX());
+      // console.log(Drip(totalpoint).toCFX());
       const nutPerBlock = await poolsContract.sushiPerBlock();
-      console.log(Drip(nutPerBlock).toCFX());
+      // console.log(Drip(nutPerBlock).toCFX());
       setMynut(Drip(mynut.toString()).toCFX().toString());
-      const confluxscanData = await axios.get(
-        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
-      );
-      const data = confluxscanData.data.data;
-      const price = data.price;
+      // const confluxscanData = await axios.get(
+      //   "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+      // );
+      // const data = confluxscanData.data.data;
+      // const price = data.price;
+
       // 每个lp的价值
       // nut的价值
       // 常数：sushiPerBlock
@@ -490,6 +499,9 @@ export default function Page() {
       // poolInfo获取三个值，取第三个值：allocPoint
       // 常数：一年的总秒数：31,536,000
       const secondperyear = 31536000;
+      var MyLiquilityarr = [];
+      var ShareOfPoolarr = [];
+      var Aprarr = [];
       let tmp1: any = [];
       let tmp2: any = [];
       for (let index = 0; index < 2; index++) {
@@ -541,9 +553,9 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
-        setMyLiquility(parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(2));
-        setShareOfPool(parseFloat((100*pools[0]/val).toString()).toFixed(2)+'%');
-        setApr(parseFloat((arp).toString()).toFixed(1));
+      MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(2);
+      ShareOfPoolarr[index]=parseFloat((100*pools[0]/totalLPs).toString()).toFixed(2)+'%';
+      Aprarr[index]=parseFloat((arp).toString()).toFixed(1);
       }
 
       setUserOutQueue1(tmp1);
