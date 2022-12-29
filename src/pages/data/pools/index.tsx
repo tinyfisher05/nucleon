@@ -90,6 +90,7 @@ let timer: any;
 let MyLiquilityarr = [];
 let ShareOfPoolarr = [];
 let Aprarr = [];
+let LpPricearr = [];
 
 export default function Page() {
   const { t, i18n } = useTranslation();
@@ -123,6 +124,7 @@ export default function Page() {
   const [myLiquility, setMyLiquility] = useState("--");
   const [shareOfPool, setShareOfPool] = useState("--");
   const [apr, setApr] = useState("--");
+  const [lpprice, setlpprice] = useState("$--");
 
   myacc = useAccount();
 
@@ -288,6 +290,7 @@ export default function Page() {
       setMyLiquility(MyLiquilityarr[val]);
       setShareOfPool(ShareOfPoolarr[val]);
       setApr(Aprarr[val]);
+      setlpprice(LpPricearr[val]);
       // withdraw
       setIsModalOpen2("block");
       setIsModalOpen2Val(val);
@@ -488,11 +491,11 @@ export default function Page() {
       const nutPerBlock = await poolsContract.sushiPerBlock();
       // console.log(Drip(nutPerBlock).toCFX());
       setMynut(Drip(mynut.toString()).toCFX().toString());
-      // const confluxscanData = await axios.get(
-      //   "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
-      // );
-      // const data = confluxscanData.data.data;
-      // const price = data.price;
+      const confluxscanData = await axios.get(
+        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+      );
+      const data = confluxscanData.data.data;
+      const cfxprice = data.price;
 
       // 每个lp的价值
       // nut的价值
@@ -528,6 +531,7 @@ export default function Page() {
         //console.log(lpinfo);
         lpinfoNUT = await nutCfxContract.getReserves();
         const lpToken2Price = lpinfoNUT[0]/lpinfoNUT[1];
+        LpPricearr[index] = cfxprice*lpinfo[0]/lpinfo[1];
         //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
         arp = (100*lpToken2Price*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
@@ -1012,7 +1016,7 @@ export default function Page() {
                                   {isModalOpen1Val === "1" ? "xCFX" : "NUT"}
                                 </div>
                                 <div style={{ fontSize: "14px" }}>
-                                  Price: $2.67
+                                {lpprice}
                                 </div>
                               </div>
                             </div>
@@ -1172,7 +1176,7 @@ export default function Page() {
                                   {isModalOpen2Val === "1" ? "xCFX" : "NUT"}
                                 </div>
                                 <div style={{ fontSize: "14px" }}>
-                                  Price: $2.67
+                                {lpprice}
                                 </div>
                               </div>
                             </div>
@@ -1416,7 +1420,7 @@ export default function Page() {
                                   {isModalOpen3Val === "1" ? "xCFX" : "NUT"}
                                 </div>
                                 <div style={{ fontSize: "14px" }}>
-                                  Price: $2.67
+                                {lpprice}
                                 </div>
                               </div>
                             </div>
