@@ -1128,14 +1128,14 @@ export default function Page() {
           </Col>
         </Row>
         <div style={{ top: "100px", position: "relative" }}>
-          <h4>CFX statistics</h4>
+          <h4>CFX Statistics</h4>
           <div className={style.box5}>
             <Row gutter={32}>
-              <Col span={12}>Annual percentage rate</Col>
+              <Col span={12}>Annual Percentage Rate</Col>
               <Col span={12} style={{ textAlign: "right" }}>
                 {rate}%
               </Col>
-              <Col span={12}>Total staked with CFX</Col>
+              <Col span={12}>Total Staked With CFX</Col>
               <Col span={12} style={{ textAlign: "right" }}>
                 {formatNumber(parseFloat(totalStaked).toFixed(3))}
               </Col>
