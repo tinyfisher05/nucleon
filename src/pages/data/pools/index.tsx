@@ -555,9 +555,9 @@ export default function Page() {
           });
         }
       MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(2);
-      ShareOfPoolarr[index]=parseFloat((100*pools[0]/totalLPs).toString()).toFixed(2)+'%';
+      ShareOfPoolarr[index]=parseFloat((100*Drip(pools[0]).toCFX()/totalLPs).toString()).toFixed(2)+'%';
       Aprarr[index]=parseFloat((arp).toString()).toFixed(1);
-      console.log(MyLiquilityarr[index],ShareOfPoolarr[index],Aprarr[index]);
+
       }
 
       setUserOutQueue1(tmp1);
