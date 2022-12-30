@@ -387,7 +387,7 @@ export default function Page() {
     }
     setPercentage((value / +isModalOpen3Val2) * 100);
     setIsModalOpen3Val3(value.toString());
-    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen3Val]* +value).toString()).toFixed(4))
   };
   // Other Pools -> Percentage
   const onChange = (value: number) => {
@@ -395,7 +395,7 @@ export default function Page() {
     setIsModalOpen3Val3(
       parseFloat(((+isModalOpen3Val2 * +value) / 100).toString())
     );
-    setuserhave(parseFloat('$'+(LpPricearr[isModalOpen1Val]* (+isModalOpen3Val2 * +value) / 100).toString()).toFixed(4))
+    setuserhave(parseFloat('$'+(LpPricearr[isModalOpen3Val]* (+isModalOpen3Val2 * +value) / 100).toString()).toFixed(4))
   };
   // Other Pools -> Stake -> Stake Liquidity
   const handleStakeNow = async () => {
