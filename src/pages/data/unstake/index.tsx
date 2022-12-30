@@ -364,10 +364,10 @@ export default function Page() {
       <div className={styles.inner} style={{ backgroundColor: "#171520" }}>
         <div className={style.sub_nav2}>
           <Link to="/data/stake" style={{ color: "#FFF" }}>
-            {Stake_CFX}
+            {t("stake.Stake_CFX")}
           </Link>
           <Link to="/data/unstake" style={{ color: "#EAB764" }}>
-            {unStake_CFX}
+            {t("stake.unStake_CFX")}
           </Link>
           <span
             style={{
