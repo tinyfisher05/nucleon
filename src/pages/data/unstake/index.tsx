@@ -155,7 +155,7 @@ export default function Page() {
         ghost
         className={style.stake_btn}
       >
-        unStake
+        Unstake
       </Button>
     );
   });
@@ -367,7 +367,7 @@ export default function Page() {
             Stake CFX
           </Link>
           <Link to="/data/unstake" style={{ color: "#EAB764" }}>
-            unStake CFX
+            Unstake CFX
           </Link>
           <span
             style={{
@@ -385,7 +385,7 @@ export default function Page() {
             <div className={style.box1}>
               <Row>
                 <Col span={24}>
-                  Available to unStake <div className={style.board}></div>
+                  Available To Unstake <div className={style.board}></div>
                   <br />
                   <b>{formatNumber(parseFloat(xcfxAmount).toFixed(2))} xCFX</b>
                 </Col>
