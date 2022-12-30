@@ -609,15 +609,14 @@ export default function Page() {
           </span>
         </div>
         <div className={style.box2}>
-          <Row style={{ padding: "10px 20px 5px" }}>
-            <Col span={1}>{t(" ")}</Col>
-            <Col span={2}>{t("pools.PoolName")}</Col>
-            <Col span={2}>{t("pools.APR")}</Col>
+          <Row style={{ padding: "10px 20px 5px"}}>
+            <Col span="3" align="center" />{t("pools.PoolName")}</Col>
+            <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
             <Col span={3}>{t("pools.StakedLquidity")}</Col>
             <Col span={3}>{t("pools.AvailableLquidity")}</Col>
-            <Col span={2}>Pending Rewards</Col>
+            <Col span={3}>Pending Rewards</Col>
           </Row>
           {userOutQueue1.map((item: any) => {
             return (
@@ -635,7 +634,7 @@ export default function Page() {
                   <Col span={3}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
-                  <Col span={2}>
+                  <Col span={3}>
                     {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
@@ -650,10 +649,10 @@ export default function Page() {
                   <Col span={3}>
                     {parseFloat(item.myLiquidity.toString()).toFixed(2)}
                   </Col>
-                  <Col span={2}>
+                  <Col span={3}>
                     {parseFloat(item.pendingrewards.toString()).toFixed(2)}
                   </Col>
-                  <Col span={5} style={{ textAlign: "right" }}>
+                  <Col span={3} style={{ textAlign: "right" }}>
                     <Button
                       onClick={manage(
                         item.i.toString(),
@@ -707,10 +706,10 @@ export default function Page() {
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px" }}>
             <Col span={3}>{t("pools.PoolName")}</Col>
-            <Col span={2}>{t("pools.APR")}</Col>
+            <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
-            <Col span={4}>{t("pools.Myliquidity")}</Col>
+            <Col span={3}>{t("pools.Myliquidity")}</Col>
           </Row>
           {userOutQueue2.map((item: any) => {
             return (
@@ -728,7 +727,7 @@ export default function Page() {
                   <Col span={3}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
-                  <Col span={2}>
+                  <Col span={3}>
                     {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
@@ -737,10 +736,10 @@ export default function Page() {
                   <Col span={3}>
                     {parseFloat(item.totalLPs.toString()).toFixed(2)}
                   </Col>
-                  <Col span={5}>
+                  <Col span={3}>
                     {parseFloat(item.myLiquidity.toString()).toFixed(2)}
                   </Col>
-                  <Col span={8} style={{ textAlign: "right" }}>
+                  <Col span={9} style={{ textAlign: "right" }}>
                     <Button
                       onClick={handleStake2(
                         item.i.toString(),
