@@ -40,14 +40,14 @@
         "Total_CFX_In_Pool": "Total CFX In Pool"
     },
     "pools": {
-        "pools": "Pools",
+        "pools": " Pools",
         "mypools": "My Pools",
         "otherpools": "Other Pools",
         "PoolName": "  Pool Name",
         "APR": "  APY",
         "TotalLiquidity": "  Total LPs",
-        "AvailableLquidity":"Available LPs",
-        "StakedLquidity":"Staked LPs",
+        "AvailableLquidity":" Available LPs",
+        "StakedLquidity":" Staked LPs",
         "StakeLiquidity":"Approve Liquidity/Stake Liquidity",
         "Myliquidity": "  My LPs",
         "Manage":"Manage",
