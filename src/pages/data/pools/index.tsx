@@ -374,9 +374,10 @@ export default function Page() {
       setPercentage(25);
       // setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
       setIsModalOpen3Val3((val2 * 0.25).toString());
-      setuserhave(parseFloat('$'+(val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
+      setuserhave('$'+parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
       console.log(isModalOpen3Val,LpPricearr[val],isModalOpen3Val2);
       console.log(val2 * 0.25 *LpPricearr[val]);
+      console.log('$'+parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
     };
   };
   // Other Pools -> Stake -> close
@@ -400,7 +401,7 @@ export default function Page() {
     );
     console.log(isModalOpen3Val,LpPricearr[isModalOpen3Val],isModalOpen3Val2,value);
     console.log(LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100);
-    setuserhave(parseFloat('$'+(LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100).toString()).toFixed(4))
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100).toString()).toFixed(4))
   };
   // Other Pools -> Stake -> Stake Liquidity
   const handleStakeNow = async () => {
