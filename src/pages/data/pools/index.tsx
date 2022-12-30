@@ -297,13 +297,13 @@ export default function Page() {
       setIsModalOpen2Val(val);
       setIsModalOpen2Val2(val3);
       setPercentage2(25);
-      setIsModalOpen2Val3(parseFloat((val3 * 0.25).toString()).toFixed(2));
+      setIsModalOpen2Val3(parseFloat((val3 * 0.25).toString()));
 
       // stake
       setIsModalOpen1Val(val);
       setIsModalOpen1Val2(val2);
       setPercentage1(25);
-      setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()));
       setuserhave('$'+ parseFloat((val2 * 0.25 * LpPricearr[val]).toString()).toFixed(4));
       console.log(val2,LpPricearr[val],0.25,val2 * 0.25 *LpPricearr[val]);
       // 显示授权额度
@@ -327,7 +327,7 @@ export default function Page() {
   const onChange1 = (value: number) => {
     setPercentage1(value);
     setIsModalOpen1Val3(
-      parseFloat(((+isModalOpen1Val2 * +value) / 100).toString()).toFixed(2)
+      parseFloat(((+isModalOpen1Val2 * +value) / 100).toString())
     );
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen1Val2 * +value) / 100).toString()).toFixed(4))
   };
@@ -342,7 +342,7 @@ export default function Page() {
   const onChange2 = (value: number) => {
     setPercentage2(value);
     setIsModalOpen2Val3(
-      parseFloat(((+isModalOpen2Val2 * +value) / 100).toString()).toFixed(2)
+      parseFloat(((+isModalOpen2Val2 * +value) / 100).toString())
     );
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen2Val2 * +value) / 100).toString()).toFixed(4))
   };
@@ -371,7 +371,8 @@ export default function Page() {
       setIsModalOpen3Val(val);
       setIsModalOpen3Val2(val2);
       setPercentage(25);
-      setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      // setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      setIsModalOpen3Val3((val2 * 0.25).toString());
       setuserhave(parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
     };
   };
@@ -392,7 +393,7 @@ export default function Page() {
   const onChange = (value: number) => {
     setPercentage(value);
     setIsModalOpen3Val3(
-      parseFloat(((+isModalOpen3Val2 * +value) / 100).toString()).toFixed(2)
+      parseFloat(((+isModalOpen3Val2 * +value) / 100).toString())
     );
     setuserhave(parseFloat('$'+(LpPricearr[isModalOpen1Val]* (+isModalOpen3Val2 * +value) / 100).toString()).toFixed(4))
   };
