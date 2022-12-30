@@ -374,7 +374,7 @@ export default function Page() {
       setPercentage(25);
       // setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
       setIsModalOpen3Val3((val2 * 0.25).toString());
-      setuserhave(parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
+      setuserhave(parseFloat('$'+(val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
     };
   };
   // Other Pools -> Stake -> close
@@ -396,6 +396,7 @@ export default function Page() {
     setIsModalOpen3Val3(
       parseFloat(((+isModalOpen3Val2 * +value) / 100).toString())
     );
+    console.log(isModalOpen3Val,LpPricearr[isModalOpen3Val],isModalOpen3Val2,value);
     setuserhave(parseFloat('$'+(LpPricearr[isModalOpen3Val]* (+isModalOpen3Val2 * +value) / 100).toString()).toFixed(4))
   };
   // Other Pools -> Stake -> Stake Liquidity
