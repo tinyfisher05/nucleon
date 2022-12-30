@@ -660,7 +660,7 @@ export default function Page() {
             })}
             <div style={{ height: "7px" }}></div>
           </div>
-          <h4 style={{ marginTop: "80px" }}>About</h4>
+          <h4 style={{ marginTop: "80px" }}>About Nucleon Stake</h4>
           <div className={style.box5}>
             <p>
               Nucleon is a liquid staking solution for Conflux PoS backed by
