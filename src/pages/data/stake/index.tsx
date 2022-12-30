@@ -865,7 +865,7 @@ export default function Page() {
                   </span>
                 </Col>
                 <Col xs={24} sm={24} md={5} lg={5} xl={5}>
-                  CFX APR{" "}
+                  CFX APY{" "}
                   <b style={{ fontWeight: "normal" }}>
                     {parseFloat((+cfxapy * 100).toString()).toFixed(2)}%
                   </b>

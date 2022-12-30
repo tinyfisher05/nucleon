@@ -364,10 +364,10 @@ export default function Page() {
       <div className={styles.inner} style={{ backgroundColor: "#171520" }}>
         <div className={style.sub_nav2}>
           <Link to="/data/stake" style={{ color: "#FFF" }}>
-            Stake CFX
+            {Stake_CFX}
           </Link>
           <Link to="/data/unstake" style={{ color: "#EAB764" }}>
-            Unstake CFX
+            {unStake_CFX}
           </Link>
           <span
             style={{
@@ -385,7 +385,7 @@ export default function Page() {
             <div className={style.box1}>
               <Row>
                 <Col span={24}>
-                  Available To Unstake <div className={style.board}></div>
+                  Available to unstake <div className={style.board}></div>
                   <br />
                   <b>{formatNumber(parseFloat(xcfxAmount).toFixed(2))} xCFX</b>
                 </Col>
@@ -398,7 +398,7 @@ export default function Page() {
                   <b>{formatNumber(parseFloat(staketotal).toFixed(2))} CFX</b>
                 </Col>
                 <Col xs={24} sm={24} md={5} lg={5} xl={5}>
-                  CFX APR{" "}
+                  CFX APY{" "}
                   <b style={{ fontWeight: "normal" }}>
                     {parseFloat((+cfxapy * 100).toString()).toFixed(2)}%
                   </b>

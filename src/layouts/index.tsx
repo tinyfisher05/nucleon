@@ -301,9 +301,9 @@ export default function Layout() {
                   />
                 </a>
               </div>
-              Audited by Hacken
+              <div style={{color:"#fff"}}>Audited by Hacken</div>
               <div>
-              © 2022-2023 Nucleon. All Rights Reserved.
+              <div style={{color:"#fff"}}>© 2022-2023 Nucleon. All Rights Reserved.</div>
               </div>
             </div>
           </div>
