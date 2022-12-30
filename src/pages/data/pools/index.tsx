@@ -366,6 +366,7 @@ export default function Page() {
       setMyLiquility(MyLiquilityarr[val]);
       setShareOfPool(ShareOfPoolarr[val]);
       setApr(Aprarr[val]);
+      setlpprice('$'+ parseFloat(LpPricearr[val].toString()).toFixed(4));
 
       setIsModalOpen3("block");
       setIsModalOpen3Val(val);
