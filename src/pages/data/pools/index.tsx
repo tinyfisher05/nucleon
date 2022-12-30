@@ -206,10 +206,10 @@ export default function Page() {
         return;
       }
 
-      time = 5000;
+      time = 4000;
     }
     var step;
-    for (step = 0; step < 12; step++) {
+    for (step = 0; step < 32; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -222,6 +222,10 @@ export default function Page() {
 
         );
       } else {
+        for (
+          var t = parseInt(new Date().getTime().toString());
+          parseInt(new Date().getTime().toString()) - 1000 <= time;
+        );
         break;
       }
     }
@@ -445,10 +449,10 @@ export default function Page() {
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
-      time = 5000;
+      time = 4000;
     }
     var step;
-    for (step = 0; step < 12; step++) {
+    for (step = 0; step < 32; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -610,12 +614,12 @@ export default function Page() {
         </div>
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px"}}>
-            <Col span={2}>{t("pools.PoolName")}</Col>
+            <Col span={3}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
             <Col span={3}>{t("pools.StakedLquidity")}</Col>
-            <Col span={3}>{t("pools.AvailableLquidity")}</Col>
+            <Col span={2}>{t("pools.AvailableLquidity")}</Col>
             <Col span={2}>Pending Rewards</Col>
           </Row>
           {userOutQueue1.map((item: any) => {
@@ -631,26 +635,26 @@ export default function Page() {
                     fontSize: "18px",
                   }}
                 >
-                  <Col span={2}>
-                    {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
+                  <Col span={3}>
+                    {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
                   </Col>
                   <Col span={3}>
                     {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
+                    {parseFloat(item.totalLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLPs.toString()).toFixed(2)}
+                    {parseFloat(item.totalLPs.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.val.toString()).toFixed(2)}
-                  </Col>
-                  <Col span={3}>
-                    {parseFloat(item.myLiquidity.toString()).toFixed(2)}
+                    {parseFloat(item.val.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={2}>
-                    {parseFloat(item.pendingrewards.toString()).toFixed(2)}
+                    {parseFloat(item.myLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={2}>
+                    {parseFloat(item.pendingrewards.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={5} style={{ textAlign: "right" }}>
                     <Button
@@ -725,19 +729,19 @@ export default function Page() {
                   }}
                 >
                   <Col span={3}>
-                    {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
+                    {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
                   </Col>
                   <Col span={3}>
                     {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
+                    {parseFloat(item.totalLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLPs.toString()).toFixed(2)}
+                    {parseFloat(item.totalLPs.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.myLiquidity.toString()).toFixed(2)}
+                    {parseFloat(item.myLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={9} style={{ textAlign: "right" }}>
                     <Button
