@@ -304,7 +304,7 @@ export default function Page() {
       setIsModalOpen1Val2(val2);
       setPercentage1(25);
       setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
-      setuserhave(parseFloat((val2 * 0.25 * LpPricearr[val]).toString()).toFixed(4));
+      setuserhave('$'+ parseFloat((val2 * 0.25 * LpPricearr[val]).toString()).toFixed(4));
       console.log(val2,LpPricearr[val],0.25,val2 * 0.25 *LpPricearr[val]);
       // 显示授权额度
       let allowance = "";
@@ -539,16 +539,16 @@ export default function Page() {
         }
         //console.log(lpinfo);
         lpinfoNUT = await nutCfxContract.getReserves();
-        const lpToken2Price = lpinfoNUT[0]/lpinfoNUT[1];
-        LpPricearr[index] =cfxprice*lpinfo[0]/lpinfo[1];
+        const NUTPrice = lpinfoNUT[0]/lpinfoNUT[1];
+        LpPricearr[index] =cfxprice*lpinfo[0]*2/val;
         //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
-        arp = (100*lpToken2Price*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
-        console.log(arp);
+        arp = (100*NUTPrice*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
+        // console.log(arp);
         arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
-        console.log(arp);
+        // console.log(arp);
         totalLPs = Drip(totalLPs).toCFX();
-
+        console.log(pools[0].toString());
         if (pools[0].toString() === "0") {
           tmp2.push({
             i: index,
