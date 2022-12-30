@@ -610,7 +610,7 @@ export default function Page() {
         </div>
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px"}}>
-            <Col span="3" align="center" />{t("pools.PoolName")}</Col>
+            <Col span={3} align={center}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
