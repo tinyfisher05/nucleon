@@ -610,13 +610,13 @@ export default function Page() {
         </div>
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px"}}>
-            <Col span={3}>{t("pools.PoolName")}</Col>
+            <Col span={2}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
             <Col span={3}>{t("pools.StakedLquidity")}</Col>
             <Col span={3}>{t("pools.AvailableLquidity")}</Col>
-            <Col span={3}>Pending Rewards</Col>
+            <Col span={2}>Pending Rewards</Col>
           </Row>
           {userOutQueue1.map((item: any) => {
             return (
@@ -628,10 +628,10 @@ export default function Page() {
                   style={{
                     padding: "5px 20px 5px",
                     fontFamily: "Univa Nova Bold",
-                    fontSize: "20px",
+                    fontSize: "18px",
                   }}
                 >
-                  <Col span={3}>
+                  <Col span={2}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
                   </Col>
                   <Col span={3}>
@@ -649,10 +649,10 @@ export default function Page() {
                   <Col span={3}>
                     {parseFloat(item.myLiquidity.toString()).toFixed(2)}
                   </Col>
-                  <Col span={3}>
+                  <Col span={2}>
                     {parseFloat(item.pendingrewards.toString()).toFixed(2)}
                   </Col>
-                  <Col span={3} style={{ textAlign: "right" }}>
+                  <Col span={5} style={{ textAlign: "right" }}>
                     <Button
                       onClick={manage(
                         item.i.toString(),
@@ -721,7 +721,7 @@ export default function Page() {
                   style={{
                     padding: "5px 20px 5px",
                     fontFamily: "Univa Nova Bold",
-                    fontSize: "20px",
+                    fontSize: "18px",
                   }}
                 >
                   <Col span={3}>
