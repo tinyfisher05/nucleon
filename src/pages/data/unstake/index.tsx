@@ -13,7 +13,7 @@ import logotxt from "../../../assets/logotxt.svg";
 import logo8 from "../../../assets/logo8.png";
 import arrow from "../../../assets/arrow.png";
 
-import { Button, Col, Row, Divider, Input } from "antd";
+import { Button, Col, Row, Divider, Input} from "antd";
 
 import "./../../../locales/config"; // 引用配置文件
 import { useTranslation, Trans } from "react-i18next";
@@ -123,6 +123,8 @@ export default function Page() {
       setTranHash("");
     }
     return (
+    <div>
+      <MyModal />
       <div
         className="ant-modal-content"
         style={{
@@ -750,6 +752,7 @@ export default function Page() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
