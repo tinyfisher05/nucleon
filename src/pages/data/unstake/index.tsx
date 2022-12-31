@@ -107,7 +107,7 @@ export default function Page() {
         init();
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
-      }, 1000);
+      }, 10000);
     }, [account]);
     return (
       <div onClick={handleClickSendTransaction}>
@@ -206,7 +206,7 @@ export default function Page() {
         init();
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
-      }, 1000);
+      }, 10000);
     }, [account]);
     return (
       <Button
@@ -245,11 +245,12 @@ export default function Page() {
         to: addressExc,
         data,
       });
+      setTranHash(TxnHash);
       setTimeout(() => {
         init();
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
-      }, 1000);
+      }, 10000);
     }, [account]);
     return (
       <Button
