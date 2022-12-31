@@ -107,7 +107,7 @@ export default function Page() {
         init();
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
-      }, 10000);
+      }, 2000);
     }, [account]);
     return (
       <div onClick={handleClickSendTransaction}>
@@ -123,8 +123,6 @@ export default function Page() {
       setTranHash("");
     }
     return (
-    <div>
-      <MyModal />
       <div
         className="ant-modal-content"
         style={{
@@ -428,6 +426,8 @@ export default function Page() {
     })();
   }
   return (
+    <div>
+    <MyModal />
     <div className={style.unstake}>
       <Helmet>
         <link rel="stylesheet" href="style.css"></link>
@@ -753,6 +753,6 @@ export default function Page() {
         </div>
       </div>
     </div>
-    
+    </div> 
   );
 }
