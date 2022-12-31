@@ -6,6 +6,8 @@ import {
   useChainId,
   useBalance,
   connect,
+  addChain,
+  switchChain,
 } from "@cfxjs/use-wallet-react/ethereum";
 
 import styles from "./../../../../layouts/index.less";
@@ -20,6 +22,18 @@ import { Button, Col, Row, Carousel, Modal } from "antd";
 
 let myacc: any;
 let tmpAccount = localStorage.getItem("acc");
+const AddChainParameter = {
+  chainId: "0x406", // A 0x-prefixed hexadecimal string   0x47   0x406
+  chainName: "测试网",
+  nativeCurrency: {
+    name: "string",
+    symbol: "string", // 2-6 characters long
+    decimals: 18,
+  },
+  rpcUrls: ["https://evm.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+  //blockExplorerUrls: ['aaaa'],
+  //iconUrls: ['https://'], // Currently ignored.
+};
 
 // web3 钱包登录
 const WalletInfo: React.FC = memo(() => {
@@ -74,12 +88,31 @@ const warning = () => {
   });
 };
 
+// Function 切换网络--------------------------------------------
+const onSwitchNetwork = async () => {
+  try {
+  } catch (error) {
+    console.log(error);
+  }
+    const mess = await switchChain("0x47"); // 切换网络
+    console.log(mess);
+    if(mess) {
+      window.location.reload();
+    } else {
+      await addChain(AddChainParameter); // 添加网络
+    }
+    //window.location.reload();
+ 
+};
+
 function Header() {
   // web3 钱包登录状态
   const status = useStatus();
   myacc = useAccount();
+  
 
   const [active, setActive] = useState(0);
+  const [showSwitch, setShowSwitch] = useState(false);
 
   window.onhashchange = function () {
     switch (location.hash) {
@@ -111,6 +144,11 @@ function Header() {
     setActive(index);
   };
   const { t, i18n } = useTranslation();
+
+  
+  const chainId = useChainId()!; // 正式网 测试网
+  console.log(chainId);
+
   useEffect(() => {
     switch (url) {
       case "#/data/stake":
@@ -135,6 +173,13 @@ function Header() {
       default:
         break;
     }
+
+    // 网路判断
+    setTimeout(() => {
+      if (chainId != "71") {
+        setShowSwitch(true);
+      }
+    }, 20);
 
     setTimeout(() => {
       if (!myacc || myacc == undefined) {
@@ -249,11 +294,32 @@ function Header() {
             </div>
           )}
           <div
-            style={{ display: status === "active" ? "inline-block" : "none" }}
-            className={style.account}
+            style={{ display: showSwitch === true ? "none" : "inline-block" }}
           >
-            {status === "active" && <WalletInfo />}
-            <div className={style.yuan}></div>
+            <div
+              style={{ display: status === "active" ? "inline-block" : "none" }}
+              className={style.account}
+            >
+              {status === "active" && <WalletInfo />}
+              <div className={style.yuan}></div>
+            </div>
+          </div>
+          <div
+            style={{ display: showSwitch === true ? "inline-block" : "none" }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+              className={style.account}
+              onClick={() => {
+                onSwitchNetwork();
+              }}
+            >
+              Switch Network
+            </div>
           </div>
         </div>
       </div>
