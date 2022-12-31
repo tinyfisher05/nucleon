@@ -15,7 +15,7 @@ import logotxt from "../../../assets/logotxt.svg";
 import logo7 from "../../../assets/logo7.png";
 import logo8 from "../../../assets/logo8.png";
 
-import { Button, Col, Row, Input, Checkbox } from "antd";
+import { Button, Col, Row, Input, Checkbox, Modal } from "antd";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
 
 import "../../../locales/config"; // 引用配置文件
@@ -33,6 +33,7 @@ import {
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
+import { callTxAdvance } from "js-conflux-sdk/dist/types/rpc/types/formatter";
 const { Drip } = require("js-conflux-sdk");
 const { addressExc, abiExc } = require("./../../../ABI/ExchangeRoom.json");
 const { addressXcfx, abiXcfx } = require("./../../../ABI/Xcfx.json");
@@ -109,7 +110,7 @@ export default function Page() {
         init();
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
-      }, 1000);
+      }, 2000);
     }, [account]);
     return (
       <div onClick={handleClickSendTransaction}>
@@ -119,6 +120,7 @@ export default function Page() {
       </div>
     );
   });
+
   const MyModal: React.FC = memo(() => {
     function closeCurr() {
       setTranHash("");
@@ -212,7 +214,7 @@ export default function Page() {
         init();
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
-      }, 1000);
+      }, 10000);
     }, [account]);
     return (
       <Button
@@ -756,488 +758,496 @@ export default function Page() {
   }
 
   return (
-    <div className={style.stake}>
-      <Helmet>
-        <link rel="stylesheet" href="style.css"></link>
-      </Helmet>
-      <div style={{ display: isModalOpen }}>
-        <div className="ant-modal-mask" style={{ height: "3000px" }}></div>
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="ant-modal ant-modal-confirm ant-modal-confirm-info"
-          style={{
-            zIndex: "100000",
-            width: "100%",
-            top: "5%",
-            left: "10%",
-            position: "absolute",
-            borderRadius: "20px",
-          }}
-        >
+    <div>
+      <MyModal />
+      <div className={style.stake}>
+        <Helmet>
+          <link rel="stylesheet" href="style.css"></link>
+        </Helmet>
+        <div style={{ display: isModalOpen }}>
+          <div className="ant-modal-mask" style={{ height: "3000px" }}></div>
           <div
-            className="ant-modal-content"
+            role="dialog"
+            aria-modal="true"
+            className="ant-modal ant-modal-confirm ant-modal-confirm-info"
             style={{
-              backgroundColor: "#393942",
-              width: "60%",
-              maxWidth: "1300px",
-              margin: "0 auto",
+              zIndex: "100000",
+              width: "100%",
+              top: "5%",
+              left: "10%",
+              position: "absolute",
               borderRadius: "20px",
             }}
           >
             <div
-              className="ant-modal-body"
-              style={{ backgroundColor: "#393942", borderRadius: "20px" }}
+              className="ant-modal-content"
+              style={{
+                backgroundColor: "#393942",
+                width: "60%",
+                maxWidth: "1300px",
+                margin: "0 auto",
+                borderRadius: "20px",
+              }}
             >
-              <div className="ant-modal-confirm-body-wrapper">
-                <div className="ant-modal-confirm-body">
-                  <div className="disclaimer">
-                    <div style={{ padding: "0 40px" }}>
-                      <h4 style={{ margin: "20px 0 30px", fontSize: "28px" }}>
-                        {t("stake.confirm_tit1")}
-                      </h4>
-                      <h4 style={{ margin: "20px 0", fontSize: "24px" }}>
-                        {t("stake.confirm_tit2")}
-                      </h4>
-                      <p
-                        style={{
-                          color: "#fff",
-                          fontSize: "18px",
-                          lineHeight: "26px",
-                        }}
-                      >
-                        {t("stake.confirm_txt1")}
-                      </p>
-                      <p
-                        style={{
-                          color: "#fff",
-                          fontSize: "18px",
-                          lineHeight: "26px",
-                        }}
-                      >
-                        {t("stake.confirm_txt2")}
-                      </p>
-                      <p
-                        style={{
-                          color: "#fff",
-                          fontSize: "18px",
-                          lineHeight: "26px",
-                        }}
-                      >
-                        {t("stake.confirm_txt3")}
-                      </p>
-                      <Checkbox
-                        onChange={onChange}
-                        checked
-                        style={{
-                          backgroundColor: "EAB966",
-                          lineHeight: "20px",
-                          color: "#fff",
-                          fontSize: "36px",
-                          margin: "5px 0 5px",
-                        }}
-                      >
-                        <span style={{ lineHeight: "20px", fontSize: "16px" }}>
-                          {t("stake.confirm_txt4")}
-                        </span>
-                      </Checkbox>
+              <div
+                className="ant-modal-body"
+                style={{ backgroundColor: "#393942", borderRadius: "20px" }}
+              >
+                <div className="ant-modal-confirm-body-wrapper">
+                  <div className="ant-modal-confirm-body">
+                    <div className="disclaimer">
+                      <div style={{ padding: "0 40px" }}>
+                        <h4 style={{ margin: "20px 0 30px", fontSize: "28px" }}>
+                          {t("stake.confirm_tit1")}
+                        </h4>
+                        <h4 style={{ margin: "20px 0", fontSize: "24px" }}>
+                          {t("stake.confirm_tit2")}
+                        </h4>
+                        <p
+                          style={{
+                            color: "#fff",
+                            fontSize: "18px",
+                            lineHeight: "26px",
+                          }}
+                        >
+                          {t("stake.confirm_txt1")}
+                        </p>
+                        <p
+                          style={{
+                            color: "#fff",
+                            fontSize: "18px",
+                            lineHeight: "26px",
+                          }}
+                        >
+                          {t("stake.confirm_txt2")}
+                        </p>
+                        <p
+                          style={{
+                            color: "#fff",
+                            fontSize: "18px",
+                            lineHeight: "26px",
+                          }}
+                        >
+                          {t("stake.confirm_txt3")}
+                        </p>
+                        <Checkbox
+                          onChange={onChange}
+                          checked
+                          style={{
+                            backgroundColor: "EAB966",
+                            lineHeight: "20px",
+                            color: "#fff",
+                            fontSize: "36px",
+                            margin: "5px 0 5px",
+                          }}
+                        >
+                          <span
+                            style={{ lineHeight: "20px", fontSize: "16px" }}
+                          >
+                            {t("stake.confirm_txt4")}
+                          </span>
+                        </Checkbox>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="ant-modal-confirm-btns">
-                  <Button
-                    onClick={handleOk}
-                    block
-                    type="primary"
-                    style={{
-                      backgroundColor: "#EAB966",
-                      border: "0",
-                      width: "60%",
-                      marginRight: "21%",
-                      fontSize: "25px",
-                      height: "56px",
-                      borderRadius: "28px",
-                      color: "#161621",
-                    }}
-                  >
-                    {t("stake.btn_confirm")}
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.inner} style={{ backgroundColor: "#171520" }}>
-        <div className={style.sub_nav2}>
-          <Link to="/data/stake" style={{ color: "#EAB764" }}>
-            {t("stake.Stake_CFX")}
-          </Link>
-          <Link to="/data/unstake" style={{ color: "#FFF" }}>
-            {t("stake.unStake_CFX")}
-          </Link>
-          <span
-            style={{
-              color: "rgb(234, 183, 100)",
-              padding: "5px 10px 0 0",
-              fontSize: "20px",
-              float: "right",
-            }}
-          >
-            Your NUTs：{parseFloat(mynut).toFixed(2)}
-          </span>
-        </div>
-        <Row gutter={32} className={style.brief}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <div className={style.box1}>
-              <Row>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                  Available to stake <div className={style.board}></div>
-                  <b>{formatNumber(parseFloat(staketotal).toFixed(2))} CFX</b>
-                </Col>
-                <Col
-                  xs={24}
-                  sm={24}
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  style={{ textAlign: "right" }}
-                >
-                  <Button
-                    target="_blank"
-                    href="https://integration.swappi.io/#/swap"
-                    shape="round"
-                    style={{
-                      background: "#161621",
-                      border: "0",
-                      lineHeight: "50px",
-                      color: "#E29346",
-                      height: "50px",
-                      width: "150px",
-                      fontSize: "24px",
-                    }}
-                  >
-                    Get CFX
-                  </Button>
-                </Col>
-              </Row>
-              <div className={style.line}></div>
-              <Row>
-                <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-                  xCFX Balance
-                  <br />
-                  <b>{formatNumber(xcfxAmount)} xCFX</b>
-                  <span style={{ display: "none" }} className={style.plus}>
-                    +
-                  </span>
-                </Col>
-                <Col xs={24} sm={24} md={5} lg={5} xl={5}>
-                  CFX APY{" "}
-                  <b style={{ fontWeight: "normal" }}>
-                    {parseFloat((+cfxapy * 100).toString()).toFixed(2)}%
-                  </b>
-                </Col>
-                <Col
-                  xs={24}
-                  sm={24}
-                  md={7}
-                  lg={7}
-                  xl={7}
-                  style={{ textAlign: "right" }}
-                >
-                  <Button
-                    style={{
-                      background: "#EBB974",
-                      borderRadius: "8px",
-                      border: "0",
-                      color: "#161621",
-                      height: "50px",
-                      width: "150px",
-                      marginTop: "20px",
-                      fontSize: "24px",
-                      display: "none",
-                    }}
-                  >
-                    Lock time
-                  </Button>
-                </Col>
-              </Row>
-              <div className={style.line}></div>
-              <Row
-                style={{
-                  background: "#EBB974",
-                  borderRadius: "13px",
-                  padding: "15px 10px",
-                  margin: "20px 0",
-                }}
-              >
-                <Col xs={10} sm={10} md={4} lg={4} xl={4}>
-                  <img className={styles.coin1} src={logo7} height="80px" />
-                </Col>
-                <Col xs={14} sm={14} md={10} lg={10} xl={10}>
-                  Amount <br />
-                  <b>
-                    <Input
-                      placeholder="0"
-                      onChange={changeBurn}
-                      type="number"
-                      value={burnVal}
+                  <div className="ant-modal-confirm-btns">
+                    <Button
+                      onClick={handleOk}
+                      block
+                      type="primary"
                       style={{
-                        display: "inline-block",
-                        backgroundColor: "transparent",
-                        width: "130px",
-                        border: "none",
-                        fontFamily: "Univa Nova Bold",
-                        padding: 0,
-                        fontSize: "32px",
-                        outline: "none",
-                        boxShadow: "0",
+                        backgroundColor: "#EAB966",
+                        border: "0",
+                        width: "60%",
+                        marginRight: "21%",
+                        fontSize: "25px",
+                        height: "56px",
+                        borderRadius: "28px",
+                        color: "#161621",
                       }}
-                    />
-                    CFX
-                  </b>
-                </Col>
-                <Col
-                  xs={24}
-                  sm={24}
-                  md={10}
-                  lg={10}
-                  xl={10}
-                  style={{ textAlign: "right" }}
-                >
-                  <Button
-                    style={{
-                      background: "rgba(22, 22, 33, 0.4)",
-                      borderRadius: "8px",
-                      border: "0",
-                      color: "#ffffff",
-                      height: "60px",
-                      width: "120px",
-                      fontSize: "24px",
-                      margin: "15px 15px 0 0",
-                    }}
-                    onClick={max1}
-                  >
-                    MAX
-                  </Button>
-                </Col>
-              </Row>
-              <StakeButton />
-            </div>
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <div className={style.box2}>
-              <img className={styles.coin1} src={logo8} height="40px" />
-              <div className={style.board2}></div>
-              xCFX ${closingPrice} <span className={style.tip}></span>
-              <div
-                className={styles.main5}
-                style={{ height: "340px", width: "100%", marginTop: "70px" }}
-                id="main0"
-              ></div>
-              <div
-                className={style.tabbtn}
-                style={
-                  chart3Tab === 0
-                    ? {
-                        background: " #EAB966",
-                        borderRadius: "7px",
-                      }
-                    : {}
-                }
-                onClick={() => {
-                  getCharts(3, "", 0);
-                }}
-              >
-                24h
-              </div>
-              <div
-                className={style.tabbtn}
-                style={
-                  chart3Tab === 1
-                    ? {
-                        background: " #EAB966",
-                        borderRadius: "7px",
-                      }
-                    : {}
-                }
-                onClick={() => {
-                  getCharts(3, "weeks", 1);
-                }}
-              >
-                7d
-              </div>
-              <div
-                className={style.tabbtn}
-                style={
-                  chart3Tab === 2
-                    ? {
-                        background: " #EAB966",
-                        borderRadius: "7px",
-                      }
-                    : {}
-                }
-                onClick={() => {
-                  getCharts(3, "months", 2);
-                }}
-              >
-                30d
-              </div>
-              <div
-                className={style.tabbtn}
-                style={
-                  chart3Tab === 3
-                    ? {
-                        background: " #EAB966",
-                        borderRadius: "7px",
-                      }
-                    : {}
-                }
-                onClick={() => {
-                  getCharts(3, "years", 3);
-                }}
-              >
-                1y
-              </div>
-              <div
-                className={style.tabbtn}
-                style={
-                  chart3Tab === 4
-                    ? {
-                        background: " #EAB966",
-                        borderRadius: "7px",
-                      }
-                    : {}
-                }
-                onClick={() => {
-                  getCharts(3, "5years", 4);
-                }}
-              >
-                5y
-              </div>
-            </div>
-          </Col>
-        </Row>
-        <Row gutter={32}>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <div className={style.box3}>
-              <Row gutter={32}>
-                <Col span={12}>You will receive</Col>
-                <Col span={12} style={{ textAlign: "right" }}>
-                  {xcfxVal} xCFX
-                </Col>
-                <Col span={12}>Exchange Rate</Col>
-                <Col span={12} style={{ textAlign: "right" }}>
-                  1xCFX= {parseFloat(exchangeRate).toFixed(4)}CFX
-                </Col>
-                <Col span={12}>Nucleon Service Fee</Col>
-                <Col span={12} style={{ textAlign: "right" }}>
-                  10%
-                </Col>
-                <Col span={12}>Current Block Number</Col>
-                <Col span={12} style={{ textAlign: "right" }}>
-                  <div
-                    id="spinner2"
-                    className="spinner-box2"
-                    style={{
-                      transform: "scale(15%,15%)",
-                      position: "absolute",
-                      top: "-34px",
-                      right: "110px",
-                    }}
-                  >
-                    <div className="configure-border-1">
-                      <div className="configure-core"></div>
-                    </div>
-                    <div className="configure-border-2">
-                      <div className="configure-core"></div>
-                    </div>
+                    >
+                      {t("stake.btn_confirm")}
+                    </Button>
                   </div>
-                  {formatNumber(blockNumber.toString())}
-                </Col>
-              </Row>
+                </div>
+              </div>
             </div>
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <div className={style.box3}>
-              Account Balance
-              <Row gutter={32} style={{ marginTop: "30px" }}>
-                <Col span={6}>
-                  <span className={style.mintxt}>xCFX Value</span>
-                  <div>${balancevalue}</div>
-                </Col>
-                <Col span={10}>
-                  <div className={style.vbar}>
-                    <b>${xcfxAmountTotal}</b>
-                    <div className={style.mintxt} style={{ color: "#418A55" }}>
-                      &nbsp;
-                    </div>
-                  </div>
-                </Col>
-                <Col span={8} style={{ textAlign: "right" }}>
-                  <span className={style.mintxt}>Share of the Pool</span>
-                  <div>
-                    {+parseFloat(xcfxAmountTotal).toFixed(0) /
-                      +parseFloat(shareofthePool).toFixed(0) <
-                    0.0001
-                      ? "> .1%"
-                      : "~ " +
-                        (
-                          (+parseFloat(xcfxAmountTotal).toFixed(0) /
-                            +parseFloat(shareofthePool).toFixed(0)) *
-                          100
-                        ).toFixed(2) +
-                        "%"}
-                  </div>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-        </Row>
-        <div style={{ top: "100px", position: "relative" }}>
-          <h4>CFX Statistics</h4>
-          <div className={style.box5}>
-            <Row gutter={32}>
-              <Col span={12}>Annual Percentage Rate</Col>
-              <Col span={12} style={{ textAlign: "right" }}>
-                {rate}%
-              </Col>
-              <Col span={12}>Total Staked With CFX</Col>
-              <Col span={12} style={{ textAlign: "right" }}>
-                {formatNumber(parseFloat(totalStaked).toFixed(3))}
-              </Col>
-              <Col span={12}>Stakers</Col>
-              <Col span={12} style={{ textAlign: "right" }}>
-                {formatNumber(holderCount)}
-              </Col>
-              <Col span={12}>xCFX Market Cap</Col>
-              <Col span={12} style={{ textAlign: "right" }}>
-                $
-                {formatNumber(
-                  parseFloat((+totalStaked * +price).toString()).toFixed(3)
-                )}
-              </Col>
-            </Row>
           </div>
-          <h4>About Nucleon Stake</h4>
-          <div className={style.box5}>
-            <p>
-              Nucleon is a liquid staking solution for Conflux PoS backed by
-              industry-leading staking providers. Nucleon lets users stake their
-              CFX by exchanging CFX to xCFX - without locking assets or
-              maintaining infrastructure.
-            </p>
-            <p>
-              The value in xCFX will be automatically compounded and the xCFX
-              value expands automatically.
-            </p>
-            <p>
-              Our goal is to solve the problems associated with Conflux PoS
-              staking - illiquidity, immovability and accessibility - making
-              staked CFX liquid and allowing for participation with any amount
-              of CFX to improve security of the Conflux network.
-            </p>
+        </div>
+
+        <div className={styles.inner} style={{ backgroundColor: "#171520" }}>
+          <div className={style.sub_nav2}>
+            <Link to="/data/stake" style={{ color: "#EAB764" }}>
+              {t("stake.Stake_CFX")}
+            </Link>
+            <Link to="/data/unstake" style={{ color: "#FFF" }}>
+              {t("stake.unStake_CFX")}
+            </Link>
+            <span
+              style={{
+                color: "rgb(234, 183, 100)",
+                padding: "5px 10px 0 0",
+                fontSize: "20px",
+                float: "right",
+              }}
+            >
+              Your NUTs：{parseFloat(mynut).toFixed(2)}
+            </span>
+          </div>
+          <Row gutter={32} className={style.brief}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <div className={style.box1}>
+                <Row>
+                  <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                    Available to stake <div className={style.board}></div>
+                    <b>{formatNumber(parseFloat(staketotal).toFixed(2))} CFX</b>
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    style={{ textAlign: "right" }}
+                  >
+                    <Button
+                      target="_blank"
+                      href="https://integration.swappi.io/#/swap"
+                      shape="round"
+                      style={{
+                        background: "#161621",
+                        border: "0",
+                        lineHeight: "50px",
+                        color: "#E29346",
+                        height: "50px",
+                        width: "150px",
+                        fontSize: "24px",
+                      }}
+                    >
+                      Get CFX
+                    </Button>
+                  </Col>
+                </Row>
+                <div className={style.line}></div>
+                <Row>
+                  <Col xs={24} sm={24} md={16} lg={16} xl={16}>
+                    xCFX Balance
+                    <br />
+                    <b>{formatNumber(xcfxAmount)} xCFX</b>
+                    <span style={{ display: "none" }} className={style.plus}>
+                      +
+                    </span>
+                  </Col>
+                  <Col xs={24} sm={24} md={5} lg={5} xl={5}>
+                    CFX APR{" "}
+                    <b style={{ fontWeight: "normal" }}>
+                      {parseFloat((+cfxapy * 100).toString()).toFixed(2)}%
+                    </b>
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={7}
+                    lg={7}
+                    xl={7}
+                    style={{ textAlign: "right" }}
+                  >
+                    <Button
+                      style={{
+                        background: "#EBB974",
+                        borderRadius: "8px",
+                        border: "0",
+                        color: "#161621",
+                        height: "50px",
+                        width: "150px",
+                        marginTop: "20px",
+                        fontSize: "24px",
+                        display: "none",
+                      }}
+                    >
+                      Lock time
+                    </Button>
+                  </Col>
+                </Row>
+                <div className={style.line}></div>
+                <Row
+                  style={{
+                    background: "#EBB974",
+                    borderRadius: "13px",
+                    padding: "15px 10px",
+                    margin: "20px 0",
+                  }}
+                >
+                  <Col xs={10} sm={10} md={4} lg={4} xl={4}>
+                    <img className={styles.coin1} src={logo7} height="80px" />
+                  </Col>
+                  <Col xs={14} sm={14} md={10} lg={10} xl={10}>
+                    Amount <br />
+                    <b>
+                      <Input
+                        placeholder="0"
+                        onChange={changeBurn}
+                        type="number"
+                        value={burnVal}
+                        style={{
+                          display: "inline-block",
+                          backgroundColor: "transparent",
+                          width: "130px",
+                          border: "none",
+                          fontFamily: "Univa Nova Bold",
+                          padding: 0,
+                          fontSize: "32px",
+                          outline: "none",
+                          boxShadow: "0",
+                        }}
+                      />
+                      CFX
+                    </b>
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={10}
+                    lg={10}
+                    xl={10}
+                    style={{ textAlign: "right" }}
+                  >
+                    <Button
+                      style={{
+                        background: "rgba(22, 22, 33, 0.4)",
+                        borderRadius: "8px",
+                        border: "0",
+                        color: "#ffffff",
+                        height: "60px",
+                        width: "120px",
+                        fontSize: "24px",
+                        margin: "15px 15px 0 0",
+                      }}
+                      onClick={max1}
+                    >
+                      MAX
+                    </Button>
+                  </Col>
+                </Row>
+                <StakeButton />
+              </div>
+            </Col>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <div className={style.box2}>
+                <img className={styles.coin1} src={logo8} height="40px" />
+                <div className={style.board2}></div>
+                xCFX ${closingPrice} <span className={style.tip}></span>
+                <div
+                  className={styles.main5}
+                  style={{ height: "340px", width: "100%", marginTop: "70px" }}
+                  id="main0"
+                ></div>
+                <div
+                  className={style.tabbtn}
+                  style={
+                    chart3Tab === 0
+                      ? {
+                          background: " #EAB966",
+                          borderRadius: "7px",
+                        }
+                      : {}
+                  }
+                  onClick={() => {
+                    getCharts(3, "", 0);
+                  }}
+                >
+                  24h
+                </div>
+                <div
+                  className={style.tabbtn}
+                  style={
+                    chart3Tab === 1
+                      ? {
+                          background: " #EAB966",
+                          borderRadius: "7px",
+                        }
+                      : {}
+                  }
+                  onClick={() => {
+                    getCharts(3, "weeks", 1);
+                  }}
+                >
+                  7d
+                </div>
+                <div
+                  className={style.tabbtn}
+                  style={
+                    chart3Tab === 2
+                      ? {
+                          background: " #EAB966",
+                          borderRadius: "7px",
+                        }
+                      : {}
+                  }
+                  onClick={() => {
+                    getCharts(3, "months", 2);
+                  }}
+                >
+                  30d
+                </div>
+                <div
+                  className={style.tabbtn}
+                  style={
+                    chart3Tab === 3
+                      ? {
+                          background: " #EAB966",
+                          borderRadius: "7px",
+                        }
+                      : {}
+                  }
+                  onClick={() => {
+                    getCharts(3, "years", 3);
+                  }}
+                >
+                  1y
+                </div>
+                <div
+                  className={style.tabbtn}
+                  style={
+                    chart3Tab === 4
+                      ? {
+                          background: " #EAB966",
+                          borderRadius: "7px",
+                        }
+                      : {}
+                  }
+                  onClick={() => {
+                    getCharts(3, "5years", 4);
+                  }}
+                >
+                  5y
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row gutter={32}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <div className={style.box3}>
+                <Row gutter={32}>
+                  <Col span={12}>You will receive</Col>
+                  <Col span={12} style={{ textAlign: "right" }}>
+                    {xcfxVal} xCFX
+                  </Col>
+                  <Col span={12}>Exchange Rate</Col>
+                  <Col span={12} style={{ textAlign: "right" }}>
+                    1xCFX= {parseFloat(exchangeRate).toFixed(4)}CFX
+                  </Col>
+                  <Col span={12}>Nucleon Service Fee</Col>
+                  <Col span={12} style={{ textAlign: "right" }}>
+                    10%
+                  </Col>
+                  <Col span={12}>Current Block Number</Col>
+                  <Col span={12} style={{ textAlign: "right" }}>
+                    <div
+                      id="spinner2"
+                      className="spinner-box2"
+                      style={{
+                        transform: "scale(15%,15%)",
+                        position: "absolute",
+                        top: "-34px",
+                        right: "110px",
+                      }}
+                    >
+                      <div className="configure-border-1">
+                        <div className="configure-core"></div>
+                      </div>
+                      <div className="configure-border-2">
+                        <div className="configure-core"></div>
+                      </div>
+                    </div>
+                    {formatNumber(blockNumber.toString())}
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+              <div className={style.box3}>
+                Account Balance
+                <Row gutter={32} style={{ marginTop: "30px" }}>
+                  <Col span={6}>
+                    <span className={style.mintxt}>xCFX Value</span>
+                    <div>${balancevalue}</div>
+                  </Col>
+                  <Col span={10}>
+                    <div className={style.vbar}>
+                      <b>${xcfxAmountTotal}</b>
+                      <div
+                        className={style.mintxt}
+                        style={{ color: "#418A55" }}
+                      >
+                        &nbsp;
+                      </div>
+                    </div>
+                  </Col>
+                  <Col span={8} style={{ textAlign: "right" }}>
+                    <span className={style.mintxt}>Share of the Pool</span>
+                    <div>
+                      {+parseFloat(xcfxAmountTotal).toFixed(0) /
+                        +parseFloat(shareofthePool).toFixed(0) <
+                      0.0001
+                        ? "> .1%"
+                        : "~ " +
+                          (
+                            (+parseFloat(xcfxAmountTotal).toFixed(0) /
+                              +parseFloat(shareofthePool).toFixed(0)) *
+                            100
+                          ).toFixed(2) +
+                          "%"}
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          </Row>
+          <div style={{ top: "100px", position: "relative" }}>
+            <h4>CFX statistics</h4>
+            <div className={style.box5}>
+              <Row gutter={32}>
+                <Col span={12}>Annual percentage rate</Col>
+                <Col span={12} style={{ textAlign: "right" }}>
+                  {rate}%
+                </Col>
+                <Col span={12}>Total staked with CFX</Col>
+                <Col span={12} style={{ textAlign: "right" }}>
+                  {formatNumber(parseFloat(totalStaked).toFixed(3))}
+                </Col>
+                <Col span={12}>Stakers</Col>
+                <Col span={12} style={{ textAlign: "right" }}>
+                  {formatNumber(holderCount)}
+                </Col>
+                <Col span={12}>xCFX market cap</Col>
+                <Col span={12} style={{ textAlign: "right" }}>
+                  $
+                  {formatNumber(
+                    parseFloat((+totalStaked * +price).toString()).toFixed(3)
+                  )}
+                </Col>
+              </Row>
+            </div>
+            <h4>About</h4>
+            <div className={style.box5}>
+              <p>
+                Nucleon is a liquid staking solution for Conflux PoS backed by
+                industry-leading staking providers. Nucleon lets users stake
+                their CFX by exchanging CFX to xCFX - without locking assets or
+                maintaining infrastructure.
+              </p>
+              <p>
+                The value in xCFX will be automatically compounded and the xCFX
+                value expands automatically.
+              </p>
+              <p>
+                Our goal is to solve the problems associated with Conflux PoS
+                staking - illiquidity, immovability and accessibility - making
+                staked CFX liquid and allowing for participation with any amount
+                of CFX to improve security of the Conflux network.
+              </p>
+            </div>
           </div>
         </div>
       </div>
