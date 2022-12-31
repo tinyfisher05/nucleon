@@ -76,7 +76,7 @@ function reload() {
     } else {
       location.reload();
     }
-  }, 4000);
+  }, 1000);
   return () => clearTimeout(reloadTimer);
 }
 
@@ -185,7 +185,7 @@ function Header() {
       if (!myacc || myacc == undefined) {
         reload();
       }
-    }, 5000);
+    }, 1000);
   }, []);
 
   return (

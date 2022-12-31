@@ -789,6 +789,25 @@ export default function Page() {
           />
           <div style={{ height: "35px" }}></div>
         </div>
+        <h4>About</h4>
+          <div className={style.box5}>
+            <p>
+              Nucleon is a liquid staking solution for Conflux PoS backed by
+              industry-leading staking providers. Nucleon lets users stake their
+              CFX by exchanging CFX to xCFX - without locking assets or
+              maintaining infrastructure.
+            </p>
+            <p>
+              The value in xCFX will be automatically compounded and the xCFX
+              value expands automatically.
+            </p>
+            <p>
+              Our goal is to solve the problems associated with Conflux PoS
+              staking - illiquidity, immovability and accessibility - making
+              staked CFX liquid and allowing for participation with any amount
+              of CFX to improve security of the Conflux network.
+            </p>
+          </div>
         <div style={{ display: isModalOpen }}>
           <div className="ant-modal-mask"></div>
           <div
