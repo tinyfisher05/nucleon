@@ -789,7 +789,7 @@ export default function Page() {
           />
           <div style={{ height: "35px" }}></div>
         </div>
-        <h4>About</h4>
+        <h4>About Nucleon Pools</h4>
           <div className={style.box5}>
             <p>
               Nucleon is a liquid staking solution for Conflux PoS backed by
@@ -1561,7 +1561,7 @@ export default function Page() {
           </div>
 
         </div>
-        
+
       </div>
     </div>
   );
