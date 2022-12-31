@@ -23,11 +23,11 @@ import { Button, Col, Row, Carousel, Modal } from "antd";
 let myacc: any;
 let tmpAccount = localStorage.getItem("acc");
 const AddChainParameter = {
-  chainId: "0x406", // A 0x-prefixed hexadecimal string   0x47   0x406
-  chainName: "测试网",
+  chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+  chainName: "conflux espace testnet",
   nativeCurrency: {
-    name: "string",
-    symbol: "string", // 2-6 characters long
+    name: "CFX",
+    symbol: "CFX", // 2-6 characters long
     decimals: 18,
   },
   rpcUrls: ["https://evm.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
@@ -96,7 +96,7 @@ const onSwitchNetwork = async () => {
   }
     const mess = await switchChain("0x47"); // 切换网络
     console.log(mess);
-    if(mess) {
+    if(null) {
       window.location.reload();
     } else {
       await addChain(AddChainParameter); // 添加网络
