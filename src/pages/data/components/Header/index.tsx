@@ -101,7 +101,7 @@ const onSwitchNetwork = async () => {
     } else {
       await addChain(AddChainParameter); // 添加网络
     }
-    //window.location.reload();
+    window.location.reload();
  
 };
 
