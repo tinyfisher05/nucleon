@@ -77,6 +77,7 @@ export default function Page() {
   const [chart3Tab, setChart3Tab] = useState(0);
   const [blockNumber, setBlockNumber] = useState(0);
   const [rate, setRate] = useState("0.00");
+  const [tranHash, setTranHash] = useState("");
   let xLabel0 = [""];
   let xgoToSchool0: { date: any; value: any }[] = [];
 
@@ -118,6 +119,72 @@ export default function Page() {
       </div>
     );
   });
+  const MyModal: React.FC = memo(() => {
+    function closeCurr() {
+      setTranHash("");
+    }
+    return (
+      <div
+        className="ant-modal-content"
+        style={{
+          display: tranHash === "" ? "none" : "block",
+          width: "400px",
+          position: "fixed",
+          left: "50%",
+          marginLeft: "-200px",
+          top: "400px",
+          zIndex: "10000000",
+        }}
+      >
+        <div className="ant-modal-body">
+          <div className="ant-modal-confirm-body-wrapper">
+            <div className="ant-modal-confirm-body">
+              <div style={{ color: "#000", textAlign: "center" }}>
+                <span
+                  role="img"
+                  aria-label="check-circle"
+                  className="anticon anticon-check-circle"
+                >
+                  <svg
+                    viewBox="64 64 896 896"
+                    focusable="false"
+                    data-icon="check-circle"
+                    width="30px"
+                    height="30px"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    style={{color:"rgb(234, 185, 102)"}}
+                  >
+                    <path d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0051.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"></path>
+                    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                  </svg>
+                </span>
+              </div>
+              <div
+                className="ant-modal-confirm-content"
+                style={{ color: "#000" }}
+              >
+                Hash: <a target="_blank" style={{ color: "#000" }} href={'https://asdas.com' + tranHash}>{tranHash}</a>
+              </div>
+            </div>
+            <div
+              className="ant-modal-confirm-btns"
+              style={{ textAlign: "right" }}
+            >
+              <button
+                type="button"
+                className="ant-btn ant-btn-primary"
+                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)"}}
+                onClick={closeCurr}
+              >
+                <span>OK</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  });
 
   const StakeButton: React.FC = memo(() => {
     const account = useAccount();
@@ -137,6 +204,7 @@ export default function Page() {
           data,
           value: Unit.fromStandardUnit(burnVal).toHexMinUnit(),
         });
+        setTranHash(TxnHash);
       } catch (error) {
         (document.getElementById("spinner") as any).style.display = "none";
       }
