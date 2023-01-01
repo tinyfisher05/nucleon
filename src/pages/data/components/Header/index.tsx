@@ -305,7 +305,7 @@ function Header() {
             </div>
           </div>
           <div
-            style={{ display: showSwitch === true ? "inline-block" : "none" }}
+            style={{ display: (showSwitch === true && status === "active") ? "inline-block" : "none" }}
           >
             <div
               style={{
