@@ -129,7 +129,7 @@ export default function Layout() {
                     />
                   </a>
                 </div>
-                <div style={{color:"#fff",fontSize: "22px"}}>Audited by Hacken</div>
+                <div style={{color:"#fff",fontSize: "22px"}}><a target="_blank" style={{ color: "#fff" }} href={'https://tempneedtoadd.net/'}>Audited by Hacken</a></div>
                 <div style={{padding: "32px 0 0",color:"#fff",fontSize: "16px"}}>© 2022-2023 Nucleon. All Rights Reserved.</div>
               </Col>
               <Col span={4} style={{ display: "none" }}>
@@ -301,7 +301,7 @@ export default function Layout() {
                   />
                 </a>
               </div>
-              <div style={{color:"#fff"}}>Audited by Hacken</div>
+              <div style={{color:"#fff"}}><a target="_blank" style={{ color: "#fff" }} href={'https://tempneedtoadd.net/'}>Audited by Hacken</a></div>
               <div>
               <div style={{color:"#fff"}}>© 2022-2023 Nucleon. All Rights Reserved.</div>
               </div>
