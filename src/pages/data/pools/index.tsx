@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 
 import { Link } from "umi";
 import styles from "./../../../layouts/index.less";
@@ -13,7 +13,7 @@ import "./../../../locales/config"; // 引用配置文件
 import { useTranslation, Trans } from "react-i18next";
 
 import type { SliderMarks } from "antd/es/slider";
-import { Button, Col, Row, Slider, Divider, InputNumber } from "antd";
+import { Button, Col, Row, Slider, Divider, InputNumber, Modal } from "antd";
 import Icon, { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 
