@@ -175,7 +175,7 @@ export default function Page() {
                 className="ant-modal-confirm-content"
                 style={{ color: "#000" }}
               >
-                Hash: <a target="_blank" style={{ color: "#000" }} href={'https://asdas.com' + tranHash}>{tranHash}</a>
+                Hash: <a target="_blank" style={{ color: "#000" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
               </div>
             </div>
             <div
@@ -217,6 +217,7 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
+      setTranHash(TxnHash);
     } catch (error) {
       setIsModalOpen("none");
       (document.getElementById("spinner") as any).style.display = "none";
