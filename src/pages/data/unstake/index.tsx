@@ -196,12 +196,17 @@ export default function Page() {
         Unit.fromStandardUnit(burnVal).toHexMinUnit(),
       ]);
       (document.getElementById("spinner") as any).style.display = "block";
-      const TxnHash = await sendTransaction({
-        to: addressExc,
-        data,
-        //value: Unit.fromStandardUnit(1).toHexMinUnit(),
-      });
+      try {
+        const TxnHash = await sendTransaction({
+          to: addressExc,
+          data,
+          //value: Unit.fromStandardUnit(1).toHexMinUnit(),
+        });
       setTranHash(TxnHash);
+      } 
+      catch (error) {
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
       setTimeout(() => {
         init();
         // 加载隐藏

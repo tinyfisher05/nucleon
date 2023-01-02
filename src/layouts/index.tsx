@@ -82,6 +82,7 @@ export default function Layout() {
   });
 
   return (
+    <div>
     <div id="bg" className={[styles.container, styles.bg].join(" ")}>
       <div style={{ minHeight: "700px" }}>
         <Outlet />
@@ -309,26 +310,28 @@ export default function Layout() {
           </div>
         </div>
       </div>
-      <div id="spinner" className="spinner-box" style={{
-          height: "100%",
-          zIndex: "100000",
-          background: "rgba(0,0,0,.7)",
-          display: "none"
-        }}>
-        <div className="solar-system" style={{ transform: "scale(50%,50%)",  height: "500px" }}>
-          <div className="earth-orbit orbit">
-            <div className="planet earth"></div>
-            <div className="venus-orbit orbit">
-              <div className="planet venus"></div>
-              <div className="mercury-orbit orbit">
-                <div className="planet mercury"></div>
-                <div className="sun"></div>
-              </div>
-            </div>
+      
+    </div>
+    <div id="spinner" className="spinner-box" style={{
+      height: "100%",
+      zIndex: "10000",
+      background: "rgba(0,0,0,.7)",
+      display: "none",
+    }}>
+    <div className="solar-system" style={{ transform: "scale(50%,50%)",  height: "500px" }}>
+      <div className="earth-orbit orbit">
+        <div className="planet earth"></div>
+        <div className="venus-orbit orbit">
+          <div className="planet venus"></div>
+          <div className="mercury-orbit orbit">
+            <div className="planet mercury"></div>
+            <div className="sun"></div>
           </div>
         </div>
-        <div style={{ position: "fixed", width: "100%", fontSize:"22px", color: "#EAB966", top: "330px" }}>Waiting For Confirmation</div>
       </div>
     </div>
+    <div style={{ position: "fixed", width: "100%", fontSize:"22px", color: "#EAB966", top: "330px" }}>Waiting For Confirmation</div>
+  </div>
+  </div>
   );
 }
