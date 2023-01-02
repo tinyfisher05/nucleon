@@ -38,9 +38,9 @@ const AddChainParameter = {
 // web3 钱包登录
 const WalletInfo: React.FC = memo(() => {
   const account = useAccount();
-  const chainId = useChainId()!;
+  // const chainId = useChainId()!;
   const balance = useBalance()!;
-
+  const [chainId, setchainId] = useChainId()!;
   //const balanceT = balance?.toDecimalStandardUnit();
   //setStaketotal(balanceT);
   //init(balanceT);
@@ -50,7 +50,7 @@ const WalletInfo: React.FC = memo(() => {
     setTimeout(() => {
       // 加载隐藏
       (document.getElementById("spinner") as any).style.display = "none";
-    }, 2000);
+    }, 1000);
   }, [account]);
   if (tmpAccount != account) {
     localStorage.setItem("acc", account + "");
@@ -88,28 +88,28 @@ const warning = () => {
   });
 };
 
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+
 // Function 切换网络--------------------------------------------
 const onSwitchNetwork = async () => {
   try {
+    var switchChainsucess =  await switchChain("0x47"); // 切换网络
+    reloadPage();
   } catch (error) {
     console.log(error);
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
   }
-    const mess = await switchChain("0x47"); // 切换网络
-    console.log(mess);
-    if(null) {
-      window.location.reload();
-    } else {
-      await addChain(AddChainParameter); // 添加网络
-    }
-    window.location.reload();
- 
 };
 
 function Header() {
   // web3 钱包登录状态
   const status = useStatus();
   myacc = useAccount();
-  
 
   const [active, setActive] = useState(0);
   const [showSwitch, setShowSwitch] = useState(false);
@@ -147,7 +147,43 @@ function Header() {
 
   
   const chainId = useChainId()!; // 正式网 测试网
-  console.log(chainId);
+  // console.log(chainId);
+  // setTimeout(() => {
+  //   if (chainId != "71") {
+  //       setShowSwitch(true);
+  //     }
+  //   console.log(chainId);
+  // }, 10);
+  // setInterval(() => {
+  //   if (chainId != "71") {
+  //       setShowSwitch(true);
+  //     }
+  //   console.log(chainId);
+  // }, 5000);
+  // 定时更新数据
+  const [count,setCount]=useState(10);
+  useEffect(() => {
+    let timerId: string | number | NodeJS.Timeout | null | undefined = null;
+    const run = () => {
+      if (count <= 0) {
+        return () => {
+          timerId && clearTimeout(timerId);
+        };
+      }
+      setCount(count - 1);
+      timerId = setTimeout(run, 5000);
+       // 这下面为相关的业务代码
+      if (chainId != "71") {
+         setShowSwitch(true);
+      } else {
+        setShowSwitch(false);
+      }
+    };
+    timerId = setTimeout(run, 5000);
+    return () => {
+      timerId && clearTimeout(timerId);
+    };
+  }, [count]);
 
   useEffect(() => {
     switch (url) {

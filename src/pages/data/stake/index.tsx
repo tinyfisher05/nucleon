@@ -280,11 +280,12 @@ export default function Page() {
     }
 
     const val = e.target.value;
+    setBurnVal(val);
     var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字
     if (!re.test(val)) {
       return;
     }
-    setBurnVal(val);
+    
     //Drip.fromCFX()
     //const rest = await excContract.CFX_exchange_estim(val * 10000);
     const rest = await excContract.CFX_exchange_estim(
@@ -1029,7 +1030,9 @@ export default function Page() {
                     </Button>
                   </Col>
                 </Row>
-                <StakeButton />
+                <div style={{padding: "25px 0 0"}}>
+                   <StakeButton />
+                </div>
               </div>
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>

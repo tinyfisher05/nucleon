@@ -693,7 +693,7 @@ export default function Page() {
             <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
-            <Col span={3}>{t("pools.StakedLquidity")}</Col>
+            <Col span={2}>{t("pools.StakedLquidity")}</Col>
             <Col span={2}>{t("pools.AvailableLquidity")}</Col>
             <Col span={2}>Pending Rewards</Col>
           </Row>
@@ -722,7 +722,7 @@ export default function Page() {
                   <Col span={3}>
                     {parseFloat(item.totalLPs.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={3}>
+                  <Col span={2}>
                     {parseFloat(item.val.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={2}>
@@ -731,7 +731,7 @@ export default function Page() {
                   <Col span={2}>
                     {parseFloat(item.pendingrewards.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={5} style={{ textAlign: "right" }}>
+                  <Col span={6} style={{ textAlign: "right" }}>
                     <Button
                       onClick={manage(
                         item.i.toString(),
