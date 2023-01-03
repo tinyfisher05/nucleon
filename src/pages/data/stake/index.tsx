@@ -1232,7 +1232,7 @@ export default function Page() {
                 </Col>
               </Row>
             </div>
-            <h4>About</h4>
+            <h4>About Nucleon Stake</h4>
             <div className={style.box5}>
               <p>
                 Nucleon is a liquid staking solution for Conflux PoS backed by
