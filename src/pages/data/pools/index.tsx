@@ -269,6 +269,7 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
+        setTranHash(TxnHash);
       } catch (error) {
         setIsModalOpen2("none");
         (document.getElementById("spinner") as any).style.display = "none";
@@ -288,16 +289,14 @@ export default function Page() {
         for (
           var t = parseInt(new Date().getTime().toString());
           parseInt(new Date().getTime().toString()) - t <= time;
-
         );
-      } else {
-        for (
-          var t = parseInt(new Date().getTime().toString());
-          parseInt(new Date().getTime().toString()) - 1000 <= time;
-        );
-        break;
       }
     }
+    for (
+      var t = parseInt(new Date().getTime().toString());
+      parseInt(new Date().getTime().toString()) - 3600 <= time;
+    );
+    
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
@@ -530,17 +529,18 @@ export default function Page() {
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
-
       if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
         for (
           var t = parseInt(new Date().getTime().toString());
           parseInt(new Date().getTime().toString()) - t <= time;
-
         );
-      } else {
-        break;
       }
     }
+    for (
+      var t = parseInt(new Date().getTime().toString());
+      parseInt(new Date().getTime().toString()) - 3600 <= time;
+    );
+
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
