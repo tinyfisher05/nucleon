@@ -227,7 +227,11 @@ function Header() {
   return (
     <div className={style.nav0}>
       <div className={style.sub_nav}>
-        <Link to="/" style={{ color: "#FFF" }}>
+        <Link to="/"
+          onClick={() => {
+            handleClickActvie(0);
+          }} 
+          style={{ color: "#FFF" }}>
           <img className={styles.logoimg} src={logo} height="30px" />
           <img className={styles.logotxt} src={logotxt} height="16px" />
         </Link>
