@@ -627,9 +627,14 @@ export default function Page() {
         LpPricearr[index] =cfxprice*lpinfo[0]*2/val;
         //console.log(lpToken2Price);
         totalLPs = await poolsContract.PoolLPSum(index);
-        arp = (100*NUTPrice*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
-        // console.log(arp);
-        arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
+        if(totalLPs>0){
+          arp = (100*NUTPrice*secondperyear*Drip(nutPerBlock).toCFX()*pointInfo[2]*val/((totalpoint*totalLPs)*Drip(lpinfo[0]).toCFX()*2)).toString();
+          // console.log(arp);
+          arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
+        }else{
+          arp = "--"
+        }
+        
         // console.log(arp);
         totalLPs = Drip(totalLPs).toCFX();
         console.log(pools[0].toString());

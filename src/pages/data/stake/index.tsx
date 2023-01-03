@@ -444,7 +444,7 @@ export default function Page() {
 
       axios
         .get(
-          " https://evmtestnet.confluxscan.net/stat/tokens/by-address?address=0x3e3608c5145e6bb303947e77d329811f14e76d26&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+          " https://evmtestnet.confluxscan.net/stat/tokens/by-address?address=0x092690013ef7aF87eaf45030906baa86b8fAA411&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
         )
         .then(async (response) => {
           setHolderCount(response.data.result.holderCount);
@@ -1208,14 +1208,14 @@ export default function Page() {
             </Col>
           </Row>
           <div style={{ top: "100px", position: "relative" }}>
-            <h4>CFX statistics</h4>
+            <h4>CFX Statistics</h4>
             <div className={style.box5}>
               <Row gutter={32}>
-                <Col span={12}>Annual percentage rate</Col>
+                <Col span={12}>Annual Percentage Rate</Col>
                 <Col span={12} style={{ textAlign: "right" }}>
                   {rate}%
                 </Col>
-                <Col span={12}>Total staked with CFX</Col>
+                <Col span={12}>Total Staked with CFX</Col>
                 <Col span={12} style={{ textAlign: "right" }}>
                   {formatNumber(parseFloat(totalStaked).toFixed(3))}
                 </Col>
@@ -1223,7 +1223,7 @@ export default function Page() {
                 <Col span={12} style={{ textAlign: "right" }}>
                   {formatNumber(holderCount)}
                 </Col>
-                <Col span={12}>xCFX market cap</Col>
+                <Col span={12}>xCFX Market Cap</Col>
                 <Col span={12} style={{ textAlign: "right" }}>
                   $
                   {formatNumber(

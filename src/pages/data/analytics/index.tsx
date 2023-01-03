@@ -1248,7 +1248,7 @@ export default function Page() {
       setTotal3(poolval.toString());
 
       const accountsData = await axios.get(
-        "https://testnet.confluxscan.io/stat/pos-account-detail?identifier=0xbb10ad7826fcf0be25ff8aa0089198d3a6fd550e23d8d3e6e252880b56fc2188"
+        "https://testnet.confluxscan.io/stat/pos-account-detail?identifier=0x090bcace1f3bd02da6505328f375382c588954cea7fcc4080ca49f98af6b9fa5"
       );
       const totalReward = Drip(accountsData.data.data.totalReward).toCFX();
       setTotal4(totalReward);
