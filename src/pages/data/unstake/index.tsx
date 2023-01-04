@@ -291,11 +291,11 @@ export default function Page() {
     }
 
     const val = e.target.value;
+    setBurnVal(val);
     var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字
     if (!re.test(val)) {
       return;
     }
-    setBurnVal(val);
 
     const rest = await excContract.XCFX_burn_estim(
       Unit.fromStandardUnit(val).toHexMinUnit()
@@ -318,10 +318,14 @@ export default function Page() {
       setBurnVal(BigNumber(0));
       setXcfxVal(BigNumber(0));
     } else {
-      const val = parseInt(((+xcfxAmount) * 10000).toString());
-      setBurnVal(parseFloat((val / 10000).toString()).toFixed(4));
-      const rest = await excContract.CFX_exchange_estim(val);
-      setXcfxVal(parseFloat((rest.toNumber() / 10000).toString()).toFixed(2));
+      // const val = parseInt(((+xcfxAmount) * 10000).toString());
+      //Unit.fromStandardUnit('1').toHexMinUnit()
+      const val = Unit.fromStandardUnit(+xcfxAmount.toString()).toHexMinUnit();
+      console.log(xcfxAmount,val);
+      setBurnVal(parseFloat((+xcfxAmount).toString()).toFixed(3));
+      const rest = await excContract.XCFX_burn_estim(val);
+      console.log(rest,Drip(rest).toCFX());
+      setXcfxVal(parseFloat(Drip(rest).toCFX()).toFixed(2));
     }
   }
 

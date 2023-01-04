@@ -79,6 +79,9 @@ export default function Page() {
   const [blockNumber, setBlockNumber] = useState(0);
   const [rate, setRate] = useState("0.00");
   const [tranHash, setTranHash] = useState("");
+  const [operation, setOperation] = useState("Operation");
+  const [tokenUsed, setTokenUsed] = useState("Token");
+
   let xLabel0 = [""];
   let xgoToSchool0: { date: any; value: any }[] = [];
 
@@ -141,7 +144,8 @@ export default function Page() {
         <div className="ant-modal-body">
           <div className="ant-modal-confirm-body-wrapper">
             <div className="ant-modal-confirm-body">
-              <div style={{ color: "#000", textAlign: "center" }}>
+              <div style={{ color: "#000", textAlign: "left" }}>
+                <h5 style={{fontSize:"16px", fontWeight: "blod"}}>{operation}</h5>
                 <span
                   role="img"
                   aria-label="check-circle"
@@ -176,6 +180,14 @@ export default function Page() {
               <button
                 type="button"
                 className="ant-btn ant-btn-primary"
+                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)",float: "left"}}
+                onClick={closeCurr}
+              >
+                <span>Add {tokenUsed} to Metamask</span>
+              </button>
+              <button
+                type="button"
+                className="ant-btn ant-btn-primary"
                 style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)"}}
                 onClick={closeCurr}
               >
@@ -206,6 +218,9 @@ export default function Page() {
           data,
           value: Unit.fromStandardUnit(burnVal).toHexMinUnit(),
         });
+        // const txReceipt = await waitTransactionReceipt(txnHash);
+        console.log("AAA",TxnHash);
+        setOperation("Details: "+burnVal+ "CFX staked; "+ "##" +" xCFX received.")
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         (document.getElementById("spinner") as any).style.display = "none";
@@ -303,10 +318,11 @@ export default function Page() {
       setBurnVal(BigNumber(0));
       setXcfxVal(BigNumber(0));
     } else {
-      const val = parseInt(((+staketotal - 1) * 10000).toString());
-      setBurnVal(parseFloat((val / 10000).toString()).toFixed(4));
+      const val = Unit.fromStandardUnit((+staketotal - 1).toString()).toHexMinUnit();
+      setBurnVal(parseFloat((+staketotal - 1).toString()).toFixed(3));
       const rest = await excContract.CFX_exchange_estim(val);
-      setXcfxVal(parseFloat((rest.toNumber() / 10000).toString()).toFixed(2));
+      console.log(rest,Drip(rest).toCFX());
+      setXcfxVal(parseFloat(Drip(rest).toCFX()).toFixed(2));
     }
   }
 

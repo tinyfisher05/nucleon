@@ -394,7 +394,7 @@ export default function Page() {
     if (isNaN(value)) {
       return;
     }
-    setPercentage1((value / +isModalOpen1Val2) * 100);
+    setPercentage1((100*value / +isModalOpen1Val2));
     setIsModalOpen1Val3(value.toString());
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
@@ -415,9 +415,12 @@ export default function Page() {
   };
   const onChange2 = (value: number) => {
     setPercentage2(value);
-    setIsModalOpen2Val3(
-      parseFloat(((+isModalOpen2Val2 * +value) / 100).toString())
-    );
+    if(value==100){
+      setIsModalOpen3Val3(+isModalOpen2Val2);
+    }
+    else{
+      setIsModalOpen2Val3((+isModalOpen2Val2 * +value) / 100);
+    }
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen2Val2 * +value) / 100).toString()).toFixed(4))
   };
 
@@ -463,18 +466,21 @@ export default function Page() {
     if (isNaN(value)) {
       return;
     }
-    setPercentage((value / +isModalOpen3Val2) * 100);
+    setPercentage((100 * value / +isModalOpen3Val2));
     setIsModalOpen3Val3(value.toString());
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen3Val]* +value).toString()).toFixed(4))
   };
   // Other Pools -> Percentage
   const onChange = (value: number) => {
     setPercentage(value);
-    setIsModalOpen3Val3(
-      parseFloat(((+isModalOpen3Val2 * +value) / 100).toString())
-    );
+    if(value==100){
+      setIsModalOpen3Val3(isModalOpen3Val2);
+    }
+    else{
+      setIsModalOpen3Val3(((+isModalOpen3Val2 * +value) / 100));
+    }
     console.log(isModalOpen3Val,LpPricearr[isModalOpen3Val],isModalOpen3Val2,value);
-    console.log(LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100);
+    // console.log(LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100);
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100).toString()).toFixed(4))
   };
   // Other Pools -> Stake -> Stake Liquidity
