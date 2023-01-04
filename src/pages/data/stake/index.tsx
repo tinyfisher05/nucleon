@@ -206,7 +206,7 @@ export default function Page() {
           data,
           value: Unit.fromStandardUnit(burnVal).toHexMinUnit(),
         });
-        setTranHash(TxnHash);
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         (document.getElementById("spinner") as any).style.display = "none";
       }

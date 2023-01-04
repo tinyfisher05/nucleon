@@ -217,7 +217,7 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
-      setTranHash(TxnHash);
+      setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen("none");
       (document.getElementById("spinner") as any).style.display = "none";
@@ -260,7 +260,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen1Val3).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen1Val3*100000).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -269,17 +269,17 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
-        setTranHash(TxnHash);
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen2("none");
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
 
-      time = 4000;
+      time = 2000;
     }
     var step;
-    for (step = 0; step < 32; step++) {
+    for (step = 0; step < 60; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -296,7 +296,7 @@ export default function Page() {
       var t = parseInt(new Date().getTime().toString());
       parseInt(new Date().getTime().toString()) - 3600 <= time;
     );
-    
+
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
@@ -312,7 +312,7 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
-        setTranHash(TxnHash);
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen2("none");
         (document.getElementById("spinner") as any).style.display = "none";
@@ -341,7 +341,7 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
-      setTranHash(TxnHash);
+      setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen2("none");
       (document.getElementById("spinner") as any).style.display = "none";
@@ -503,7 +503,7 @@ export default function Page() {
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen3Val3).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen3Val3*100000).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -514,16 +514,16 @@ export default function Page() {
 
       try {
         const TxnHash = await sendTransaction(txParams);
-        setTranHash(TxnHash);
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
-      time = 4000;
+      time = 2000;
     }
     var step;
-    for (step = 0; step < 32; step++) {
+    for (step = 0; step < 60; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -556,7 +556,7 @@ export default function Page() {
 
       try {
         const TxnHash = await sendTransaction(txParams);
-        setTranHash(TxnHash);
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
@@ -695,12 +695,12 @@ export default function Page() {
         </div>
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px"}}>
-            <Col span={3}>{t("pools.PoolName")}</Col>
+            <Col span={2}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
-            <Col span={2}>{t("pools.StakedLquidity")}</Col>
-            <Col span={2}>{t("pools.AvailableLquidity")}</Col>
+            <Col span={3}>{t("pools.StakedLquidity")}</Col>
+            <Col span={3}>{t("pools.AvailableLquidity")}</Col>
             <Col span={2}>Pending Rewards</Col>
           </Row>
           {userOutQueue1.map((item: any) => {
@@ -713,10 +713,10 @@ export default function Page() {
                   style={{
                     padding: "5px 20px 5px",
                     fontFamily: "Univa Nova Bold",
-                    fontSize: "18px",
+                    fontSize: "16px",
                   }}
                 >
-                  <Col span={3}>
+                  <Col span={2}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
                   </Col>
                   <Col span={3}>
@@ -728,16 +728,16 @@ export default function Page() {
                   <Col span={3}>
                     {parseFloat(item.totalLPs.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={2}>
+                  <Col span={3}>
                     {parseFloat(item.val.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={2}>
+                  <Col span={3}>
                     {parseFloat(item.myLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={2}>
                     {parseFloat(item.pendingrewards.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={6} style={{ textAlign: "right" }}>
+                  <Col span={5} style={{ textAlign: "right" }}>
                     <Button
                       onClick={manage(
                         item.i.toString(),
@@ -753,7 +753,7 @@ export default function Page() {
                         border: 0,
                         fontSize: "14px",
                         marginRight: "10px",
-                        width: "90px",
+                        width: "100px",
                       }}
                     >
                       {t("pools.Manage")}
@@ -768,7 +768,8 @@ export default function Page() {
                         color: "#EAB966",
                         border: 0,
                         fontSize: "14px",
-                        width: "140px",
+                        marginRight: "10px",
+                        width: "130px",
                       }}
                     >
                       {t("pools.Claimrewards")}
@@ -790,7 +791,7 @@ export default function Page() {
         </div>
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px" }}>
-            <Col span={3}>{t("pools.PoolName")}</Col>
+            <Col span={2}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
@@ -806,10 +807,10 @@ export default function Page() {
                   style={{
                     padding: "5px 20px 5px",
                     fontFamily: "Univa Nova Bold",
-                    fontSize: "18px",
+                    fontSize: "16px",
                   }}
                 >
-                  <Col span={3}>
+                  <Col span={2}>
                     {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
                   </Col>
                   <Col span={3}>
@@ -824,7 +825,7 @@ export default function Page() {
                   <Col span={3}>
                     {parseFloat(item.myLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={9} style={{ textAlign: "right" }}>
+                  <Col span={10} style={{ textAlign: "right" }}>
                     <Button
                       onClick={handleStake2(
                         item.i.toString(),
@@ -839,7 +840,7 @@ export default function Page() {
                         border: 0,
                         fontSize: "14px",
                         marginRight: "10px",
-                        width: "90px",
+                        width: "100px",
                       }}
                     >
                       {t("pools.Stake")}
@@ -853,7 +854,8 @@ export default function Page() {
                         color: "#EAB966",
                         border: 0,
                         fontSize: "14px",
-                        width: "140px",
+                        marginRight: "10px",
+                        width: "130px",
                       }}
                       target="_blank"
                       href="https://integration.swappi.io/#/pool/v2"

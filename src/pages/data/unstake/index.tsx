@@ -202,7 +202,8 @@ export default function Page() {
           data,
           //value: Unit.fromStandardUnit(1).toHexMinUnit(),
         });
-      setTranHash(TxnHash);
+      // setTranHash(TxnHash);
+      setTimeout(setTranHash(TxnHash),3690);
       } 
       catch (error) {
         (document.getElementById("spinner") as any).style.display = "none";
@@ -250,7 +251,7 @@ export default function Page() {
         to: addressExc,
         data,
       });
-      setTranHash(TxnHash);
+      setTimeout(setTranHash(TxnHash),3690);
       setTimeout(() => {
         init();
         // 加载隐藏
