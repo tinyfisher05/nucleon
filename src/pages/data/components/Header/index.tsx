@@ -65,8 +65,6 @@ const WalletInfo: React.FC = memo(() => {
   );
 });
 
-const url = window.location.hash;
-
 let reloadTimer: any;
 function reload() {
   reloadTimer = setTimeout(() => {
@@ -186,7 +184,9 @@ function Header() {
   }, [count]);
 
   useEffect(() => {
-    switch (url) {
+    const urlT = window.location.hash;
+
+    switch (urlT) {
       case "#/data/stake":
         setActive(0);
         break;

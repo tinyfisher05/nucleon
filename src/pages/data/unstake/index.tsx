@@ -594,7 +594,7 @@ export default function Page() {
               <div className={style.line}></div>
               <div className={style.box6} style={{ height: "64px" }}>
                 <Row>
-                  <Col span={14} style={{ textAlign: "right" }}>
+                  <Col span={14} style={{ textAlign: "center" }}>
                     {" "}
                     The Final Unlock Time :
                   </Col>
