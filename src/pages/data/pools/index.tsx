@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, memo } from "react";
 import { Link } from "umi";
 import styles from "./../../../layouts/index.less";
 import style from "./index.less";
-
+import waitTransactionReceipt from './../../../utils/waitTranscationReceipt'; 
 import logo7 from "../../../assets/logo7.png";
 import logo8 from "../../../assets/logo8.png";
 import logo9 from "../../../assets/logo9.png";
@@ -59,6 +59,7 @@ import {
   connect,
   Unit,
   sendTransaction,
+  watchAsset
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -126,13 +127,38 @@ export default function Page() {
   const [apr, setApr] = useState("--");
   const [lpprice, setlpprice] = useState("$--");
   const [userhave, setuserhave] = useState("$--");
+  const [userWithdraw, setUserWithdraw] = useState("$--");
   const [tranHash, setTranHash] = useState("");
+  const [operation, setOperation] = useState("Details:");
+  const [tokenUsed, setTokenUsed] = useState("NUT");
+  
+  let NUTToken = {
+    address: "0x48EE76131e70762DB59a37e6008ccE082805aB00", // The address of the token contract
+    symbol: "NUT", // A ticker symbol or shorthand, up to 5 characters
+    decimals: 18, // The number of token decimals
+    image: "https://integration.swappi.io/static/media/0x48EE76131e70762DB59a37e6008ccE082805aB00.f202553a.png", // A string url of the token logo
+  };
+  const [tokenSetting, setTokenSetting] = useState(NUTToken);
 
   myacc = useAccount();
 
   const MyModal: React.FC = memo(() => {
     function closeCurr() {
       setTranHash("");
+    }
+    async function  onToken() {
+      const watchAssetParams = {
+        type: "ERC20", // In the future, other standards will be supported
+        options: tokenSetting
+      };
+      try{
+        (document.getElementById("spinner") as any).style.display = "block";
+        await watchAsset(watchAssetParams); // 添加网络
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
+      (document.getElementById("spinner") as any).style.display = "none";
     }
     return (
       <div
@@ -150,7 +176,8 @@ export default function Page() {
         <div className="ant-modal-body">
           <div className="ant-modal-confirm-body-wrapper">
             <div className="ant-modal-confirm-body">
-              <div style={{ color: "#000", textAlign: "center" }}>
+              <div style={{ color: "#000", textAlign: "left" }}>
+                <h5 style={{fontSize:"16px", fontWeight: "blod"}}>{operation}</h5>
                 <span
                   role="img"
                   aria-label="check-circle"
@@ -182,6 +209,14 @@ export default function Page() {
               className="ant-modal-confirm-btns"
               style={{ textAlign: "right" }}
             >
+              <button
+                type="button"
+                className="ant-btn ant-btn-primary"
+                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)",float: "left"}}
+                onClick={onToken}
+              >
+                <span>Add {tokenUsed} to Metamask</span>
+              </button>
               <button
                 type="button"
                 className="ant-btn ant-btn-primary"
@@ -217,6 +252,9 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
+      const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+      console.log("CCC",TxnHash);
+      setOperation("Details: "+unclaimed+ " NUT have been sent to your address.")
       setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen("none");
@@ -269,6 +307,9 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
+        const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+        console.log("AAA",TxnHash);
+        setOperation("Details: Approve your Lps to be used in this pool.")
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen2("none");
@@ -312,6 +353,14 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
+        const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+        console.log("BBB",TxnHash);
+        if(+isModalOpen1Val===0){
+          setOperation("Details:"+isModalOpen1Val3+" NUT/CFX lps is staked to this pool.")
+        }else if(+isModalOpen1Val===1){
+          setOperation("Details:"+isModalOpen1Val3+" xCFX/CFX lps is staked to this pool.")
+        }
+        
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen2("none");
@@ -341,6 +390,13 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
+      const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+      console.log("BBB",TxnHash);
+      if(+isModalOpen2Val === 0){
+        setOperation("Details:"+isModalOpen2Val3+" NUT/CFX lps is transfered to your address.")
+      }else if(+isModalOpen3Val === 1){
+        setOperation("Details:"+isModalOpen2Val3+" xCFX/CFX lps is transfered to your address.")
+      }
       setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen2("none");
@@ -372,7 +428,8 @@ export default function Page() {
       setIsModalOpen2Val2(val3);
       setPercentage2(25);
       setIsModalOpen2Val3(parseFloat((val3 * 0.25).toString()));
-
+      
+      setUserWithdraw('$'+ parseFloat((val3 * 0.25 * LpPricearr[val]).toString()).toFixed(4));
       // stake
       setIsModalOpen1Val(val);
       setIsModalOpen1Val2(val2);
@@ -400,9 +457,12 @@ export default function Page() {
   };
   const onChange1 = (value: number) => {
     setPercentage1(value);
-    setIsModalOpen1Val3(
-      parseFloat(((+isModalOpen1Val2 * +value) / 100).toString())
-    );
+    if(value==100){
+      setIsModalOpen1Val3(+isModalOpen1Val2);
+    }
+    else{
+      setIsModalOpen1Val3((+isModalOpen1Val2 * +value) / 100);
+    }
     setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen1Val2 * +value) / 100).toString()).toFixed(4))
   };
   const dateChangeHandler2 = (value: number) => {
@@ -411,17 +471,17 @@ export default function Page() {
     }
     setPercentage2((value / +isModalOpen2Val2) * 100);
     setIsModalOpen2Val3(value.toString());
-    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
+    setUserWithdraw('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
   const onChange2 = (value: number) => {
     setPercentage2(value);
     if(value==100){
-      setIsModalOpen3Val3(+isModalOpen2Val2);
+      setIsModalOpen2Val3(+isModalOpen2Val2);
     }
     else{
       setIsModalOpen2Val3((+isModalOpen2Val2 * +value) / 100);
     }
-    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen2Val2 * +value) / 100).toString()).toFixed(4))
+    setUserWithdraw('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen2Val2 * +value) / 100).toString()).toFixed(4))
   };
 
   const handleClose2 = () => {
@@ -520,6 +580,8 @@ export default function Page() {
 
       try {
         const TxnHash = await sendTransaction(txParams);
+        console.log("AAA",TxnHash);
+        setOperation("Details: Approve your Lps to be used in this pool.")
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen3("none");
@@ -535,7 +597,7 @@ export default function Page() {
       } else if (+isModalOpen1Val === 1) {
         allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
-      if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
+      if (+Drip(allowance).toCFX() < +isModalOpen3Val3) {
         for (
           var t = parseInt(new Date().getTime().toString());
           parseInt(new Date().getTime().toString()) - t <= time;
@@ -562,6 +624,13 @@ export default function Page() {
 
       try {
         const TxnHash = await sendTransaction(txParams);
+        const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+        console.log("BBB",TxnHash);
+        if(+isModalOpen3Val === 0){
+          setOperation("Details:"+isModalOpen3Val3+" NUT/CFX lps is staked to this pool.")
+        }else if(+isModalOpen3Val === 1){
+          setOperation("Details:"+isModalOpen3Val3+" xCFX/CFX lps is staked to this pool.")
+        }
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen3("none");
@@ -1323,7 +1392,7 @@ export default function Page() {
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>{userhave}</div>
+                              <div style={{ fontSize: "14px" }}>{userWithdraw}</div>
                             </div>
                             <div
                               style={{

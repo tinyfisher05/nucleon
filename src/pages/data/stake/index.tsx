@@ -3,6 +3,7 @@ import { Link } from "umi";
 // import React from "react";
 import { Helmet } from "react-helmet";
 import * as echarts from "echarts";
+import waitTransactionReceipt from './../../../utils/waitTranscationReceipt'; 
 var moment = require("moment");
 
 import axios from "axios";
@@ -30,6 +31,7 @@ import {
   connect,
   Unit,
   sendTransaction,
+  watchAsset
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -80,10 +82,16 @@ export default function Page() {
   const [rate, setRate] = useState("0.00");
   const [tranHash, setTranHash] = useState("");
   const [operation, setOperation] = useState("Operation");
-  const [tokenUsed, setTokenUsed] = useState("Token");
+  const [tokenUsed, setTokenUsed] = useState("xCFX");
 
   let xLabel0 = [""];
   let xgoToSchool0: { date: any; value: any }[] = [];
+  let xCFXToken = {
+                    address: "0x092690013ef7aF87eaf45030906baa86b8fAA411", // The address of the token contract
+                    symbol: "xCFX", // A ticker symbol or shorthand, up to 5 characters
+                    decimals: 18, // The number of token decimals
+                    image: "https://integration.swappi.io/static/media/0x092690013ef7aF87eaf45030906baa86b8fAA411.a0ecb3fe.png", // A string url of the token logo
+                  };
 
   const provider = new ethers.providers.JsonRpcProvider(
     "https://evmtestnet.confluxrpc.com"
@@ -127,6 +135,20 @@ export default function Page() {
   const MyModal: React.FC = memo(() => {
     function closeCurr() {
       setTranHash("");
+    }
+    async function  onToken() {
+      const watchAssetParams = {
+        type: "ERC20", // In the future, other standards will be supported
+        options: xCFXToken
+      };
+      try{
+        (document.getElementById("spinner") as any).style.display = "block";
+        await watchAsset(watchAssetParams); // 添加网络
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
+      (document.getElementById("spinner") as any).style.display = "none";
     }
     return (
       <div
@@ -181,7 +203,7 @@ export default function Page() {
                 type="button"
                 className="ant-btn ant-btn-primary"
                 style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)",float: "left"}}
-                onClick={closeCurr}
+                onClick={onToken}
               >
                 <span>Add {tokenUsed} to Metamask</span>
               </button>
@@ -220,7 +242,15 @@ export default function Page() {
         });
         // const txReceipt = await waitTransactionReceipt(txnHash);
         console.log("AAA",TxnHash);
-        setOperation("Details: "+burnVal+ "CFX staked; "+ "##" +" xCFX received.")
+        const txReceipt = await waitTransactionReceipt(TxnHash);
+        console.log(txReceipt.logs[0].data,Drip(Unit.fromStandardUnit(txReceipt.logs[0].data).toDecimalStandardUnit()).toCFX());
+        console.log(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX());
+        // console.log(txReceipt);
+        setOperation("Details: "
+                      +(Drip(Unit.fromStandardUnit(txReceipt.logs[0].data).toDecimalStandardUnit()).toCFX())
+                      +" CFX staked; "
+                      +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+                      +" xCFX received.")
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         (document.getElementById("spinner") as any).style.display = "none";
@@ -301,12 +331,9 @@ export default function Page() {
       return;
     }
     
-    //Drip.fromCFX()
-    //const rest = await excContract.CFX_exchange_estim(val * 10000);
     const rest = await excContract.CFX_exchange_estim(
       Unit.fromStandardUnit(val).toHexMinUnit()
     );
-    //console.log(Drip(rest).toCFX())
     setXcfxVal(parseFloat(Drip(rest).toCFX()).toFixed(2));
   }
   async function max1() {

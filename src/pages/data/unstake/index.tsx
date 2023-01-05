@@ -3,7 +3,7 @@ import { useEffect, useCallback, useState, memo } from "react";
 import { Helmet } from "react-helmet";
 import * as echarts from "echarts";
 var moment = require("moment");
-
+import waitTransactionReceipt from './../../../utils/waitTranscationReceipt'; 
 import { Link } from "umi";
 import styles from "./../../../layouts/index.less";
 import style from "./index.less";
@@ -29,6 +29,7 @@ import {
   connect,
   Unit,
   sendTransaction,
+  watchAsset
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -75,12 +76,17 @@ export default function Page() {
   const [price, setPrice] = useState(0);
   const [unlocked, setUnlocked] = useState(0);
   const [unlocking, setUnlocking] = useState(0);
-  const [period, setPeriod] = useState(1);
+  const [period, setPeriod] = useState(0);
   const [blockNumber, setBlockNumber] = useState(0);
   const [finialUnlockTime, setFinialUnlockTime] = useState(0);
 
   const [userOutQueue, setUserOutQueue] = useState([]);
-
+  let xCFXToken = {
+    address: "0x092690013ef7aF87eaf45030906baa86b8fAA411", // The address of the token contract
+    symbol: "xCFX", // A ticker symbol or shorthand, up to 5 characters
+    decimals: 18, // The number of token decimals
+    image: "https://integration.swappi.io/static/media/0x092690013ef7aF87eaf45030906baa86b8fAA411.a0ecb3fe.png", // A string url of the token logo
+  };
   const provider = new ethers.providers.JsonRpcProvider(
     "https://evmtestnet.confluxrpc.com"
   );
@@ -91,6 +97,8 @@ export default function Page() {
   const nutoContract = new ethers.Contract(addressNut, abiNut, provider);
   const nutoInterface = new utils.Interface(abiNut);
   const [tranHash, setTranHash] = useState("");
+  const [operation, setOperation] = useState("Details:");
+  const [tokenUsed, setTokenUsed] = useState("xCFX");
   // web3 钱包登录
   const WalletInfo: React.FC = memo(() => {
     const account = useAccount();
@@ -122,6 +130,20 @@ export default function Page() {
     function closeCurr() {
       setTranHash("");
     }
+    async function  onToken() {
+      const watchAssetParams = {
+        type: "ERC20", // In the future, other standards will be supported
+        options: xCFXToken
+      };
+      try{
+        (document.getElementById("spinner") as any).style.display = "block";
+        await watchAsset(watchAssetParams); // 添加网络
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
+      (document.getElementById("spinner") as any).style.display = "none";
+    }
     return (
       <div
         className="ant-modal-content"
@@ -138,7 +160,8 @@ export default function Page() {
         <div className="ant-modal-body">
           <div className="ant-modal-confirm-body-wrapper">
             <div className="ant-modal-confirm-body">
-              <div style={{ color: "#000", textAlign: "center" }}>
+              <div style={{ color: "#000", textAlign: "left" }}>
+                <h5 style={{fontSize:"16px", fontWeight: "blod"}}>{operation}</h5>
                 <span
                   role="img"
                   aria-label="check-circle"
@@ -173,6 +196,14 @@ export default function Page() {
               <button
                 type="button"
                 className="ant-btn ant-btn-primary"
+                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)",float: "left"}}
+                onClick={onToken}
+              >
+                <span>Add {tokenUsed} to Metamask</span>
+              </button>
+              <button
+                type="button"
+                className="ant-btn ant-btn-primary"
                 style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)"}}
                 onClick={closeCurr}
               >
@@ -202,7 +233,21 @@ export default function Page() {
           data,
           //value: Unit.fromStandardUnit(1).toHexMinUnit(),
         });
-      // setTranHash(TxnHash);
+      const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+      console.log("BBB",TxnHash);
+      console.log(txReceipt);
+      if(period ===0){
+        setOperation("Details: "+burnVal+ "xCFX Unstaked; "
+                    + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
+                    +" CFX will Unfreezed after about"
+                    +"15 days.")
+      }else{
+        setOperation("Details: "+burnVal+ "xCFX Unstaked; "
+                    + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
+                    +" CFX will Unfreezed after about"
+                    +period +"24 hours.")
+      }
+      
       setTimeout(setTranHash(TxnHash),3690);
       } 
       catch (error) {
@@ -251,6 +296,9 @@ export default function Page() {
         to: addressExc,
         data,
       });
+      // const txReceipt = await waitTransactionReceipt(txnHash);//cfx_back, speedMode
+      console.log("CCC",TxnHash);
+      setOperation("Details: "+unlocked+" CFX will be transfered to your address.")
       setTimeout(setTranHash(TxnHash),3690);
       setTimeout(() => {
         init();
@@ -300,8 +348,6 @@ export default function Page() {
     const rest = await excContract.XCFX_burn_estim(
       Unit.fromStandardUnit(val).toHexMinUnit()
     );
-    //console.log(Drip(rest).toCFX())
-    //setXcfxVal(parseFloat(Drip(rest[0]).toCFX()).toFixed(2));
     setXcfxVal(parseFloat(Drip(rest[0]).toCFX()).toFixed(2));
 
     // period 时间
@@ -318,8 +364,6 @@ export default function Page() {
       setBurnVal(BigNumber(0));
       setXcfxVal(BigNumber(0));
     } else {
-      // const val = parseInt(((+xcfxAmount) * 10000).toString());
-      //Unit.fromStandardUnit('1').toHexMinUnit()
       const val = Unit.fromStandardUnit(+xcfxAmount.toString()).toHexMinUnit();
       console.log(xcfxAmount,val);
       setBurnVal(parseFloat((+xcfxAmount).toString()).toFixed(3));
