@@ -239,13 +239,13 @@ export default function Page() {
       if(period ===0){
         setOperation("Details: "+burnVal+ "xCFX Unstaked; "
                     + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
-                    +" CFX will Unfreezed after about"
+                    +" CFX will Unfreezed after about "
                     +"15 days.")
       }else{
         setOperation("Details: "+burnVal+ "xCFX Unstaked; "
                     + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
-                    +" CFX will Unfreezed after about"
-                    +period +"24 hours.")
+                    +" CFX will Unfreezed after about "
+                    +period +"48 hours.")
       }
       
       setTimeout(setTranHash(TxnHash),3690);
