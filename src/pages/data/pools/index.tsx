@@ -983,7 +983,7 @@ export default function Page() {
         </div>
         <h4>About Nucleon Pools</h4>
           <div className={style.box5}>
-            <p>
+            <p style={{ textAlign: "center" }}>
               Lock your LPs on Nucleon to earn fees and NUT!
             </p>
             {/*<p>
