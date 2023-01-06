@@ -1300,7 +1300,7 @@ export default function Page() {
                             >
                               {myLiquility}
                             </div>
-                            My Liquility
+                            My Liquidity
                           </Col>
                           <Col span={8}>
                             <div style={{ color: "#ffffff" }}>
@@ -1309,7 +1309,7 @@ export default function Page() {
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div> APY 
                           </Col>
                         </Row>
                       </div>
@@ -1459,7 +1459,7 @@ export default function Page() {
                             >
                               {myLiquility}
                             </div>
-                            My Liquility
+                            My Liquidity
                           </Col>
                           <Col span={8}>
                             <div style={{ color: "#ffffff" }}>
@@ -1468,7 +1468,7 @@ export default function Page() {
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div>APY
                           </Col>
                         </Row>
                       </div>
@@ -1704,7 +1704,7 @@ export default function Page() {
                             >
                               {myLiquility}
                             </div>
-                            My Liquility
+                            My Liquidity
                           </Col>
                           <Col span={8}>
                             <div style={{ color: "#ffffff" }}>
@@ -1713,7 +1713,7 @@ export default function Page() {
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div> APY 
                           </Col>
                         </Row>
                       </div>
