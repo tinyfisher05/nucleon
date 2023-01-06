@@ -1721,7 +1721,7 @@ export default function Page() {
                   className={styles.main5}
                   style={{ height: "340px", width: "100%", marginTop: "70px" }}
                   id="main4"
-                ></div>
+                ><div style={{textAlign:"center",padding: "90px 0 0",fontSize: "40px"}}>Comimg Soon</div></div>
                 <div className={style.tabbtn}>24h</div>
                 <div className={style.tabbtn}>7d</div>
                 <div className={style.tabbtn}>1m</div>

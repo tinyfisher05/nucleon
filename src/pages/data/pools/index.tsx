@@ -7,6 +7,7 @@ import waitTransactionReceipt from './../../../utils/waitTranscationReceipt';
 import logo7 from "../../../assets/logo7.png";
 import logo8 from "../../../assets/logo8.png";
 import logo9 from "../../../assets/logo9.png";
+import yuan from "../../../assets/yuan.png";
 import nut from "../../../assets/nut.png";
 import arrow2 from "../../../assets/arrow2.png";
 import "./../../../locales/config"; // 引用配置文件
@@ -169,7 +170,7 @@ export default function Page() {
           position: "fixed",
           left: "50%",
           marginLeft: "-200px",
-          top: "400px",
+          top: "300px",
           zIndex: "10000000",
         }}
       >
@@ -205,28 +206,61 @@ export default function Page() {
                 Hash: <a target="_blank" style={{ color: "#000" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
               </div>
             </div>
-            <div
-              className="ant-modal-confirm-btns"
-              style={{ textAlign: "right" }}
-            >
-              <button
-                type="button"
-                className="ant-btn ant-btn-primary"
-                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)",float: "left"}}
-                onClick={onToken}
-              >
-                <span>Add {tokenUsed} to Metamask</span>
-              </button>
-              <button
-                type="button"
-                className="ant-btn ant-btn-primary"
-                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)"}}
-                onClick={closeCurr}
-              >
-                <span>OK</span>
-              </button>
-            </div>
           </div>
+        </div>
+        <div
+          className="ant-modal-confirm-btns"
+          style={{ textAlign: "right", margin: "30px 0" }}
+        >
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              float: "left",
+              width: "250px",
+            }}
+            onClick={onToken}
+          >
+            <span>Add {tokenUsed} to Metamask</span>
+          </button>
+          <div
+            style={{
+              height: "62px",
+              width: "62px",
+              borderRadius: "50%",
+              position: "absolute",
+              zIndex: "100",
+              backgroundColor: "#fff",
+              padding: "4px",
+              right: "100px",
+              bottom: "15px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              className={styles.coin2}
+              src={yuan}
+              style={{
+                marginTop: "3px",
+                height: "90%",
+                width: "100%",
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              width: "150px",
+            }}
+            onClick={closeCurr}
+          >
+            <span style={{padding:"0 0 0 32px"}}>OK</span>
+          </button>
         </div>
       </div>
     );
@@ -320,7 +354,7 @@ export default function Page() {
       time = 2000;
     }
     var step;
-    for (step = 0; step < 60; step++) {
+    for (step = 0; step < 36; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -591,7 +625,7 @@ export default function Page() {
       time = 2000;
     }
     var step;
-    for (step = 0; step < 60; step++) {
+    for (step = 0; step < 36; step++) {
       if (+isModalOpen1Val === 0) {
         allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
@@ -950,21 +984,17 @@ export default function Page() {
         <h4>About Nucleon Pools</h4>
           <div className={style.box5}>
             <p>
-              Nucleon is a liquid staking solution for Conflux PoS backed by
-              industry-leading staking providers. Nucleon lets users stake their
-              CFX by exchanging CFX to xCFX - without locking assets or
-              maintaining infrastructure.
+              Lock your LPs on Nucleon to earn fees and NUT!
             </p>
             <p>
-              The value in xCFX will be automatically compounded and the xCFX
-              value expands automatically.
+              Earn LPs by adding liquidity to the pools listed above.
             </p>
-            <p>
+            {/* <p>
               Our goal is to solve the problems associated with Conflux PoS
               staking - illiquidity, immovability and accessibility - making
               staked CFX liquid and allowing for participation with any amount
               of CFX to improve security of the Conflux network.
-            </p>
+            </p> */}
           </div>
         <div style={{ display: isModalOpen }}>
           <div className="ant-modal-mask" style={{ height: "2300px" }}></div>
@@ -1045,7 +1075,7 @@ export default function Page() {
                       style={{
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -1456,7 +1486,7 @@ export default function Page() {
                         display: stake === true ? "none" : "block",
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -1476,7 +1506,7 @@ export default function Page() {
                         display: stake === true ? "block" : "none",
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -1700,7 +1730,7 @@ export default function Page() {
                       style={{
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",

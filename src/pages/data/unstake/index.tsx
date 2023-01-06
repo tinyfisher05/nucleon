@@ -12,7 +12,7 @@ import logo from "../../../assets/logo.svg";
 import logotxt from "../../../assets/logotxt.svg";
 import logo8 from "../../../assets/logo8.png";
 import arrow from "../../../assets/arrow.png";
-
+import yuan from "../../../assets/yuan.png";
 import { Button, Col, Row, Divider, Input} from "antd";
 
 import "./../../../locales/config"; // 引用配置文件
@@ -153,7 +153,7 @@ export default function Page() {
           position: "fixed",
           left: "50%",
           marginLeft: "-200px",
-          top: "400px",
+          top: "300px",
           zIndex: "10000000",
         }}
       >
@@ -189,28 +189,62 @@ export default function Page() {
                 Hash: <a target="_blank" style={{ color: "#000" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
               </div>
             </div>
-            <div
-              className="ant-modal-confirm-btns"
-              style={{ textAlign: "right" }}
-            >
-              <button
-                type="button"
-                className="ant-btn ant-btn-primary"
-                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)",float: "left"}}
-                onClick={onToken}
-              >
-                <span>Add {tokenUsed} to Metamask</span>
-              </button>
-              <button
-                type="button"
-                className="ant-btn ant-btn-primary"
-                style={{background:"rgb(234, 185, 102)",borderColor:"rgb(234, 185, 102)"}}
-                onClick={closeCurr}
-              >
-                <span>OK</span>
-              </button>
-            </div>
+
           </div>
+        </div>
+        <div
+          className="ant-modal-confirm-btns"
+          style={{ textAlign: "right", margin: "30px 0" }}
+        >
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              float: "left",
+              width: "250px",
+            }}
+            onClick={onToken}
+          >
+            <span>Add {tokenUsed} to Metamask</span>
+          </button>
+          <div
+            style={{
+              height: "62px",
+              width: "62px",
+              borderRadius: "50%",
+              position: "absolute",
+              zIndex: "100",
+              backgroundColor: "#fff",
+              padding: "4px",
+              right: "100px",
+              bottom: "15px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              className={styles.coin2}
+              src={yuan}
+              style={{
+                marginTop: "3px",
+                height: "90%",
+                width: "100%",
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              width: "150px",
+            }}
+            onClick={closeCurr}
+          >
+            <span style={{padding:"0 0 0 30px"}}>OK</span>
+          </button>
         </div>
       </div>
     );
@@ -239,12 +273,12 @@ export default function Page() {
       if(period ===0){
         setOperation("Details: "+burnVal+ "xCFX Unstaked; "
                     + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
-                    +" CFX will Unfreezed after about "
+                    +" CFX will unfreeze after about "
                     +"15 days.")
       }else{
         setOperation("Details: "+burnVal+ "xCFX Unstaked; "
                     + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
-                    +" CFX will Unfreezed after about "
+                    +" CFX will unfreeze after about "
                     +period +"48 hours.")
       }
       
@@ -664,7 +698,7 @@ export default function Page() {
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <div className={style.box3}>
               <Row gutter={32}>
-                <Col span={12}>You will receive</Col>
+                <Col span={12}>You will Receive</Col>
                 <Col span={12} style={{ textAlign: "right" }}>
                   {xcfxVal} CFX
                 </Col>
