@@ -986,10 +986,10 @@ export default function Page() {
             <p>
               Lock your LPs on Nucleon to earn fees and NUT!
             </p>
-            <p>
+            {/*<p>
               Earn LPs by adding liquidity to the pools listed above.
             </p>
-            {/* <p>
+             <p>
               Our goal is to solve the problems associated with Conflux PoS
               staking - illiquidity, immovability and accessibility - making
               staked CFX liquid and allowing for participation with any amount
