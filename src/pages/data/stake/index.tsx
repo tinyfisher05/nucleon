@@ -280,9 +280,9 @@ export default function Page() {
         console.log(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX());
         console.log(txReceipt);
         setOperation("Details: "
-                      +(Drip(Unit.fromStandardUnit(txReceipt.logs[0].data).toDecimalStandardUnit()).toCFX())
-                      +" CFX staked; "
                       +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+                      +" CFX staked; "
+                      +(Drip(Unit.fromStandardUnit(txReceipt.logs[0].data).toDecimalStandardUnit()).toCFX())
                       +" xCFX received.")
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
