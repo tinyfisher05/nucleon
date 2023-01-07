@@ -144,6 +144,7 @@ export default function Layout() {
                       padding: "32px 0 0",
                       color: "#fff",
                       fontSize: "16px",
+                      // textAlign: "center",
                     }}
                   >
                     © 2022-2023 Nucleon. All Rights Reserved.

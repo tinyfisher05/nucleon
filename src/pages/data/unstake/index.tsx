@@ -403,7 +403,7 @@ export default function Page() {
       setBurnVal(parseFloat((+xcfxAmount).toString()).toFixed(3));
       const rest = await excContract.XCFX_burn_estim(val);
       console.log(rest,Drip(rest).toCFX());
-      setXcfxVal(parseFloat(Drip(rest).toCFX()).toFixed(2));
+      setXcfxVal(parseFloat(Drip(rest).toCFX()).toFixed(3));
     }
   }
 
@@ -756,7 +756,7 @@ export default function Page() {
                     {+parseFloat(xcfxAmountTotal).toFixed(0) /
                       +parseFloat(shareofthePool).toFixed(0) <
                     0.0001
-                      ? "> .1%"
+                      ? "< .1%"
                       : "~ " +
                         (
                           (+parseFloat(xcfxAmountTotal).toFixed(0) /

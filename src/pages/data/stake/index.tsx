@@ -1269,7 +1269,7 @@ export default function Page() {
                       {+parseFloat(xcfxAmountTotal).toFixed(0) /
                         +parseFloat(shareofthePool).toFixed(0) <
                       0.0001
-                        ? "> .1%"
+                        ? "< .1%"
                         : "~ " +
                           (
                             (+parseFloat(xcfxAmountTotal).toFixed(0) /

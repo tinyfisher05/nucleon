@@ -491,7 +491,7 @@ export default function Page() {
   };
   const onChange1 = (value: number) => {
     setPercentage1(value);
-    if(value==100){
+    if(+value === 100){
       setIsModalOpen1Val3(+isModalOpen1Val2);
     }
     else{
@@ -509,7 +509,7 @@ export default function Page() {
   };
   const onChange2 = (value: number) => {
     setPercentage2(value);
-    if(value==100){
+    if(+value === 100){
       setIsModalOpen2Val3(+isModalOpen2Val2);
     }
     else{
@@ -567,7 +567,7 @@ export default function Page() {
   // Other Pools -> Percentage
   const onChange = (value: number) => {
     setPercentage(value);
-    if(value==100){
+    if(+value === 100){
       setIsModalOpen3Val3(isModalOpen3Val2);
     }
     else{
@@ -768,8 +768,8 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
-      MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(2);
-      ShareOfPoolarr[index]=parseFloat((100*Drip(pools[0]).toCFX()/totalLPs).toString()).toFixed(2)+'%';
+      MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(3);
+      ShareOfPoolarr[index]=parseFloat((100*Drip(pools[0]).toCFX()/totalLPs).toString()).toFixed(3)+'%';
       Aprarr[index]=parseFloat((arp).toString()).toFixed(1);
 
       }
@@ -799,7 +799,7 @@ export default function Page() {
               float: "right",
             }}
           >
-            Your NUTs：{parseFloat(mynut).toFixed(2)}
+            Your NUTs：{parseFloat(mynut).toFixed(3)}
           </span>
         </div>
         <div className={style.box2}>
@@ -832,19 +832,19 @@ export default function Page() {
                     {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.totalLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLPs.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.totalLPs.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.val.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.val.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.myLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={2}>
-                    {parseFloat(item.pendingrewards.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.pendingrewards.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={5} style={{ textAlign: "right" }}>
                     <Button
@@ -926,13 +926,13 @@ export default function Page() {
                     {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.totalLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLPs.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.totalLPs.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.myLiquidity.toString()).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={10} style={{ textAlign: "right" }}>
                     <Button
@@ -1053,7 +1053,7 @@ export default function Page() {
                             fontFamily: "Univa Nova Bold",
                           }}
                         >
-                          {parseFloat(unclaimed).toFixed(2)} NUT
+                          {parseFloat(unclaimed).toFixed(3)} NUT
                         </Col>
                         <Col
                           span={24}
@@ -1253,12 +1253,12 @@ export default function Page() {
                               <div>
                                 <InputNumber
                                   min={0}
-                                  max={+parseFloat(isModalOpen1Val2).toFixed(2)}
+                                  max={+parseFloat(isModalOpen1Val2).toFixed(3)}
                                   step={0.01}
                                   placeholder="0"
                                   onChange={dateChangeHandler1}
                                   value={
-                                    +parseFloat(isModalOpen1Val3).toFixed(2)
+                                    +parseFloat(isModalOpen1Val3).toFixed(3)
                                   }
                                 />
                               </div>
@@ -1272,7 +1272,7 @@ export default function Page() {
                               }}
                             >
                               In Wallet:{" "}
-                              {parseFloat(isModalOpen1Val2).toFixed(2)}
+                              {parseFloat(isModalOpen1Val2).toFixed(3)}
                             </div>
                           </Col>
                         </Row>
@@ -1413,12 +1413,12 @@ export default function Page() {
                               <div>
                                 <InputNumber
                                   min={0}
-                                  max={+parseFloat(isModalOpen2Val2).toFixed(2)}
+                                  max={+parseFloat(isModalOpen2Val2).toFixed(3)}
                                   step={0.01}
                                   placeholder="0"
                                   onChange={dateChangeHandler2}
                                   value={
-                                    +parseFloat(isModalOpen2Val3).toFixed(2)
+                                    +parseFloat(isModalOpen2Val3).toFixed(3)
                                   }
                                 />
                               </div>
@@ -1431,7 +1431,7 @@ export default function Page() {
                                 fontSize: "12px",
                               }}
                             >
-                              In Pool: {parseFloat(isModalOpen2Val2).toFixed(2)}
+                              In Pool: {parseFloat(isModalOpen2Val2).toFixed(3)}
                             </div>
                           </Col>
                         </Row>
@@ -1657,12 +1657,12 @@ export default function Page() {
                               <div>
                                 <InputNumber
                                   min={0}
-                                  max={+parseFloat(isModalOpen3Val2).toFixed(2)}
+                                  max={+parseFloat(isModalOpen3Val2).toFixed(3)}
                                   step={0.01}
                                   placeholder="0"
                                   onChange={dateChangeHandler}
                                   value={
-                                    +parseFloat(isModalOpen3Val3).toFixed(2)
+                                    +parseFloat(isModalOpen3Val3).toFixed(3)
                                   }
                                 />
                               </div>
@@ -1676,7 +1676,7 @@ export default function Page() {
                               }}
                             >
                               In Wallet:{" "}
-                              {parseFloat(isModalOpen3Val2).toFixed(2)}
+                              {parseFloat(isModalOpen3Val2).toFixed(3)}
                             </div>
                           </Col>
                         </Row>
