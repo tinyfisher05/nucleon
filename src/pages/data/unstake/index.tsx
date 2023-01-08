@@ -29,7 +29,9 @@ import {
   connect,
   Unit,
   sendTransaction,
-  watchAsset
+  watchAsset,
+  switchChain,
+  addChain
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -125,6 +127,36 @@ export default function Page() {
       </div>
     );
   });
+
+  // Function 切换网络--------------------------------------------
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+const onSwitchNetwork = async () => {
+  try {
+    await switchChain("0x47"); // 切换网络
+    reloadPage();
+  } catch (error) {
+    const AddChainParameter = {
+      chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+      chainName: "conflux espace testnet",
+      nativeCurrency: {
+        name: "CFX",
+        symbol: "CFX", // 2-6 characters long
+        decimals: 18,
+      },
+      rpcUrls: ["https://evmtestnet.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+      //blockExplorerUrls: ['aaaa'],
+      //iconUrls: ['https://'], // Currently ignored.
+    };
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
+  }
+};
+
+// if (chainId != "71") {onSwitchNetwork()}
 
   const MyModal: React.FC = memo(() => {
     function closeCurr() {
@@ -252,7 +284,7 @@ export default function Page() {
 
   const UnStakeButton: React.FC = memo(() => {
     const account = useAccount();
-
+    const chainId = useChainId()!;
     const handleClickSendTransaction = useCallback(async () => {
       if (!account) return;
       if (!burnVal) return;
@@ -260,6 +292,11 @@ export default function Page() {
       const data = excinterface.encodeFunctionData("XCFX_burn", [
         Unit.fromStandardUnit(burnVal).toHexMinUnit(),
       ]);
+      if (chainId != "71") {
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
       (document.getElementById("spinner") as any).style.display = "block";
       try {
         const TxnHash = await sendTransaction({
@@ -321,6 +358,11 @@ export default function Page() {
     const handleClickSendTransaction = useCallback(async () => {
       if (!account) return;
       if (unlocked <= 0) return;
+      if (chainId != "71") {
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
 
       const data = excinterface.encodeFunctionData("getback_CFX", [
         Unit.fromStandardUnit(unlocked).toHexMinUnit(),

@@ -60,7 +60,9 @@ import {
   connect,
   Unit,
   sendTransaction,
-  watchAsset
+  watchAsset,
+  switchChain,
+  addChain
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -94,6 +96,34 @@ let MyLiquilityarr = [];
 let ShareOfPoolarr = [];
 let Aprarr = [];
 let LpPricearr = [];
+
+// Function 切换网络--------------------------------------------
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+const onSwitchNetwork = async () => {
+  try {
+    await switchChain("0x47"); // 切换网络
+    reloadPage();
+  } catch (error) {
+    const AddChainParameter = {
+      chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+      chainName: "conflux espace testnet",
+      nativeCurrency: {
+        name: "CFX",
+        symbol: "CFX", // 2-6 characters long
+        decimals: 18,
+      },
+      rpcUrls: ["https://evmtestnet.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+      //blockExplorerUrls: ['aaaa'],
+      //iconUrls: ['https://'], // Currently ignored.
+    };
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
+  }
+};
 
 export default function Page() {
   const { t, i18n } = useTranslation();
@@ -143,6 +173,7 @@ export default function Page() {
   const [tokenSetting, setTokenSetting] = useState(NUTToken);
 
   myacc = useAccount();
+  const chainId = useChainId()!;
 
   const MyModal: React.FC = memo(() => {
     function closeCurr() {
@@ -269,6 +300,11 @@ export default function Page() {
 
   const claimRewards = (i: any) => {
     return async (e: any) => {
+      if(chainId !='71'){
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
       setIsModalOpen("block");
       setIsModalOpen1Val(i);
       const val = await poolsContract.pendingSushi(i, myacc);
@@ -470,7 +506,11 @@ export default function Page() {
   // 弹出
   const manage = (val: any, val2: any, val3: any) => {
     return async (e: any) => {
-      
+      if(chainId !='71'){
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
       setMyLiquility(MyLiquilityarr[val]);
       setShareOfPool(ShareOfPoolarr[val]);
       setApr(Aprarr[val]);
@@ -553,7 +593,13 @@ export default function Page() {
 
   // Other Pools -> Stake
   const handleStake2 = (val: any, val2: any) => {
+    
     return (e: any) => {
+      if (chainId != "71") {
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
       setMyLiquility(MyLiquilityarr[val]);
       setShareOfPool(ShareOfPoolarr[val]);
       setApr(Aprarr[val]);

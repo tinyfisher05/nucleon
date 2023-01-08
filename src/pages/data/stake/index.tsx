@@ -31,7 +31,9 @@ import {
   connect,
   Unit,
   sendTransaction,
-  watchAsset
+  watchAsset,
+  switchChain,
+  addChain
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -58,6 +60,36 @@ function getStatistics(cond: string, limit = 24): Promise<any> {
     }, 1000);
   });
 }
+
+// Function 切换网络--------------------------------------------
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+const onSwitchNetwork = async () => {
+  try {
+    await switchChain("0x47"); // 切换网络
+    reloadPage();
+  } catch (error) {
+    const AddChainParameter = {
+      chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+      chainName: "conflux espace testnet",
+      nativeCurrency: {
+        name: "CFX",
+        symbol: "CFX", // 2-6 characters long
+        decimals: 18,
+      },
+      rpcUrls: ["https://evmtestnet.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+      //blockExplorerUrls: ['aaaa'],
+      //iconUrls: ['https://'], // Currently ignored.
+    };
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
+  }
+};
+
+// if (chainId != "71") {onSwitchNetwork()}
 
 let myacc: any;
 export default function Page() {
@@ -264,7 +296,8 @@ export default function Page() {
       if (!account) return;
       if (!burnVal) return;
       if(chainId !='71'){
-        alert('PLEASE SWITCH TO THE TEST NETWORK');//switch
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
         return;
       }
       

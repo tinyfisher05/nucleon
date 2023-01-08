@@ -169,7 +169,7 @@ function Header() {
         };
       }
       setCount(count - 1);
-      timerId = setTimeout(run, 5000);
+      timerId = setTimeout(run, 2000);
        // 这下面为相关的业务代码
       if (chainId != "71") {
          setShowSwitch(true);
@@ -177,7 +177,7 @@ function Header() {
         setShowSwitch(false);
       }
     };
-    timerId = setTimeout(run, 5000);
+    timerId = setTimeout(run, 2000);
     return () => {
       timerId && clearTimeout(timerId);
     };
