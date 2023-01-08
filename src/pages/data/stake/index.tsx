@@ -1008,6 +1008,7 @@ export default function Page() {
               Your NUTs：{parseFloat(mynut).toFixed(2)}
             </span>
           </div>
+          <div style={{clear:"both"}}></div>
           <Row gutter={32} className={style.brief}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <div className={style.box1}>
