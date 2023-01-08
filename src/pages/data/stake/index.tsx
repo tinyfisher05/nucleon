@@ -263,7 +263,11 @@ export default function Page() {
     const handleClickSendTransaction = useCallback(async () => {
       if (!account) return;
       if (!burnVal) return;
-
+      if(chainId !='71'){
+        alert('PLEASE SWITCH TO THE TEST NETWORK');//switch
+        return;
+      }
+      
       const data = excinterface.encodeFunctionData("CFX_exchange_XCFX", []);
 
       (document.getElementById("spinner") as any).style.display = "block";

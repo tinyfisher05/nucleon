@@ -88,6 +88,9 @@ const xcfxCfxInterface = new utils.Interface(abiLP);
 const nutContract = new ethers.Contract(addressNut, abiNut, provider);
 const nutInterface = new utils.Interface(abiNut);
 
+// chainId
+const chainId = useChainId()!;
+
 let myacc: any;
 let timer: any;
 let MyLiquilityarr = [];
