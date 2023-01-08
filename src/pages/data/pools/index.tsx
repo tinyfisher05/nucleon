@@ -64,6 +64,7 @@ import {
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
+import Account from "js-conflux-sdk/dist/types/wallet/Account";
 const { Drip } = require("js-conflux-sdk");
 const { addressNut, abiNut } = require("./../../../ABI/Nut.json");
 const { addressPool, abiPool } = require("./../../../ABI/Pools.json");
@@ -375,10 +376,21 @@ export default function Page() {
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
+      //精确执行
+      let tempaccuratevalues = '0';
+      if(isModalOpen1Val3==isModalOpen1Val2){
+        if (+isModalOpen1Val === 0) {
+          tempaccuratevalues = await nutCfxContract.balanceOf(myacc);
+        } else if (+isModalOpen1Val === 1) {
+          tempaccuratevalues = await xcfxCfxContract.balanceOf(myacc);
+        }
+      }else{
+        tempaccuratevalues = Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit();
+      }
       // 执行
       const data = poolsInterface.encodeFunctionData("deposit", [
         +isModalOpen1Val,
-        Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit(),
+        tempaccuratevalues,
         myacc,
       ]);
       const txParams = {
@@ -410,10 +422,17 @@ export default function Page() {
   };
   // manage handleOkWithdraw
   const handleOkWithdraw = async () => {
+    //精确执行
+    let tempaccuratevalues = '0';
+    if(isModalOpen2Val3==isModalOpen2Val2){
+      tempaccuratevalues = (await poolsContract.userInfo(isModalOpen2Val, myacc))[0];
+    }else{
+      tempaccuratevalues = Unit.fromStandardUnit(isModalOpen2Val3).toHexMinUnit();
+    }
     // 执行
     const data = poolsInterface.encodeFunctionData("withdraw", [
       +isModalOpen2Val,
-      Unit.fromStandardUnit(isModalOpen2Val3).toHexMinUnit(),
+      tempaccuratevalues,
       myacc,
     ]);
     const txParams = {
@@ -492,6 +511,7 @@ export default function Page() {
   const onChange1 = (value: number) => {
     setPercentage1(value);
     if(+value === 100){
+      // const myLiquidity = await xcfxCfxContract.balanceOf(myacc);
       setIsModalOpen1Val3(+isModalOpen1Val2);
     }
     else{
@@ -642,13 +662,23 @@ export default function Page() {
       var t = parseInt(new Date().getTime().toString());
       parseInt(new Date().getTime().toString()) - 3600 <= time;
     );
-
+    //精确执行
+    let tempaccuratevalues = '0';
+    if(isModalOpen3Val3==isModalOpen3Val2){
+      if (+isModalOpen1Val === 0) {
+        tempaccuratevalues = await nutCfxContract.balanceOf(myacc);
+      } else if (+isModalOpen1Val === 1) {
+        tempaccuratevalues = await xcfxCfxContract.balanceOf(myacc);
+      }
+    }else{
+      tempaccuratevalues = Unit.fromStandardUnit(isModalOpen3Val3).toHexMinUnit();
+    }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
       const data = poolsInterface.encodeFunctionData("deposit", [
         +isModalOpen3Val,
-        Unit.fromStandardUnit(isModalOpen3Val3).toHexMinUnit(),
+        tempaccuratevalues,
         myacc,
       ]);
       const txParams = {
