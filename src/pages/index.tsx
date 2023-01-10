@@ -92,10 +92,10 @@ function getYesterday(cond: string): Promise<any> {
 }
 
 function onToP1() {
-  window.scrollTo(0, 3400*0.75)
+  window.scrollTo(0, 2700)
 }
 function onToP2() {
-  window.scrollTo(0, 2700*0.75)
+  window.scrollTo(0, 2100)
 }
 
 export default function HomePage() {
@@ -2345,7 +2345,7 @@ export default function HomePage() {
                     </Col>
                     <Col span={12}>Estimated Transaction Fee</Col>
                     <Col span={12} style={{ textAlign: "right" }}>
-                      ~0.003 CFX
+                      ~0.001 CFX
                     </Col>
                     <Col span={12}>Nucleon Service Fee</Col>
                     <Col span={12} style={{ textAlign: "right" }}>
@@ -2488,7 +2488,7 @@ export default function HomePage() {
               <div className={styles.tit3}>Reliable Network</div>
               <div className={styles.txt}>
                 Powered by Conflux Network <br />
-                based on POW and POS hybrid mechanism
+                hybrid POW and POS consensus
               </div>
             </Col>
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>

@@ -3,7 +3,7 @@ import { useEffect, useCallback, useState, memo } from "react";
 import { Helmet } from "react-helmet";
 import * as echarts from "echarts";
 var moment = require("moment");
-
+import waitTransactionReceipt from './../../../utils/waitTranscationReceipt'; 
 import { Link } from "umi";
 import styles from "./../../../layouts/index.less";
 import style from "./index.less";
@@ -12,8 +12,8 @@ import logo from "../../../assets/logo.svg";
 import logotxt from "../../../assets/logotxt.svg";
 import logo8 from "../../../assets/logo8.png";
 import arrow from "../../../assets/arrow.png";
-
-import { Button, Col, Row, Divider, Input } from "antd";
+import yuan from "../../../assets/yuan.png";
+import { Button, Col, Row, Divider, Input} from "antd";
 
 import "./../../../locales/config"; // 引用配置文件
 import { useTranslation, Trans } from "react-i18next";
@@ -29,6 +29,9 @@ import {
   connect,
   Unit,
   sendTransaction,
+  watchAsset,
+  switchChain,
+  addChain
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
@@ -75,12 +78,17 @@ export default function Page() {
   const [price, setPrice] = useState(0);
   const [unlocked, setUnlocked] = useState(0);
   const [unlocking, setUnlocking] = useState(0);
-  const [period, setPeriod] = useState(1);
+  const [period, setPeriod] = useState(0);
   const [blockNumber, setBlockNumber] = useState(0);
   const [finialUnlockTime, setFinialUnlockTime] = useState(0);
 
   const [userOutQueue, setUserOutQueue] = useState([]);
-
+  let xCFXToken = {
+    address: "0x092690013ef7aF87eaf45030906baa86b8fAA411", // The address of the token contract
+    symbol: "xCFX", // A ticker symbol or shorthand, up to 5 characters
+    decimals: 18, // The number of token decimals
+    image: "https://integration.swappi.io/static/media/0x092690013ef7aF87eaf45030906baa86b8fAA411.a0ecb3fe.png", // A string url of the token logo
+  };
   const provider = new ethers.providers.JsonRpcProvider(
     "https://evmtestnet.confluxrpc.com"
   );
@@ -90,7 +98,9 @@ export default function Page() {
   //币种
   const nutoContract = new ethers.Contract(addressNut, abiNut, provider);
   const nutoInterface = new utils.Interface(abiNut);
-
+  const [tranHash, setTranHash] = useState("");
+  const [operation, setOperation] = useState("Details:");
+  const [tokenUsed, setTokenUsed] = useState("xCFX");
   // web3 钱包登录
   const WalletInfo: React.FC = memo(() => {
     const account = useAccount();
@@ -118,9 +128,163 @@ export default function Page() {
     );
   });
 
+  // Function 切换网络--------------------------------------------
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+const onSwitchNetwork = async () => {
+  try {
+    await switchChain("0x47"); // 切换网络
+    reloadPage();
+  } catch (error) {
+    const AddChainParameter = {
+      chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+      chainName: "conflux espace testnet",
+      nativeCurrency: {
+        name: "CFX",
+        symbol: "CFX", // 2-6 characters long
+        decimals: 18,
+      },
+      rpcUrls: ["https://evmtestnet.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+      //blockExplorerUrls: ['aaaa'],
+      //iconUrls: ['https://'], // Currently ignored.
+    };
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
+  }
+};
+
+// if (chainId != "71") {onSwitchNetwork()}
+
+  const MyModal: React.FC = memo(() => {
+    function closeCurr() {
+      setTranHash("");
+    }
+    async function  onToken() {
+      const watchAssetParams = {
+        type: "ERC20", // In the future, other standards will be supported
+        options: xCFXToken
+      };
+      try{
+        (document.getElementById("spinner") as any).style.display = "block";
+        await watchAsset(watchAssetParams); // 添加网络
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
+      (document.getElementById("spinner") as any).style.display = "none";
+    }
+    return (
+      <div
+        className="ant-modal-content"
+        style={{
+          display: tranHash === "" ? "none" : "block",
+          width: "400px",
+          position: "fixed",
+          left: "50%",
+          marginLeft: "-200px",
+          top: "300px",
+          zIndex: "10000000",
+        }}
+      >
+        <div className="ant-modal-body">
+          <div className="ant-modal-confirm-body-wrapper">
+            <div className="ant-modal-confirm-body">
+              <div style={{ color: "#000", textAlign: "left" }}>
+                <h5 style={{fontSize:"16px", fontWeight: "blod"}}>{operation}</h5>
+                <span
+                  role="img"
+                  aria-label="check-circle"
+                  className="anticon anticon-check-circle"
+                >
+                  <svg
+                    viewBox="64 64 896 896"
+                    focusable="false"
+                    data-icon="check-circle"
+                    width="30px"
+                    height="30px"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    style={{color:"rgb(234, 185, 102)"}}
+                  >
+                    <path d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0051.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"></path>
+                    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                  </svg>
+                </span>
+              </div>
+              <div
+                className="ant-modal-confirm-content"
+                style={{ color: "#000" }}
+              >
+                Hash: <a target="_blank" style={{ color: "#000" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div
+          className="ant-modal-confirm-btns"
+          style={{ textAlign: "right", margin: "30px 0" }}
+        >
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              float: "left",
+              width: "250px",
+            }}
+            onClick={onToken}
+          >
+            <span>Add {tokenUsed} to Metamask</span>
+          </button>
+          <div
+            style={{
+              height: "62px",
+              width: "62px",
+              borderRadius: "50%",
+              position: "absolute",
+              zIndex: "100",
+              backgroundColor: "#fff",
+              padding: "4px",
+              right: "100px",
+              bottom: "15px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              className={styles.coin2}
+              src={yuan}
+              style={{
+                marginTop: "3px",
+                height: "90%",
+                width: "100%",
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              width: "150px",
+            }}
+            onClick={closeCurr}
+          >
+            <span style={{padding:"0 0 0 30px"}}>OK</span>
+          </button>
+        </div>
+      </div>
+    );
+  });
+
   const UnStakeButton: React.FC = memo(() => {
     const account = useAccount();
-
+    const chainId = useChainId()!;
     const handleClickSendTransaction = useCallback(async () => {
       if (!account) return;
       if (!burnVal) return;
@@ -128,12 +292,38 @@ export default function Page() {
       const data = excinterface.encodeFunctionData("XCFX_burn", [
         Unit.fromStandardUnit(burnVal).toHexMinUnit(),
       ]);
+      if (chainId != "71") {
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
       (document.getElementById("spinner") as any).style.display = "block";
-      const TxnHash = await sendTransaction({
-        to: addressExc,
-        data,
-        //value: Unit.fromStandardUnit(1).toHexMinUnit(),
-      });
+      try {
+        const TxnHash = await sendTransaction({
+          to: addressExc,
+          data,
+          //value: Unit.fromStandardUnit(1).toHexMinUnit(),
+        });
+      const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+      console.log("BBB",TxnHash);
+      console.log(txReceipt);
+      if(period ===0){
+        setOperation("Details: "+burnVal+ "xCFX Unstaked; "
+                    + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
+                    +" CFX will unfreeze after about "
+                    +"15 days.")
+      }else{
+        setOperation("Details: "+burnVal+ "xCFX Unstaked; "
+                    + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
+                    +" CFX will unfreeze after about "
+                    +period +"48 hours.")
+      }
+      
+      setTimeout(setTranHash(TxnHash),3690);
+      } 
+      catch (error) {
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
       setTimeout(() => {
         init();
         // 加载隐藏
@@ -155,7 +345,7 @@ export default function Page() {
         ghost
         className={style.stake_btn}
       >
-        unStake
+        Unstake
       </Button>
     );
   });
@@ -168,6 +358,11 @@ export default function Page() {
     const handleClickSendTransaction = useCallback(async () => {
       if (!account) return;
       if (unlocked <= 0) return;
+      if (chainId != "71") {
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
 
       const data = excinterface.encodeFunctionData("getback_CFX", [
         Unit.fromStandardUnit(unlocked).toHexMinUnit(),
@@ -177,6 +372,10 @@ export default function Page() {
         to: addressExc,
         data,
       });
+      // const txReceipt = await waitTransactionReceipt(txnHash);//cfx_back, speedMode
+      console.log("CCC",TxnHash);
+      setOperation("Details: "+unlocked+" CFX will be transfered to your address.")
+      setTimeout(setTranHash(TxnHash),3690);
       setTimeout(() => {
         init();
         // 加载隐藏
@@ -216,17 +415,15 @@ export default function Page() {
     }
 
     const val = e.target.value;
+    setBurnVal(val);
     var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字
     if (!re.test(val)) {
       return;
     }
-    setBurnVal(val);
 
     const rest = await excContract.XCFX_burn_estim(
       Unit.fromStandardUnit(val).toHexMinUnit()
     );
-    //console.log(Drip(rest).toCFX())
-    //setXcfxVal(parseFloat(Drip(rest[0]).toCFX()).toFixed(2));
     setXcfxVal(parseFloat(Drip(rest[0]).toCFX()).toFixed(2));
 
     // period 时间
@@ -243,10 +440,13 @@ export default function Page() {
       setBurnVal(BigNumber(0));
       setXcfxVal(BigNumber(0));
     } else {
-      const val = parseInt(((+xcfxAmount - 1) * 10000).toString());
-      setBurnVal(parseFloat((val / 10000).toString()).toFixed(4));
-      const rest = await excContract.CFX_exchange_estim(val);
-      setXcfxVal(parseFloat((rest.toNumber() / 10000).toString()).toFixed(2));
+      const val = await xcfxContract.balanceOf(account);// val ~= xcfxAmount; val is more accurate;
+      // const val = Unit.fromStandardUnit(+xcfxAmount.toString()).toHexMinUnit();
+      console.log(xcfxAmount,val);
+      setBurnVal(parseFloat((+xcfxAmount).toString()).toFixed(3));
+      const rest = await excContract.XCFX_burn_estim(val);
+      console.log(rest,Drip(rest).toCFX());
+      setXcfxVal(parseFloat(Drip(rest).toCFX()).toFixed(3));
     }
   }
 
@@ -357,6 +557,8 @@ export default function Page() {
     })();
   }
   return (
+    <div>
+    <MyModal />
     <div className={style.unstake}>
       <Helmet>
         <link rel="stylesheet" href="style.css"></link>
@@ -364,10 +566,10 @@ export default function Page() {
       <div className={styles.inner} style={{ backgroundColor: "#171520" }}>
         <div className={style.sub_nav2}>
           <Link to="/data/stake" style={{ color: "#FFF" }}>
-            Stake CFX
+            {t("stake.Stake_CFX")}
           </Link>
           <Link to="/data/unstake" style={{ color: "#EAB764" }}>
-            unStake CFX
+            {t("stake.unStake_CFX")}
           </Link>
           <span
             style={{
@@ -380,12 +582,13 @@ export default function Page() {
             Your NUTs：{ parseFloat(mynut).toFixed(2) }
           </span>
         </div>
+        <div style={{clear:"both"}}></div>
         <Row gutter={32} className={style.brief}>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <div className={style.box1}>
               <Row>
                 <Col span={24}>
-                  Available to unStake <div className={style.board}></div>
+                  Available to unstake <div className={style.board}></div>
                   <br />
                   <b>{formatNumber(parseFloat(xcfxAmount).toFixed(2))} xCFX</b>
                 </Col>
@@ -398,7 +601,7 @@ export default function Page() {
                   <b>{formatNumber(parseFloat(staketotal).toFixed(2))} CFX</b>
                 </Col>
                 <Col xs={24} sm={24} md={5} lg={5} xl={5}>
-                  CFX APR{" "}
+                  CFX APY{" "}
                   <b style={{ fontWeight: "normal" }}>
                     {parseFloat((+cfxapy * 100).toString()).toFixed(2)}%
                   </b>
@@ -517,7 +720,7 @@ export default function Page() {
               <div className={style.line}></div>
               <div className={style.box6} style={{ height: "64px" }}>
                 <Row>
-                  <Col span={14} style={{ textAlign: "right" }}>
+                  <Col span={14} style={{ textAlign: "center" }}>
                     {" "}
                     The Final Unlock Time :
                   </Col>
@@ -539,7 +742,7 @@ export default function Page() {
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <div className={style.box3}>
               <Row gutter={32}>
-                <Col span={12}>You will receive</Col>
+                <Col span={12}>You will Receive</Col>
                 <Col span={12} style={{ textAlign: "right" }}>
                   {xcfxVal} CFX
                 </Col>
@@ -597,7 +800,7 @@ export default function Page() {
                     {+parseFloat(xcfxAmountTotal).toFixed(0) /
                       +parseFloat(shareofthePool).toFixed(0) <
                     0.0001
-                      ? "> .1%"
+                      ? "< .1%"
                       : "~ " +
                         (
                           (+parseFloat(xcfxAmountTotal).toFixed(0) /
@@ -660,7 +863,7 @@ export default function Page() {
             })}
             <div style={{ height: "7px" }}></div>
           </div>
-          <h4 style={{ marginTop: "80px" }}>About</h4>
+          <h4 style={{ marginTop: "80px" }}>About Nucleon Stake</h4>
           <div className={style.box5}>
             <p>
               Nucleon is a liquid staking solution for Conflux PoS backed by
@@ -682,5 +885,6 @@ export default function Page() {
         </div>
       </div>
     </div>
+    </div> 
   );
 }

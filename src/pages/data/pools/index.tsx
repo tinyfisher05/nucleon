@@ -1,19 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 
 import { Link } from "umi";
 import styles from "./../../../layouts/index.less";
 import style from "./index.less";
-
+import waitTransactionReceipt from './../../../utils/waitTranscationReceipt'; 
 import logo7 from "../../../assets/logo7.png";
 import logo8 from "../../../assets/logo8.png";
 import logo9 from "../../../assets/logo9.png";
+import yuan from "../../../assets/yuan.png";
 import nut from "../../../assets/nut.png";
 import arrow2 from "../../../assets/arrow2.png";
 import "./../../../locales/config"; // 引用配置文件
 import { useTranslation, Trans } from "react-i18next";
 
 import type { SliderMarks } from "antd/es/slider";
-import { Button, Col, Row, Slider, Divider, InputNumber } from "antd";
+import { Button, Col, Row, Slider, Divider, InputNumber, Modal } from "antd";
 import Icon, { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 
@@ -59,9 +60,13 @@ import {
   connect,
   Unit,
   sendTransaction,
+  watchAsset,
+  switchChain,
+  addChain
 } from "@cfxjs/use-wallet-react/ethereum";
 const BigNumber = require("bignumber.js");
 import { ethers, utils } from "ethers";
+import Account from "js-conflux-sdk/dist/types/wallet/Account";
 const { Drip } = require("js-conflux-sdk");
 const { addressNut, abiNut } = require("./../../../ABI/Nut.json");
 const { addressPool, abiPool } = require("./../../../ABI/Pools.json");
@@ -76,17 +81,49 @@ const provider = new ethers.providers.JsonRpcProvider(
 const poolsContract = new ethers.Contract(addressPool, abiPool, provider);
 const poolsInterface = new utils.Interface(abiPool);
 //LP
-const nutContract = new ethers.Contract(addressNUT_CFX, abiLP, provider);
-const nutInterface = new utils.Interface(abiLP);
+const nutCfxContract = new ethers.Contract(addressNUT_CFX, abiLP, provider);
+const nutCfxInterface = new utils.Interface(abiLP);
 //LP
-const xcfxContract = new ethers.Contract(addressXCFX_CFX, abiLP, provider);
-const xcfxInterface = new utils.Interface(abiLP);
+const xcfxCfxContract = new ethers.Contract(addressXCFX_CFX, abiLP, provider);
+const xcfxCfxInterface = new utils.Interface(abiLP);
 //币种
-const nutoContract = new ethers.Contract(addressNut, abiNut, provider);
-const nutoInterface = new utils.Interface(abiNut);
+const nutContract = new ethers.Contract(addressNut, abiNut, provider);
+const nutInterface = new utils.Interface(abiNut);
 
 let myacc: any;
 let timer: any;
+let MyLiquilityarr = [];
+let ShareOfPoolarr = [];
+let Aprarr = [];
+let LpPricearr = [];
+
+// Function 切换网络--------------------------------------------
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+const onSwitchNetwork = async () => {
+  try {
+    await switchChain("0x47"); // 切换网络
+    reloadPage();
+  } catch (error) {
+    const AddChainParameter = {
+      chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+      chainName: "conflux espace testnet",
+      nativeCurrency: {
+        name: "CFX",
+        symbol: "CFX", // 2-6 characters long
+        decimals: 18,
+      },
+      rpcUrls: ["https://evmtestnet.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+      //blockExplorerUrls: ['aaaa'],
+      //iconUrls: ['https://'], // Currently ignored.
+    };
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
+  }
+};
 
 export default function Page() {
   const { t, i18n } = useTranslation();
@@ -96,7 +133,7 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState("none");
   const [isModalOpen2, setIsModalOpen2] = useState("none");
   const [isModalOpen3, setIsModalOpen3] = useState("none");
-  const [isModalOpen4, setIsModalOpen4] = useState("none");
+  // const [isModalOpen4, setIsModalOpen4] = useState("none");
   const [stake, setStake] = useState(true);
   const [mynut, setMynut] = useState("--");
 
@@ -120,11 +157,154 @@ export default function Page() {
   const [myLiquility, setMyLiquility] = useState("--");
   const [shareOfPool, setShareOfPool] = useState("--");
   const [apr, setApr] = useState("--");
+  const [lpprice, setlpprice] = useState("$--");
+  const [userhave, setuserhave] = useState("$--");
+  const [userWithdraw, setUserWithdraw] = useState("$--");
+  const [tranHash, setTranHash] = useState("");
+  const [operation, setOperation] = useState("Details:");
+  const [tokenUsed, setTokenUsed] = useState("NUT");
+  
+  let NUTToken = {
+    address: "0x48EE76131e70762DB59a37e6008ccE082805aB00", // The address of the token contract
+    symbol: "NUT", // A ticker symbol or shorthand, up to 5 characters
+    decimals: 18, // The number of token decimals
+    image: "https://integration.swappi.io/static/media/0x48EE76131e70762DB59a37e6008ccE082805aB00.f202553a.png", // A string url of the token logo
+  };
+  const [tokenSetting, setTokenSetting] = useState(NUTToken);
 
   myacc = useAccount();
+  const chainId = useChainId()!;
+
+  const MyModal: React.FC = memo(() => {
+    function closeCurr() {
+      setTranHash("");
+    }
+    async function  onToken() {
+      const watchAssetParams = {
+        type: "ERC20", // In the future, other standards will be supported
+        options: tokenSetting
+      };
+      try{
+        (document.getElementById("spinner") as any).style.display = "block";
+        await watchAsset(watchAssetParams); // 添加网络
+      } catch (error) {
+        setIsModalOpen2("none");
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
+      (document.getElementById("spinner") as any).style.display = "none";
+    }
+    return (
+      <div
+        className="ant-modal-content"
+        style={{
+          display: tranHash === "" ? "none" : "block",
+          width: "400px",
+          position: "fixed",
+          left: "50%",
+          marginLeft: "-200px",
+          top: "300px",
+          zIndex: "10000000",
+        }}
+      >
+        <div className="ant-modal-body">
+          <div className="ant-modal-confirm-body-wrapper">
+            <div className="ant-modal-confirm-body">
+              <div style={{ color: "#000", textAlign: "left" }}>
+                <h5 style={{fontSize:"16px", fontWeight: "blod"}}>{operation}</h5>
+                <span
+                  role="img"
+                  aria-label="check-circle"
+                  className="anticon anticon-check-circle"
+                >
+                  <svg
+                    viewBox="64 64 896 896"
+                    focusable="false"
+                    data-icon="check-circle"
+                    width="30px"
+                    height="30px"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    style={{color:"rgb(234, 185, 102)"}}
+                  >
+                    <path d="M699 353h-46.9c-10.2 0-19.9 4.9-25.9 13.3L469 584.3l-71.2-98.8c-6-8.3-15.6-13.3-25.9-13.3H325c-6.5 0-10.3 7.4-6.5 12.7l124.6 172.8a31.8 31.8 0 0051.7 0l210.6-292c3.9-5.3.1-12.7-6.4-12.7z"></path>
+                    <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"></path>
+                  </svg>
+                </span>
+              </div>
+              <div
+                className="ant-modal-confirm-content"
+                style={{ color: "#000" }}
+              >
+                Hash: <a target="_blank" style={{ color: "#000" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ant-modal-confirm-btns"
+          style={{ textAlign: "right", margin: "30px 0" }}
+        >
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              float: "left",
+              width: "250px",
+            }}
+            onClick={onToken}
+          >
+            <span>Add {tokenUsed} to Metamask</span>
+          </button>
+          <div
+            style={{
+              height: "62px",
+              width: "62px",
+              borderRadius: "50%",
+              position: "absolute",
+              zIndex: "100",
+              backgroundColor: "#fff",
+              padding: "4px",
+              right: "100px",
+              bottom: "15px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              className={styles.coin2}
+              src={yuan}
+              style={{
+                marginTop: "3px",
+                height: "90%",
+                width: "100%",
+              }}
+            />
+          </div>
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary"
+            style={{
+              background: "rgb(234, 185, 102)",
+              borderColor: "rgb(234, 185, 102)",
+              width: "150px",
+            }}
+            onClick={closeCurr}
+          >
+            <span style={{padding:"0 0 0 32px"}}>OK</span>
+          </button>
+        </div>
+      </div>
+    );
+  });
 
   const claimRewards = (i: any) => {
     return async (e: any) => {
+      if(chainId !='71'){
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
       setIsModalOpen("block");
       setIsModalOpen1Val(i);
       const val = await poolsContract.pendingSushi(i, myacc);
@@ -143,6 +323,10 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
+      const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+      console.log("CCC",TxnHash);
+      setOperation("Details: "+unclaimed+ " NUT have been sent to your address.")
+      setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen("none");
       (document.getElementById("spinner") as any).style.display = "none";
@@ -163,9 +347,9 @@ export default function Page() {
   const handleOkStake = async () => {
     let allowance = "";
     if (+isModalOpen1Val === 0) {
-      allowance = await nutContract.allowance(myacc, addressPool);
+      allowance = await nutCfxContract.allowance(myacc, addressPool);
     } else if (+isModalOpen1Val === 1) {
-      allowance = await xcfxContract.allowance(myacc, addressPool);
+      allowance = await xcfxCfxContract.allowance(myacc, addressPool);
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -174,18 +358,18 @@ export default function Page() {
     console.log(Drip(allowance).toCFX());
     console.log(isModalOpen1Val3);
     let time = 0;
-    if (+Drip(allowance).toCFX() <= +isModalOpen1Val3) {
+    if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
       // +Drip(allowance).toCFX() <= +isModalOpen1Val3
       // 对应币种合约
       if (+isModalOpen1Val === 0) {
-        LPInterface = nutInterface;
+        LPInterface = nutCfxInterface;
       } else if (+isModalOpen1Val === 1) {
-        LPInterface = xcfxInterface;
+        LPInterface = xcfxCfxInterface;
       }
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen1Val3).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen1Val3*100000).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -194,38 +378,55 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
+        const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+        console.log("AAA",TxnHash);
+        setOperation("Details: Approve your Lps to be used in this pool.")
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen2("none");
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
 
-      time = 5000;
+      time = 2000;
     }
     var step;
-    for (step = 0; step < 10; step++) {
+    for (step = 0; step < 36; step++) {
       if (+isModalOpen1Val === 0) {
-        allowance = await nutContract.allowance(myacc, addressPool);
+        allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
-        allowance = await xcfxContract.allowance(myacc, addressPool);
+        allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
       if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
         for (
           var t = parseInt(new Date().getTime().toString());
           parseInt(new Date().getTime().toString()) - t <= time;
-
         );
-      } else {
-        break;
       }
     }
+    for (
+      var t = parseInt(new Date().getTime().toString());
+      parseInt(new Date().getTime().toString()) - 3600 <= time;
+    );
+
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
+      //精确执行
+      let tempaccuratevalues = '0';
+      if(isModalOpen1Val3==isModalOpen1Val2){
+        if (+isModalOpen1Val === 0) {
+          tempaccuratevalues = await nutCfxContract.balanceOf(myacc);
+        } else if (+isModalOpen1Val === 1) {
+          tempaccuratevalues = await xcfxCfxContract.balanceOf(myacc);
+        }
+      }else{
+        tempaccuratevalues = Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit();
+      }
       // 执行
       const data = poolsInterface.encodeFunctionData("deposit", [
         +isModalOpen1Val,
-        Unit.fromStandardUnit(isModalOpen1Val3).toHexMinUnit(),
+        tempaccuratevalues,
         myacc,
       ]);
       const txParams = {
@@ -234,6 +435,15 @@ export default function Page() {
       };
       try {
         const TxnHash = await sendTransaction(txParams);
+        const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+        console.log("BBB",TxnHash);
+        if(+isModalOpen1Val===0){
+          setOperation("Details:"+isModalOpen1Val3+" NUT/CFX lps is staked to this pool.")
+        }else if(+isModalOpen1Val===1){
+          setOperation("Details:"+isModalOpen1Val3+" xCFX/CFX lps is staked to this pool.")
+        }
+        
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen2("none");
         (document.getElementById("spinner") as any).style.display = "none";
@@ -248,10 +458,17 @@ export default function Page() {
   };
   // manage handleOkWithdraw
   const handleOkWithdraw = async () => {
+    //精确执行
+    let tempaccuratevalues = '0';
+    if(isModalOpen2Val3==isModalOpen2Val2){
+      tempaccuratevalues = (await poolsContract.userInfo(isModalOpen2Val, myacc))[0];
+    }else{
+      tempaccuratevalues = Unit.fromStandardUnit(isModalOpen2Val3).toHexMinUnit();
+    }
     // 执行
     const data = poolsInterface.encodeFunctionData("withdraw", [
       +isModalOpen2Val,
-      Unit.fromStandardUnit(isModalOpen2Val3).toHexMinUnit(),
+      tempaccuratevalues,
       myacc,
     ]);
     const txParams = {
@@ -262,6 +479,14 @@ export default function Page() {
     try {
       (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction(txParams);
+      const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+      console.log("BBB",TxnHash);
+      if(+isModalOpen2Val === 0){
+        setOperation("Details:"+isModalOpen2Val3+" NUT/CFX lps is transfered to your address.")
+      }else if(+isModalOpen3Val === 1){
+        setOperation("Details:"+isModalOpen2Val3+" xCFX/CFX lps is transfered to your address.")
+      }
+      setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen2("none");
       (document.getElementById("spinner") as any).style.display = "none";
@@ -281,25 +506,36 @@ export default function Page() {
   // 弹出
   const manage = (val: any, val2: any, val3: any) => {
     return async (e: any) => {
+      if(chainId !='71'){
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
+      setMyLiquility(MyLiquilityarr[val]);
+      setShareOfPool(ShareOfPoolarr[val]);
+      setApr(Aprarr[val]);
+      setlpprice('$'+ parseFloat(LpPricearr[val].toString()).toFixed(4));
       // withdraw
       setIsModalOpen2("block");
       setIsModalOpen2Val(val);
       setIsModalOpen2Val2(val3);
       setPercentage2(25);
-      setIsModalOpen2Val3(parseFloat((val3 * 0.25).toString()).toFixed(2));
-
+      setIsModalOpen2Val3(parseFloat((val3 * 0.25).toString()));
+      
+      setUserWithdraw('$'+ parseFloat((val3 * 0.25 * LpPricearr[val]).toString()).toFixed(4));
       // stake
       setIsModalOpen1Val(val);
       setIsModalOpen1Val2(val2);
       setPercentage1(25);
-      setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
-
+      setIsModalOpen1Val3(parseFloat((val2 * 0.25).toString()));
+      setuserhave('$'+ parseFloat((val2 * 0.25 * LpPricearr[val]).toString()).toFixed(4));
+      console.log(val2,LpPricearr[val],0.25,val2 * 0.25 *LpPricearr[val]);
       // 显示授权额度
       let allowance = "";
       if (+isModalOpen1Val === 0) {
-        allowance = await nutContract.allowance(myacc, addressPool);
+        allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
-        allowance = await xcfxContract.allowance(myacc, addressPool);
+        allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
     };
   };
@@ -308,14 +544,20 @@ export default function Page() {
     if (isNaN(value)) {
       return;
     }
-    setPercentage1((value / +isModalOpen1Val2) * 100);
+    setPercentage1((100*value / +isModalOpen1Val2));
     setIsModalOpen1Val3(value.toString());
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
   const onChange1 = (value: number) => {
     setPercentage1(value);
-    setIsModalOpen1Val3(
-      parseFloat(((+isModalOpen1Val2 * +value) / 100).toString()).toFixed(2)
-    );
+    if(+value === 100){
+      // const myLiquidity = await xcfxCfxContract.balanceOf(myacc);
+      setIsModalOpen1Val3(+isModalOpen1Val2);
+    }
+    else{
+      setIsModalOpen1Val3((+isModalOpen1Val2 * +value) / 100);
+    }
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen1Val2 * +value) / 100).toString()).toFixed(4))
   };
   const dateChangeHandler2 = (value: number) => {
     if (isNaN(value)) {
@@ -323,12 +565,17 @@ export default function Page() {
     }
     setPercentage2((value / +isModalOpen2Val2) * 100);
     setIsModalOpen2Val3(value.toString());
+    setUserWithdraw('$'+parseFloat((LpPricearr[isModalOpen1Val]* +value).toString()).toFixed(4))
   };
   const onChange2 = (value: number) => {
     setPercentage2(value);
-    setIsModalOpen2Val3(
-      parseFloat(((+isModalOpen2Val2 * +value) / 100).toString()).toFixed(2)
-    );
+    if(+value === 100){
+      setIsModalOpen2Val3(+isModalOpen2Val2);
+    }
+    else{
+      setIsModalOpen2Val3((+isModalOpen2Val2 * +value) / 100);
+    }
+    setUserWithdraw('$'+parseFloat((LpPricearr[isModalOpen1Val]* (+isModalOpen2Val2 * +value) / 100).toString()).toFixed(4))
   };
 
   const handleClose2 = () => {
@@ -346,12 +593,28 @@ export default function Page() {
 
   // Other Pools -> Stake
   const handleStake2 = (val: any, val2: any) => {
+    
     return (e: any) => {
+      if (chainId != "71") {
+        onSwitchNetwork();
+        alert('  You have used the wrong network.\r\n  Now we will switch to the Conflux Espace test network!');//switch
+        return;
+      }
+      setMyLiquility(MyLiquilityarr[val]);
+      setShareOfPool(ShareOfPoolarr[val]);
+      setApr(Aprarr[val]);
+      setlpprice('$'+ parseFloat(LpPricearr[val].toString()).toFixed(4));
+
       setIsModalOpen3("block");
       setIsModalOpen3Val(val);
       setIsModalOpen3Val2(val2);
       setPercentage(25);
-      setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      // setIsModalOpen3Val3(parseFloat((val2 * 0.25).toString()).toFixed(2));
+      setIsModalOpen3Val3((val2 * 0.25).toString());
+      setuserhave('$'+parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
+      console.log(isModalOpen3Val,LpPricearr[val],isModalOpen3Val2);
+      console.log(val2 * 0.25 *LpPricearr[val]);
+      console.log('$'+parseFloat((val2 * 0.25 *LpPricearr[val]).toString()).toFixed(4));
     };
   };
   // Other Pools -> Stake -> close
@@ -363,24 +626,31 @@ export default function Page() {
     if (isNaN(value)) {
       return;
     }
-    setPercentage((value / +isModalOpen3Val2) * 100);
+    setPercentage((100 * value / +isModalOpen3Val2));
     setIsModalOpen3Val3(value.toString());
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen3Val]* +value).toString()).toFixed(4))
   };
   // Other Pools -> Percentage
   const onChange = (value: number) => {
     setPercentage(value);
-    setIsModalOpen3Val3(
-      parseFloat(((+isModalOpen3Val2 * +value) / 100).toString()).toFixed(2)
-    );
+    if(+value === 100){
+      setIsModalOpen3Val3(isModalOpen3Val2);
+    }
+    else{
+      setIsModalOpen3Val3(((+isModalOpen3Val2 * +value) / 100));
+    }
+    console.log(isModalOpen3Val,LpPricearr[isModalOpen3Val],isModalOpen3Val2,value);
+    // console.log(LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100);
+    setuserhave('$'+parseFloat((LpPricearr[isModalOpen3Val]* (isModalOpen3Val2 * value) / 100).toString()).toFixed(4))
   };
   // Other Pools -> Stake -> Stake Liquidity
   const handleStakeNow = async () => {
     // 授权与否
     let allowance = "";
     if (+isModalOpen3Val === 0) {
-      allowance = await nutContract.allowance(myacc, addressPool);
+      allowance = await nutCfxContract.allowance(myacc, addressPool);
     } else if (+isModalOpen3Val === 1) {
-      allowance = await xcfxContract.allowance(myacc, addressPool);
+      allowance = await xcfxCfxContract.allowance(myacc, addressPool);
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -390,16 +660,16 @@ export default function Page() {
     console.log(Drip(allowance).toCFX());
     console.log(isModalOpen3Val3);
     let time = 0;
-    if (+Drip(allowance).toCFX() <= +isModalOpen3Val3) {
+    if (+Drip(allowance).toCFX() < +isModalOpen3Val3) {
       if (+isModalOpen3Val === 0) {
-        LPInterface = nutInterface;
+        LPInterface = nutCfxInterface;
       } else if (+isModalOpen3Val === 1) {
-        LPInterface = xcfxInterface;
+        LPInterface = xcfxCfxInterface;
       }
 
       const data = LPInterface.encodeFunctionData("approve", [
         addressPool,
-        Unit.fromStandardUnit(+isModalOpen3Val3).toHexMinUnit(),
+        Unit.fromStandardUnit(+isModalOpen3Val3*100000).toHexMinUnit(),
       ]);
 
       const txParams = {
@@ -410,37 +680,51 @@ export default function Page() {
 
       try {
         const TxnHash = await sendTransaction(txParams);
+        console.log("AAA",TxnHash);
+        setOperation("Details: Approve your Lps to be used in this pool.")
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
         return;
       }
-      time = 5000;
+      time = 2000;
     }
     var step;
-    for (step = 0; step < 10; step++) {
+    for (step = 0; step < 36; step++) {
       if (+isModalOpen1Val === 0) {
-        allowance = await nutContract.allowance(myacc, addressPool);
+        allowance = await nutCfxContract.allowance(myacc, addressPool);
       } else if (+isModalOpen1Val === 1) {
-        allowance = await xcfxContract.allowance(myacc, addressPool);
+        allowance = await xcfxCfxContract.allowance(myacc, addressPool);
       }
-
-      if (+Drip(allowance).toCFX() < +isModalOpen1Val3) {
+      if (+Drip(allowance).toCFX() < +isModalOpen3Val3) {
         for (
           var t = parseInt(new Date().getTime().toString());
           parseInt(new Date().getTime().toString()) - t <= time;
-
         );
-      } else {
-        break;
       }
+    }
+    for (
+      var t = parseInt(new Date().getTime().toString());
+      parseInt(new Date().getTime().toString()) - 3600 <= time;
+    );
+    //精确执行
+    let tempaccuratevalues = '0';
+    if(isModalOpen3Val3==isModalOpen3Val2){
+      if (+isModalOpen1Val === 0) {
+        tempaccuratevalues = await nutCfxContract.balanceOf(myacc);
+      } else if (+isModalOpen1Val === 1) {
+        tempaccuratevalues = await xcfxCfxContract.balanceOf(myacc);
+      }
+    }else{
+      tempaccuratevalues = Unit.fromStandardUnit(isModalOpen3Val3).toHexMinUnit();
     }
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
     setTimeout(async () => {
       const data = poolsInterface.encodeFunctionData("deposit", [
         +isModalOpen3Val,
-        Unit.fromStandardUnit(isModalOpen3Val3).toHexMinUnit(),
+        tempaccuratevalues,
         myacc,
       ]);
       const txParams = {
@@ -450,6 +734,14 @@ export default function Page() {
 
       try {
         const TxnHash = await sendTransaction(txParams);
+        const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
+        console.log("BBB",TxnHash);
+        if(+isModalOpen3Val === 0){
+          setOperation("Details:"+isModalOpen3Val3+" NUT/CFX lps is staked to this pool.")
+        }else if(+isModalOpen3Val === 1){
+          setOperation("Details:"+isModalOpen3Val3+" xCFX/CFX lps is staked to this pool.")
+        }
+        setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
         setIsModalOpen3("none");
         (document.getElementById("spinner") as any).style.display = "none";
@@ -470,50 +762,68 @@ export default function Page() {
 
   async function init() {
     if (myacc) {
-      const mynut = await nutoContract.balanceOf(myacc);
+      const mynut = await nutContract.balanceOf(myacc);
+      //const nutinfo = await nutContract.getReserves();
+      const totalpoint = await poolsContract.totalAllocPoint();
+      // console.log(Drip(totalpoint).toCFX());
+      const nutPerBlock = await poolsContract.sushiPerBlock();
+      // console.log(Drip(nutPerBlock).toCFX());
       setMynut(Drip(mynut.toString()).toCFX().toString());
+      const confluxscanData = await axios.get(
+        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+      );
+      const data = confluxscanData.data.data;
+      const cfxprice = data.price;
 
+      // 每个lp的价值
+      // nut的价值
+      // 常数：sushiPerBlock
+      // 此种lp的总量
+      // totalAllocPoint获取一个值为Alloc总值
+      // poolInfo获取三个值，取第三个值：allocPoint
+      // 常数：一年的总秒数：31,536,000
+      const secondperyear = 31536000;
+      
       let tmp1: any = [];
       let tmp2: any = [];
       for (let index = 0; index < 2; index++) {
         const pools = await poolsContract.userInfo(index, myacc);
         const pendingrewards = await poolsContract.pendingSushi(index, myacc);
-
-        const confluxscanData = await axios.get(
-          "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
-        );
-        const data = confluxscanData.data.data;
-        const price = data.price;
-
-        setMyLiquility("--");
-        setShareOfPool("--");
-        setApr("--");
-
-        // 每个lp的价值
-        // nut的价值
-        // 常数：sushiPerBlock
-        // 此种lp的总量
-        // totalAllocPoint获取一个值为Alloc总值
-        // poolInfo获取三个值，取第三个值：allocPoint
-        // 常数：一年的总秒数：31,536,000
-
+        const pointInfo = await poolsContract.poolInfo(index);
+        //console.log(pointInfo);
         let myLiquidity = 0;
         let val = 0;
         let totalLPs = 0;
-        let arp = "---";
+        let lpinfoNUT:any;
+        let lpinfo:any;
+        let arp:any;
         if (index === 0) {
-          val = await nutContract.totalSupply();
-          myLiquidity = await nutContract.balanceOf(myacc);
-          totalLPs = await poolsContract.PoolLPSum(index);
-          arp = "";
+          val = await nutCfxContract.totalSupply();
+          myLiquidity = await nutCfxContract.balanceOf(myacc);
+          lpinfo = await nutCfxContract.getReserves();
         } else if (index === 1) {
-          val = await xcfxContract.totalSupply();
-          myLiquidity = await xcfxContract.balanceOf(myacc);
-          totalLPs = await poolsContract.PoolLPSum(index);
-          arp = "";
+          val = await xcfxCfxContract.totalSupply();
+          myLiquidity = await xcfxCfxContract.balanceOf(myacc);
+          lpinfo = await xcfxCfxContract.getReserves();
         }
+        //console.log(lpinfo);
+        lpinfoNUT = await nutCfxContract.getReserves();
+        const NUTPrice = lpinfoNUT[0]/lpinfoNUT[1];
+        LpPricearr[index] =cfxprice*lpinfo[0]*2/val;
+        //console.log(lpToken2Price);
+        totalLPs = await poolsContract.PoolLPSum(index);
+        if(totalLPs>0){
+          // console.log(NUTPrice,secondperyear,Drip(nutPerBlock).toCFX(),Drip(pointInfo[2]).toCFX(),Drip(val).toCFX());
+          arp = (100*NUTPrice*secondperyear*Drip(nutPerBlock).toCFX()*Drip(pointInfo[2]).toCFX()*Drip(val).toCFX()/((Drip(totalpoint).toCFX()*Drip(totalLPs).toCFX())*Drip(lpinfo[0]).toCFX()*2)).toString();
+          
+          arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
+        }else{
+          arp = "--"
+        }
+        
+        // console.log(arp);
         totalLPs = Drip(totalLPs).toCFX();
-
+        console.log(pools[0].toString());
         if (pools[0].toString() === "0") {
           tmp2.push({
             i: index,
@@ -534,13 +844,20 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
+      MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(3);
+      ShareOfPoolarr[index]=parseFloat((100*Drip(pools[0]).toCFX()/totalLPs).toString()).toFixed(3)+'%';
+      Aprarr[index]=parseFloat((arp).toString()).toFixed(1);
+
       }
+
       setUserOutQueue1(tmp1);
       setUserOutQueue2(tmp2);
     }
   }
 
   return (
+    <div>
+      <MyModal />
     <div className={style.pools}>
       <div
         className={styles.inner}
@@ -558,13 +875,13 @@ export default function Page() {
               float: "right",
             }}
           >
-            Your NUTs：{parseFloat(mynut).toFixed(2)}
+            Your NUTs：{parseFloat(mynut).toFixed(3)}
           </span>
         </div>
         <div className={style.box2}>
-          <Row style={{ padding: "10px 20px 5px" }}>
-            <Col span={3}>{t("pools.PoolName")}</Col>
-            <Col span={2}>{t("pools.APR")}</Col>
+          <Row style={{ padding: "10px 20px 5px"}}>
+            <Col span={2}>{t("pools.PoolName")}</Col>
+            <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
             <Col span={3}>{t("pools.StakedLquidity")}</Col>
@@ -581,29 +898,29 @@ export default function Page() {
                   style={{
                     padding: "5px 20px 5px",
                     fontFamily: "Univa Nova Bold",
-                    fontSize: "20px",
+                    fontSize: "16px",
                   }}
                 >
+                  <Col span={2}>
+                    {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
+                  </Col>
                   <Col span={3}>
-                    {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
+                    {parseFloat(item.arp.toString()).toFixed(1)}%
+                  </Col>
+                  <Col span={3}>
+                    {parseFloat(item.totalLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={3}>
+                    {parseFloat(item.totalLPs.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={3}>
+                    {parseFloat(item.val.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={3}>
+                    {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={2}>
-                    {parseFloat(item.arp.toString()).toFixed(2)}%
-                  </Col>
-                  <Col span={3}>
-                    {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
-                  </Col>
-                  <Col span={3}>
-                    {parseFloat(item.totalLPs.toString()).toFixed(2)}
-                  </Col>
-                  <Col span={3}>
-                    {parseFloat(item.val.toString()).toFixed(2)}
-                  </Col>
-                  <Col span={3}>
-                    {parseFloat(item.myLiquidity.toString()).toFixed(2)}
-                  </Col>
-                  <Col span={2}>
-                    {parseFloat(item.pendingrewards.toString()).toFixed(2)}
+                    {parseFloat(item.pendingrewards.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={5} style={{ textAlign: "right" }}>
                     <Button
@@ -621,7 +938,7 @@ export default function Page() {
                         border: 0,
                         fontSize: "14px",
                         marginRight: "10px",
-                        width: "90px",
+                        width: "100px",
                       }}
                     >
                       {t("pools.Manage")}
@@ -636,7 +953,8 @@ export default function Page() {
                         color: "#EAB966",
                         border: 0,
                         fontSize: "14px",
-                        width: "140px",
+                        marginRight: "10px",
+                        width: "130px",
                       }}
                     >
                       {t("pools.Claimrewards")}
@@ -658,11 +976,11 @@ export default function Page() {
         </div>
         <div className={style.box2}>
           <Row style={{ padding: "10px 20px 5px" }}>
-            <Col span={3}>{t("pools.PoolName")}</Col>
-            <Col span={2}>{t("pools.APR")}</Col>
+            <Col span={2}>{t("pools.PoolName")}</Col>
+            <Col span={3}>{t("pools.APR")}</Col>
             <Col span={3}>{t("pools.TotalLiquidity")}</Col>
             <Col span={3}>LPs in Pool</Col>
-            <Col span={4}>{t("pools.Myliquidity")}</Col>
+            <Col span={3}>{t("pools.Myliquidity")}</Col>
           </Row>
           {userOutQueue2.map((item: any) => {
             return (
@@ -674,25 +992,25 @@ export default function Page() {
                   style={{
                     padding: "5px 20px 5px",
                     fontFamily: "Univa Nova Bold",
-                    fontSize: "20px",
+                    fontSize: "16px",
                   }}
                 >
-                  <Col span={3}>
-                    {item.i.toString() === "0" ? "NUT/CFX" : "XCFX/CFX"}
-                  </Col>
                   <Col span={2}>
-                    {parseFloat(item.arp.toString()).toFixed(2)}%
+                    {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLiquidity.toString()).toFixed(2)}
+                    {parseFloat(item.arp.toString()).toFixed(1)}%
                   </Col>
                   <Col span={3}>
-                    {parseFloat(item.totalLPs.toString()).toFixed(2)}
+                    {parseFloat(item.totalLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={5}>
-                    {parseFloat(item.myLiquidity.toString()).toFixed(2)}
+                  <Col span={3}>
+                    {parseFloat(item.totalLPs.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
-                  <Col span={8} style={{ textAlign: "right" }}>
+                  <Col span={3}>
+                    {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={10} style={{ textAlign: "right" }}>
                     <Button
                       onClick={handleStake2(
                         item.i.toString(),
@@ -707,7 +1025,7 @@ export default function Page() {
                         border: 0,
                         fontSize: "14px",
                         marginRight: "10px",
-                        width: "90px",
+                        width: "100px",
                       }}
                     >
                       {t("pools.Stake")}
@@ -721,7 +1039,8 @@ export default function Page() {
                         color: "#EAB966",
                         border: 0,
                         fontSize: "14px",
-                        width: "140px",
+                        marginRight: "10px",
+                        width: "130px",
                       }}
                       target="_blank"
                       href="https://integration.swappi.io/#/pool/v2"
@@ -738,8 +1057,23 @@ export default function Page() {
           />
           <div style={{ height: "35px" }}></div>
         </div>
+        <h4>About Nucleon Pools</h4>
+          <div className={style.box5}>
+            <p style={{ textAlign: "center" }}>
+              Lock your LPs on Nucleon to earn fees and NUT!
+            </p>
+            {/*<p>
+              Earn LPs by adding liquidity to the pools listed above.
+            </p>
+             <p>
+              Our goal is to solve the problems associated with Conflux PoS
+              staking - illiquidity, immovability and accessibility - making
+              staked CFX liquid and allowing for participation with any amount
+              of CFX to improve security of the Conflux network.
+            </p> */}
+          </div>
         <div style={{ display: isModalOpen }}>
-          <div className="ant-modal-mask"></div>
+          <div className="ant-modal-mask" style={{ height: "2300px" }}></div>
           <div
             role="dialog"
             aria-modal="true"
@@ -785,7 +1119,7 @@ export default function Page() {
                           />
                         </Col>
                         <Col span={12} style={{ padding: "10px 0" }}>
-                          Total Rewards
+                          Pending Rewards
                         </Col>
                         <Col
                           span={12}
@@ -795,7 +1129,7 @@ export default function Page() {
                             fontFamily: "Univa Nova Bold",
                           }}
                         >
-                          {parseFloat(unclaimed).toFixed(2)} NUT
+                          {parseFloat(unclaimed).toFixed(3)} NUT
                         </Col>
                         <Col
                           span={24}
@@ -817,7 +1151,7 @@ export default function Page() {
                       style={{
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -840,7 +1174,7 @@ export default function Page() {
         <div style={{ display: isModalOpen2 }}>
           <div
             className="ant-modal-mask"
-            style={{ top: "0px", backgroundColor: " rgba(23, 21, 32, 1)" }}
+            style={{ top: "0px", backgroundColor: " rgba(23, 21, 32, 1)", height: "2300px" }}
           ></div>
           <div
             role="dialog"
@@ -985,7 +1319,7 @@ export default function Page() {
                                   {isModalOpen1Val === "1" ? "xCFX" : "NUT"}
                                 </div>
                                 <div style={{ fontSize: "14px" }}>
-                                  Price: $2.67
+                                {lpprice}
                                 </div>
                               </div>
                             </div>
@@ -995,16 +1329,16 @@ export default function Page() {
                               <div>
                                 <InputNumber
                                   min={0}
-                                  max={+parseFloat(isModalOpen1Val2).toFixed(2)}
+                                  max={+parseFloat(isModalOpen1Val2).toFixed(3)}
                                   step={0.01}
                                   placeholder="0"
                                   onChange={dateChangeHandler1}
                                   value={
-                                    +parseFloat(isModalOpen1Val3).toFixed(2)
+                                    +parseFloat(isModalOpen1Val3).toFixed(3)
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>$0.00</div>
+                              <div style={{ fontSize: "14px" }}>{userhave}</div>
                             </div>
                             <div
                               style={{
@@ -1014,7 +1348,7 @@ export default function Page() {
                               }}
                             >
                               In Wallet:{" "}
-                              {parseFloat(isModalOpen1Val2).toFixed(2)}
+                              {parseFloat(isModalOpen1Val2).toFixed(3)}
                             </div>
                           </Col>
                         </Row>
@@ -1022,6 +1356,7 @@ export default function Page() {
                       <div className={style.innerbox}>
                         <Slider
                           className={style.slider}
+                          tooltip={{ open: false }}
                           marks={marks}
                           onChange={onChange1}
                           value={percentage1}
@@ -1041,7 +1376,7 @@ export default function Page() {
                             >
                               {myLiquility}
                             </div>
-                            My Liquility
+                            My Liquidity
                           </Col>
                           <Col span={8}>
                             <div style={{ color: "#ffffff" }}>
@@ -1050,7 +1385,7 @@ export default function Page() {
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div> APY 
                           </Col>
                         </Row>
                       </div>
@@ -1144,7 +1479,7 @@ export default function Page() {
                                   {isModalOpen2Val === "1" ? "xCFX" : "NUT"}
                                 </div>
                                 <div style={{ fontSize: "14px" }}>
-                                  Price: $2.67
+                                {lpprice}
                                 </div>
                               </div>
                             </div>
@@ -1154,16 +1489,16 @@ export default function Page() {
                               <div>
                                 <InputNumber
                                   min={0}
-                                  max={+parseFloat(isModalOpen2Val2).toFixed(2)}
+                                  max={+parseFloat(isModalOpen2Val2).toFixed(3)}
                                   step={0.01}
                                   placeholder="0"
                                   onChange={dateChangeHandler2}
                                   value={
-                                    +parseFloat(isModalOpen2Val3).toFixed(2)
+                                    +parseFloat(isModalOpen2Val3).toFixed(3)
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>$0.00</div>
+                              <div style={{ fontSize: "14px" }}>{userWithdraw}</div>
                             </div>
                             <div
                               style={{
@@ -1172,7 +1507,7 @@ export default function Page() {
                                 fontSize: "12px",
                               }}
                             >
-                              In Pool: {parseFloat(isModalOpen2Val2).toFixed(2)}
+                              In Pool: {parseFloat(isModalOpen2Val2).toFixed(3)}
                             </div>
                           </Col>
                         </Row>
@@ -1180,6 +1515,7 @@ export default function Page() {
                       <div className={style.innerbox}>
                         <Slider
                           className={style.slider}
+                          tooltip={{ open: false }}
                           marks={marks}
                           onChange={onChange2}
                           value={percentage2}
@@ -1199,7 +1535,7 @@ export default function Page() {
                             >
                               {myLiquility}
                             </div>
-                            My Liquility
+                            My Liquidity
                           </Col>
                           <Col span={8}>
                             <div style={{ color: "#ffffff" }}>
@@ -1208,7 +1544,7 @@ export default function Page() {
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div>APY
                           </Col>
                         </Row>
                       </div>
@@ -1226,7 +1562,7 @@ export default function Page() {
                         display: stake === true ? "none" : "block",
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -1246,7 +1582,7 @@ export default function Page() {
                         display: stake === true ? "block" : "none",
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -1268,7 +1604,7 @@ export default function Page() {
         <div style={{ display: isModalOpen3 }}>
           <div
             className="ant-modal-mask"
-            style={{ top: "0px", backgroundColor: " rgba(23, 21, 32, 1)" }}
+            style={{ top: "0px", backgroundColor: " rgba(23, 21, 32, 1)",height: "2300px" }}
           />
           <div
             role="dialog"
@@ -1387,7 +1723,7 @@ export default function Page() {
                                   {isModalOpen3Val === "1" ? "xCFX" : "NUT"}
                                 </div>
                                 <div style={{ fontSize: "14px" }}>
-                                  Price: $2.67
+                                {lpprice}
                                 </div>
                               </div>
                             </div>
@@ -1397,16 +1733,16 @@ export default function Page() {
                               <div>
                                 <InputNumber
                                   min={0}
-                                  max={+parseFloat(isModalOpen3Val2).toFixed(2)}
+                                  max={+parseFloat(isModalOpen3Val2).toFixed(3)}
                                   step={0.01}
                                   placeholder="0"
                                   onChange={dateChangeHandler}
                                   value={
-                                    +parseFloat(isModalOpen3Val3).toFixed(2)
+                                    +parseFloat(isModalOpen3Val3).toFixed(3)
                                   }
                                 />
                               </div>
-                              <div style={{ fontSize: "14px" }}>$0.00</div>
+                              <div style={{ fontSize: "14px" }}>{userhave}</div>
                             </div>
                             <div
                               style={{
@@ -1416,7 +1752,7 @@ export default function Page() {
                               }}
                             >
                               In Wallet:{" "}
-                              {parseFloat(isModalOpen3Val2).toFixed(2)}
+                              {parseFloat(isModalOpen3Val2).toFixed(3)}
                             </div>
                           </Col>
                         </Row>
@@ -1424,6 +1760,7 @@ export default function Page() {
                       <div className={style.innerbox}>
                         <Slider
                           className={style.slider}
+                          tooltip={{ open: false }}
                           marks={marks}
                           onChange={onChange}
                           value={percentage}
@@ -1443,7 +1780,7 @@ export default function Page() {
                             >
                               {myLiquility}
                             </div>
-                            My Liquility
+                            My Liquidity
                           </Col>
                           <Col span={8}>
                             <div style={{ color: "#ffffff" }}>
@@ -1452,7 +1789,7 @@ export default function Page() {
                             Share Of Pool
                           </Col>
                           <Col span={8}>
-                            <div style={{ color: "#ffffff" }}>{apr}%</div>APR
+                            <div style={{ color: "#ffffff" }}>{apr}%</div> APY 
                           </Col>
                         </Row>
                       </div>
@@ -1469,7 +1806,7 @@ export default function Page() {
                       style={{
                         backgroundColor: "#EAB966",
                         border: "0",
-                        width: "80%",
+                        width: "90%",
                         margin: "0 auto",
                         fontSize: "25px",
                         height: "56px",
@@ -1486,8 +1823,11 @@ export default function Page() {
               </div>
             </div>
           </div>
+
         </div>
+
       </div>
+    </div>
     </div>
   );
 }

@@ -82,24 +82,193 @@ export default function Layout() {
   });
 
   return (
-    <div id="bg" className={[styles.container, styles.bg].join(" ")}>
-      <div style={{ minHeight: "700px" }}>
-        <Outlet />
-      </div>
-      <div className={styles.footer}>
-        <div className={styles.inner}>
-          <div className={styles.s1}>
-            <Row style={{ padding: "50px 20px 0 10px" }}>
-              <Col span={20}>
-                <Link to="/">
-                  <img
-                    src={logo}
-                    height="32px"
-                    style={{ padding: "0 10px 0 0" }}
-                  />
-                </Link>
-                <img src={logotxt} height="16px" />
-                <div style={{ padding: "40px 0" }}>
+    <div>
+      <div id="bg" className={[styles.container, styles.bg].join(" ")}>
+        <div style={{ minHeight: "700px" }}>
+          <Outlet />
+        </div>
+        <div className={styles.footer}>
+          <div className={styles.inner}>
+            <div className={styles.s1}>
+              <Row style={{ padding: "50px 20px 0 10px" }}>
+                <Col span={20}>
+                  <Link to="/">
+                    <img
+                      src={logo}
+                      height="32px"
+                      style={{ padding: "0 10px 0 0" }}
+                    />
+                  </Link>
+                  <img src={logotxt} height="16px" />
+                  <div style={{ padding: "40px 0" }}>
+                    <a
+                      target={"_blank"}
+                      href="https://github.com/article-i/nucleon"
+                    >
+                      <img src={logo4} style={{ width: "40px" }} />
+                    </a>
+                    <a
+                      target={"_blank"}
+                      href="https://twitter.com/OfficialNucleon"
+                    >
+                      <img src={logo3} style={{ width: "40px" }} />
+                    </a>
+                    <a target={"_blank"} href="https://t.me/nucleonspace">
+                      <img src={logo2} style={{ width: "40px" }} />
+                    </a>
+                    <a
+                      target={"_blank"}
+                      href="https://nucleon-official.medium.com"
+                    >
+                      <img
+                        src={logo6}
+                        style={{
+                          width: "32px",
+                          borderRadius: "50%",
+                          marginLeft: "6px",
+                        }}
+                      />
+                    </a>
+                  </div>
+                  <div style={{ color: "#fff", fontSize: "22px" }}>
+                    <a
+                      target="_blank"
+                      style={{ color: "#fff" }}
+                      href={"https://tempneedtoadd.net/"}
+                    >
+                      Audited by Hacken
+                    </a>
+                  </div>
+                  <div
+                    style={{
+                      padding: "32px 0 0",
+                      color: "#fff",
+                      fontSize: "16px",
+                      // textAlign: "center",
+                    }}
+                  >
+                    © 2022-2023 Nucleon. All Rights Reserved.
+                  </div>
+                </Col>
+                <Col span={4} style={{ display: "none" }}>
+                  <div className={styles.t}>Information</div>
+                  <p style={{ cursor: "pointer" }}>
+                    {status !== "in-detecting" && status !== "active" && (
+                      <span onClick={connect}>
+                        {status === "in-activating" && "connecting..."}
+                        {status === "not-installed" && "MetaMask Not Install"}
+                        {status === "not-active" && "Connect Wallet"}
+                      </span>
+                    )}
+                    {status === "active" && <WalletInfo />}
+                  </p>
+                  <p>
+                    <Link to="/data/analytics" style={{ color: "#FFF" }}>
+                      Analytics
+                    </Link>
+                  </p>
+                  <p>Lorem ipsum</p>
+                </Col>
+                <Col span={4}>
+                  <div className={styles.t}>Information</div>
+                  <p>
+                    <Link to="/" onClick={function() {
+                      window.scrollTo(0, 0)
+                      }} style={{ color: "#FFF" }}>
+                    Home Page
+                    </Link>
+                  </p>
+                  <p>
+                    <a
+                      style={{ color: "#fff" }}
+                      target="_blank"
+                      href="https://docs.nucleon.network/"
+                    >
+                      Documentation
+                    </a>
+                  </p>
+                  <p>
+                    <a
+                      style={{ color: "#fff" }}
+                      target="_blank"
+                      href="https://github.com/article-i/nucleon"
+                    >
+                      Developers
+                    </a>
+                  </p>
+                  <p>
+                    <Link to="/data/analytics" style={{ color: "#FFF" }}>
+                      Analytics
+                    </Link>
+                  </p>
+                </Col>
+              </Row>
+            </div>
+            <div className={styles.s2}>
+              <img src={logo} height="26px" />
+              <img src={logotxt} height="14px" />
+              <div style={{ padding: "30px 0 0 5px" }}>
+                <Row>
+                  <Col span={12}>
+                    <div className={styles.t}>Information</div>
+                    <p style={{ cursor: "pointer" }}>
+                      {status !== "in-detecting" && status !== "active" && (
+                        <div style={{ display: "inline-block" }}>
+                          <div
+                            style={{
+                              color: "rgb(255, 255, 255)",
+                              fontFamily: "Univa Nova",
+                              cursor: "pointer",
+                            }}
+                            onClick={connect}
+                          >
+                            {status === "in-activating" && "connecting..."}
+                          </div>
+                          <div
+                            style={{
+                              color: "rgb(255, 255, 255)",
+                              fontFamily: "Univa Nova",
+                              cursor: "pointer",
+                            }}
+                            onClick={warning}
+                          >
+                            {status === "not-installed" && "Connect Wallet"}
+                          </div>
+                          <div
+                            style={{
+                              color: "rgb(255, 255, 255)",
+                              fontFamily: "Univa Nova",
+                              cursor: "pointer",
+                            }}
+                            onClick={connect}
+                          >
+                            {status === "not-active" && "Connect Wallet"}
+                          </div>
+                        </div>
+                      )}
+                      {status === "active" && <WalletInfo />}
+                    </p>
+                    <p>Analytics</p>
+                    <p>Lorem ipsum</p>
+                  </Col>
+                  <Col span={12}>
+                    <div style={{ paddingLeft: "40px" }}>
+                      <p>
+                        <a
+                          style={{ color: "#fff" }}
+                          target="_blank"
+                          href="https://github.com/article-i/nucleon"
+                        >
+                          Networks
+                        </a>
+                      </p>
+                      <p>Governance</p>
+                      <p>Developers</p>
+                      <p>Community</p>
+                    </div>
+                  </Col>
+                </Row>
+                <div style={{ padding: "10px 0 0" }}>
                   <a
                     target={"_blank"}
                     href="https://github.com/article-i/nucleon"
@@ -129,189 +298,39 @@ export default function Layout() {
                     />
                   </a>
                 </div>
-                <div style={{color:"#fff",fontSize: "22px"}}>Audited by Hacken</div>
-              </Col>
-              <Col span={4} style={{ display: "none" }}>
-                <div className={styles.t}>Information</div>
-                <p style={{ cursor: "pointer" }}>
-                {status !== "in-detecting" && status !== "active" && (
-                    <span onClick={connect}>
-                      {status === "in-activating" && "connecting..."}
-                      {status === "not-installed" && "MetaMask Not Install"}
-                      {status === "not-active" && "Connect Wallet"}
-                    </span>
-                  )}
-                  {status === "active" && <WalletInfo />}
-                </p>
-                <p>
-                  <Link to="/data/analytics" style={{ color: "#FFF" }}>
-                    Analytics
-                  </Link>
-                </p>
-                <p>Lorem ipsum</p>
-              </Col>
-              <Col span={4}>
-                <div className={styles.t}>Information</div>
-                <p>
+                <div style={{ color: "#fff" }}>
                   <a
-                    style={{ color: "#fff" }}
                     target="_blank"
-                    href="https://evm.confluxscan.io/"
+                    style={{ color: "#fff" }}
+                    href={"https://tempneedtoadd.net/"}
                   >
-                    Networks
+                    Audited by Hacken
                   </a>
-                </p>
-                <p>Governance</p>
-                <p>Developers</p>
-                <p>Community</p>
-                <p>
-                  <Link to="/data/analytics" style={{ color: "#FFF" }}>
-                    Analytics
-                  </Link>
-                </p>
-                <p style={{ cursor: "pointer" }}>
-                  {status !== "in-detecting" && status !== "active" && (
-                    <div style={{ display: "inline-block" }}>
-                      <div
-                        style={{
-                          color: "rgb(255, 255, 255)",
-                          fontFamily: "Univa Nova",
-                          cursor: "pointer",
-                        }}
-                        onClick={connect}
-                      >
-                        {status === "in-activating" && "connecting..."}
-                      </div>
-                      <div
-                        style={{
-                          color: "rgb(255, 255, 255)",
-                          fontFamily: "Univa Nova",
-                          cursor: "pointer",
-                        }}
-                        onClick={warning}
-                      >
-                        {status === "not-installed" && "Connect Wallet"}
-                      </div>
-                      <div
-                        style={{
-                          color: "rgb(255, 255, 255)",
-                          fontFamily: "Univa Nova",
-                          cursor: "pointer",
-                        }}
-                        onClick={connect}
-                      >
-                        {status === "not-active" && "Connect Wallet"}
-                      </div>
-                    </div>
-                  )}
-                  {status === "active" && <WalletInfo />}
-                </p>
-              </Col>
-            </Row>
-          </div>
-          <div className={styles.s2}>
-            <img src={logo} height="26px" />
-            <img src={logotxt} height="14px" />
-            <div style={{ padding: "30px 0 0 5px" }}>
-              <Row>
-                <Col span={12}>
-                  <div className={styles.t}>Information</div>
-                  <p style={{ cursor: "pointer" }}>
-                  {status !== "in-detecting" && status !== "active" && (
-                    <div style={{ display: "inline-block" }}>
-                      <div
-                        style={{
-                          color: "rgb(255, 255, 255)",
-                          fontFamily: "Univa Nova",
-                          cursor: "pointer",
-                        }}
-                        onClick={connect}
-                      >
-                        {status === "in-activating" && "connecting..."}
-                      </div>
-                      <div
-                        style={{
-                          color: "rgb(255, 255, 255)",
-                          fontFamily: "Univa Nova",
-                          cursor: "pointer",
-                        }}
-                        onClick={warning}
-                      >
-                        {status === "not-installed" && "Connect Wallet"}
-                      </div>
-                      <div
-                        style={{
-                          color: "rgb(255, 255, 255)",
-                          fontFamily: "Univa Nova",
-                          cursor: "pointer",
-                        }}
-                        onClick={connect}
-                      >
-                        {status === "not-active" && "Connect Wallet"}
-                      </div>
-                    </div>
-                  )}
-                    {status === "active" && <WalletInfo />}
-                  </p>
-                  <p>Analytics</p>
-                  <p>Lorem ipsum</p>
-                </Col>
-                <Col span={12}>
-                  <div style={{ paddingLeft: "40px" }}>
-                    <p>
-                      <a
-                        style={{ color: "#fff" }}
-                        target="_blank"
-                        href="https://evm.confluxscan.io/"
-                      >
-                        Networks
-                      </a>
-                    </p>
-                    <p>Governance</p>
-                    <p>Developers</p>
-                    <p>Community</p>
+                </div>
+                <div>
+                  <div style={{ color: "#fff" }}>
+                    © 2022-2023 Nucleon. All Rights Reserved.
                   </div>
-                </Col>
-              </Row>
-              <div style={{ padding: "10px 0 0" }}>
-                <a
-                  target={"_blank"}
-                  href="https://github.com/article-i/nucleon"
-                >
-                  <img src={logo4} style={{ width: "40px" }} />
-                </a>
-                <a
-                  target={"_blank"}
-                  href="https://twitter.com/OfficialNucleon"
-                >
-                  <img src={logo3} style={{ width: "40px" }} />
-                </a>
-                <a target={"_blank"} href="https://t.me/nucleonspace">
-                  <img src={logo2} style={{ width: "40px" }} />
-                </a>
-                <a target={"_blank"} href="https://nucleon-official.medium.com">
-                  <img
-                    src={logo6}
-                    style={{
-                      width: "32px",
-                      borderRadius: "50%",
-                      marginLeft: "6px",
-                    }}
-                  />
-                </a>
+                </div>
               </div>
-              Audited by Hacken
             </div>
           </div>
         </div>
       </div>
-      <div id="spinner" className="spinner-box" style={{
+      <div
+        id="spinner"
+        className="spinner-box"
+        style={{
           height: "100%",
-          zIndex: "100000",
+          zIndex: "10000",
           background: "rgba(0,0,0,.7)",
-          display: "none"
-        }}>
-        <div className="solar-system" style={{ transform: "scale(50%,50%)",  height: "500px" }}>
+          display: "none",
+        }}
+      >
+        <div
+          className="solar-system"
+          style={{ transform: "scale(50%,50%)", height: "500px" }}
+        >
           <div className="earth-orbit orbit">
             <div className="planet earth"></div>
             <div className="venus-orbit orbit">
@@ -323,7 +342,17 @@ export default function Layout() {
             </div>
           </div>
         </div>
-        <div style={{ position: "fixed", width: "100%", fontSize:"22px", color: "#EAB966", top: "330px" }}>Waiting For Confirmation</div>
+        <div
+          style={{
+            position: "fixed",
+            width: "100%",
+            fontSize: "22px",
+            color: "#EAB966",
+            top: "330px",
+          }}
+        >
+          Waiting For Confirmation
+        </div>
       </div>
     </div>
   );

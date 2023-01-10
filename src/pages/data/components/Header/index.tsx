@@ -6,6 +6,8 @@ import {
   useChainId,
   useBalance,
   connect,
+  addChain,
+  switchChain,
 } from "@cfxjs/use-wallet-react/ethereum";
 
 import styles from "./../../../../layouts/index.less";
@@ -20,13 +22,25 @@ import { Button, Col, Row, Carousel, Modal } from "antd";
 
 let myacc: any;
 let tmpAccount = localStorage.getItem("acc");
+const AddChainParameter = {
+  chainId: "0x47", // A 0x-prefixed hexadecimal string   0x47   0x406
+  chainName: "conflux espace testnet",
+  nativeCurrency: {
+    name: "CFX",
+    symbol: "CFX", // 2-6 characters long
+    decimals: 18,
+  },
+  rpcUrls: ["https://evmtestnet.confluxrpc.com"], // https://evmtestnet.confluxrpc.com  https://evm.confluxrpc.com
+  //blockExplorerUrls: ['aaaa'],
+  //iconUrls: ['https://'], // Currently ignored.
+};
 
 // web3 钱包登录
 const WalletInfo: React.FC = memo(() => {
   const account = useAccount();
-  const chainId = useChainId()!;
+  // const chainId = useChainId()!;
   const balance = useBalance()!;
-
+  const [chainId, setchainId] = useChainId()!;
   //const balanceT = balance?.toDecimalStandardUnit();
   //setStaketotal(balanceT);
   //init(balanceT);
@@ -36,7 +50,7 @@ const WalletInfo: React.FC = memo(() => {
     setTimeout(() => {
       // 加载隐藏
       (document.getElementById("spinner") as any).style.display = "none";
-    }, 2000);
+    }, 1000);
   }, [account]);
   if (tmpAccount != account) {
     localStorage.setItem("acc", account + "");
@@ -51,8 +65,6 @@ const WalletInfo: React.FC = memo(() => {
   );
 });
 
-const url = window.location.hash;
-
 let reloadTimer: any;
 function reload() {
   reloadTimer = setTimeout(() => {
@@ -62,7 +74,7 @@ function reload() {
     } else {
       location.reload();
     }
-  }, 4000);
+  }, 1000);
   return () => clearTimeout(reloadTimer);
 }
 
@@ -74,12 +86,31 @@ const warning = () => {
   });
 };
 
+function reloadPage() {
+  setTimeout(function () {
+      location.reload();
+  }, 100)
+}
+
+// Function 切换网络--------------------------------------------
+const onSwitchNetwork = async () => {
+  try {
+    var switchChainsucess =  await switchChain("0x47"); // 切换网络
+    reloadPage();
+  } catch (error) {
+    console.log(error);
+    await addChain(AddChainParameter); // 添加网络
+    reloadPage();
+  }
+};
+
 function Header() {
   // web3 钱包登录状态
   const status = useStatus();
   myacc = useAccount();
 
   const [active, setActive] = useState(0);
+  const [showSwitch, setShowSwitch] = useState(false);
 
   window.onhashchange = function () {
     switch (location.hash) {
@@ -111,8 +142,51 @@ function Header() {
     setActive(index);
   };
   const { t, i18n } = useTranslation();
+
+  
+  const chainId = useChainId()!; // 正式网 测试网
+  // console.log(chainId);
+  // setTimeout(() => {
+  //   if (chainId != "71") {
+  //       setShowSwitch(true);
+  //     }
+  //   console.log(chainId);
+  // }, 10);
+  // setInterval(() => {
+  //   if (chainId != "71") {
+  //       setShowSwitch(true);
+  //     }
+  //   console.log(chainId);
+  // }, 5000);
+  // 定时更新数据
+  const [count,setCount]=useState(10);
   useEffect(() => {
-    switch (url) {
+    let timerId: string | number | NodeJS.Timeout | null | undefined = null;
+    const run = () => {
+      if (count <= 0) {
+        return () => {
+          timerId && clearTimeout(timerId);
+        };
+      }
+      setCount(count - 1);
+      timerId = setTimeout(run, 2000);
+       // 这下面为相关的业务代码
+      if (chainId != "71") {
+         setShowSwitch(true);
+      } else {
+        setShowSwitch(false);
+      }
+    };
+    timerId = setTimeout(run, 2000);
+    return () => {
+      timerId && clearTimeout(timerId);
+    };
+  }, [count]);
+
+  useEffect(() => {
+    const urlT = window.location.hash;
+
+    switch (urlT) {
       case "#/data/stake":
         setActive(0);
         break;
@@ -136,17 +210,28 @@ function Header() {
         break;
     }
 
+    // 网路判断
+    setTimeout(() => {
+      if (chainId != "71") {
+        setShowSwitch(true);
+      }
+    }, 20);
+
     setTimeout(() => {
       if (!myacc || myacc == undefined) {
         reload();
       }
-    }, 5000);
+    }, 1000);
   }, []);
 
   return (
     <div className={style.nav0}>
       <div className={style.sub_nav}>
-        <Link to="/" style={{ color: "#FFF" }}>
+        <Link to="/"
+          onClick={() => {
+            handleClickActvie(0);
+          }} 
+          style={{ color: "#FFF" }}>
           <img className={styles.logoimg} src={logo} height="30px" />
           <img className={styles.logotxt} src={logotxt} height="16px" />
         </Link>
@@ -249,11 +334,32 @@ function Header() {
             </div>
           )}
           <div
-            style={{ display: status === "active" ? "inline-block" : "none" }}
-            className={style.account}
+            style={{ display: showSwitch === true ? "none" : "inline-block" }}
           >
-            {status === "active" && <WalletInfo />}
-            <div className={style.yuan}></div>
+            <div
+              style={{ display: status === "active" ? "inline-block" : "none" }}
+              className={style.account}
+            >
+              {status === "active" && <WalletInfo />}
+              <div className={style.yuan}></div>
+            </div>
+          </div>
+          <div
+            style={{ display: (showSwitch === true && status === "active") ? "inline-block" : "none" }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                textAlign: "center",
+                cursor: "pointer",
+              }}
+              className={style.account}
+              onClick={() => {
+                onSwitchNetwork();
+              }}
+            >
+              Switch Network
+            </div>
           </div>
         </div>
       </div>

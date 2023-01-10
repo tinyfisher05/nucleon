@@ -1227,7 +1227,7 @@ export default function Page() {
 
       const nutbalance = await nutContract.balanceOf(addressPool);
       const nutbalanceCFX:any = new Drip(nutbalance).toCFX();
-      setTotalEmissionNUT(nutbalanceCFX.toString());
+      setTotalEmissionNUT((300000-nutbalanceCFX).toString());
 
       const confluxscanData = await axios.get(
         "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
@@ -1248,7 +1248,7 @@ export default function Page() {
       setTotal3(poolval.toString());
 
       const accountsData = await axios.get(
-        "https://testnet.confluxscan.io/stat/pos-account-detail?identifier=0xbb10ad7826fcf0be25ff8aa0089198d3a6fd550e23d8d3e6e252880b56fc2188"
+        "https://testnet.confluxscan.io/stat/pos-account-detail?identifier=0x090bcace1f3bd02da6505328f375382c588954cea7fcc4080ca49f98af6b9fa5"
       );
       const totalReward = Drip(accountsData.data.data.totalReward).toCFX();
       setTotal4(totalReward);
@@ -1721,7 +1721,7 @@ export default function Page() {
                   className={styles.main5}
                   style={{ height: "340px", width: "100%", marginTop: "70px" }}
                   id="main4"
-                ></div>
+                ><div style={{textAlign:"center",padding: "90px 0 0",fontSize: "40px"}}>Comimg Soon</div></div>
                 <div className={style.tabbtn}>24h</div>
                 <div className={style.tabbtn}>7d</div>
                 <div className={style.tabbtn}>1m</div>
