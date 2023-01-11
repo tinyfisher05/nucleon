@@ -187,13 +187,15 @@ const onSwitchNetwork = async () => {
           marginLeft: "-200px",
           top: "300px",
           zIndex: "10000000",
+          borderRadius: "10px",
+          backgroundColor:"#393942"
         }}
       >
         <div className="ant-modal-body">
           <div className="ant-modal-confirm-body-wrapper">
             <div className="ant-modal-confirm-body">
               <div style={{ color: "#000", textAlign: "left" }}>
-                <h5 style={{fontSize:"16px", fontWeight: "blod"}}>{operation}</h5>
+                <h5 style={{fontSize:"16px", fontWeight: "blod",color:"#fff"}}>{operation}</h5>
                 <span
                   role="img"
                   aria-label="check-circle"
@@ -216,9 +218,9 @@ const onSwitchNetwork = async () => {
               </div>
               <div
                 className="ant-modal-confirm-content"
-                style={{ color: "#000" }}
+                style={{ color: "#fff" }}
               >
-                Hash: <a target="_blank" style={{ color: "#000" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
+                Hash: <a target="_blank" style={{ color: "#fff" }} href={'https://evmtestnet.confluxscan.io/tx/' + tranHash}>{tranHash}</a>
               </div>
             </div>
 
