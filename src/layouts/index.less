@@ -100,12 +100,17 @@ canvas {
   z-index : 0;
 }
 
-.s1 {
+.s1, .bigshow {
   display: block;
 }
 
+.bigshowline {
+  display: inline-block;
+}
+
 .s2,
-.showm {
+.showm,
+.smallshow {
   display: none;
 }
 
@@ -765,7 +770,7 @@ canvas {
   }
 }
 
-/* 当页面宽度大于300px小于600px @media screen and (min-width:300px) and (max-width:600px) */
+/* 当页面宽度大于300px小于600px @media screen and (min-width:300px) and (max-width:600px) */ 
 @media screen and (max-width:600px) {
   ::-webkit-scrollbar {
     display: none;
@@ -777,6 +782,13 @@ canvas {
 
   .homebg {
     top: 70px;
+  }
+
+  .bigshow, .bigshowline {
+    display: none;
+  }
+  .smallshow {
+    display: block;
   }
 
   .nav {
@@ -938,7 +950,7 @@ canvas {
     }
 
     .footer {
-      margin-top: 50px;
+      margin-top: 200px;
 
       img {
         margin-right: 10px;

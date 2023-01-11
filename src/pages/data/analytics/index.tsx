@@ -1527,27 +1527,27 @@ export default function Page() {
         <div className={style.box0}>
           <Row gutter={16}>
             <Col className="gutter-row" span={2}></Col>
-            <Col className="gutter-row" span={4}>
+            <Col className="gutter-row" sm={4} xs={24}>
               <div className={style.tit}> {t("analytics.TVL")} </div>
               <b>${formatNumber(total1)}</b>
             </Col>
-            <Col className="gutter-row" span={4}>
+            <Col className="gutter-row" sm={4} xs={24}>
               <div className={style.tit}>
                 {t("analytics.Total_Emission_xCFX")}
               </div>
               <b>{formatNumber(parseFloat(total2).toFixed(2))}</b>
             </Col>
-            <Col className="gutter-row" span={4}>
+            <Col className="gutter-row" sm={4} xs={24}>
               <div className={style.tit}>
                 {t("analytics.Total_CFX_In_Pool")}
               </div>
               <b>{formatNumber(parseFloat(total3).toFixed(2))}</b>
             </Col>
-            <Col className="gutter-row" span={4}>
+            <Col className="gutter-row" sm={4} xs={24}>
               <div className={style.tit}>{t("analytics.Interest_Earned")}</div>
               <b>{formatNumber(parseFloat(total4).toFixed(2))}</b>
             </Col>
-            <Col className="gutter-row" span={4}>
+            <Col className="gutter-row" sm={4} xs={24}>
               <div className={style.tit}>
                 {t("analytics.Total_Emission_of_NUT")}
               </div>
@@ -1558,7 +1558,7 @@ export default function Page() {
         </div>
         <div>
           <Row gutter={32}>
-            <Col span={12}>
+            <Col sm={12} xs={24}>
               <div className={style.box2}>
                 <div className={style.board2}></div>
                 TVL xCFX
@@ -1609,7 +1609,7 @@ export default function Page() {
                 </div>
               </div>
             </Col>
-            <Col span={12}>
+            <Col sm={12} xs={24}>
               <div className={style.box2}>
                 <div className={style.board2}></div>
                 TVL-LP xCFX/NUT
@@ -1662,7 +1662,7 @@ export default function Page() {
             </Col>
           </Row>
           <Row gutter={32}>
-            <Col span={12}>
+            <Col sm={12} xs={24}>
               <div className={style.box2}>
                 <div className={style.board2}></div>
                 TVL-LP CFX/xCFX
@@ -1713,7 +1713,7 @@ export default function Page() {
                 </div>
               </div>
             </Col>
-            <Col span={12}>
+            <Col sm={12} xs={24}>
               <div className={style.box2}>
                 <div className={style.board2}></div>
                 Staked NUT
@@ -1731,7 +1731,7 @@ export default function Page() {
             </Col>
           </Row>
           <Row gutter={32}>
-            <Col span={12}>
+            <Col sm={12} xs={24}>
               <div className={style.box2}>
                 <div className={style.board2}></div>
                 xCFX Values
@@ -1782,7 +1782,7 @@ export default function Page() {
                 </div>
               </div>
             </Col>
-            <Col span={12}>
+            <Col sm={12} xs={24}>
               <div className={style.box2}>
                 <div className={style.board2}></div>
                 NUT Values

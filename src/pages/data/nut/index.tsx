@@ -875,7 +875,8 @@ export default function Page() {
             width: "600px",
             margin: "260px auto",
             color: "#ccc",
-            fontSize: "26px"
+            fontSize: "26px",
+            maxWidth: "70%"
           }}>Let's start the journey of NUT in the near future！</div>
         </div>
     </div>

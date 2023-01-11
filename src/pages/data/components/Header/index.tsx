@@ -88,14 +88,14 @@ const warning = () => {
 
 function reloadPage() {
   setTimeout(function () {
-      location.reload();
+    location.reload();
   }, 100)
 }
 
 // Function 切换网络--------------------------------------------
 const onSwitchNetwork = async () => {
   try {
-    var switchChainsucess =  await switchChain("0x47"); // 切换网络
+    var switchChainsucess = await switchChain("0x47"); // 切换网络
     reloadPage();
   } catch (error) {
     console.log(error);
@@ -143,7 +143,7 @@ function Header() {
   };
   const { t, i18n } = useTranslation();
 
-  
+
   const chainId = useChainId()!; // 正式网 测试网
   // console.log(chainId);
   // setTimeout(() => {
@@ -159,7 +159,7 @@ function Header() {
   //   console.log(chainId);
   // }, 5000);
   // 定时更新数据
-  const [count,setCount]=useState(10);
+  const [count, setCount] = useState(10);
   useEffect(() => {
     let timerId: string | number | NodeJS.Timeout | null | undefined = null;
     const run = () => {
@@ -170,9 +170,9 @@ function Header() {
       }
       setCount(count - 1);
       timerId = setTimeout(run, 2000);
-       // 这下面为相关的业务代码
+      // 这下面为相关的业务代码
       if (chainId != "71") {
-         setShowSwitch(true);
+        setShowSwitch(true);
       } else {
         setShowSwitch(false);
       }
@@ -230,12 +230,12 @@ function Header() {
         <Link to="/"
           onClick={() => {
             handleClickActvie(0);
-          }} 
+          }}
           style={{ color: "#FFF" }}>
           <img className={styles.logoimg} src={logo} height="30px" />
           <img className={styles.logotxt} src={logotxt} height="16px" />
         </Link>
-        <div className={style.sub_nav_sub}>
+        <div className={style.sub_nav_sub + ' ' + styles.bigshow}>
           <Link
             to="/data/stake"
             onClick={() => {
@@ -287,6 +287,7 @@ function Header() {
               fontSize: "18px",
               marginRight: "25px",
             }}
+            className={styles.bigshowline}
           >
             {t("stake.nav_analytics")}
           </Link>
@@ -362,6 +363,63 @@ function Header() {
             </div>
           </div>
         </div>
+      </div>
+      <div className={style.sub_nav_sub + ' ' + styles.smallshow} style={{
+        left: "35px",
+        top: "100px"
+      }}>
+        <Link
+          to="/data/stake"
+          onClick={() => {
+            handleClickActvie(0);
+          }}
+          style={{ color: active === 0 ? "#EAB764" : "#FFF" }}
+        >
+          {t("stake.nav_stake")}
+        </Link>
+        <Link
+          to="/data/pools"
+          onClick={() => {
+            handleClickActvie(2);
+          }}
+          style={{ color: active === 2 ? "#EAB764" : "#FFF" }}
+        >
+          {t("stake.nav_pools")}
+        </Link>
+        <Link
+          to="/data/nut"
+          onClick={() => {
+            handleClickActvie(3);
+          }}
+          style={{ color: active === 3 ? "#EAB764" : "#FFF" }}
+        >
+          {t("stake.nav_nut")}
+        </Link>
+        <Link
+          to="/data/rewards"
+          onClick={() => {
+            handleClickActvie(4);
+          }}
+          style={{
+            color: active === 4 ? "#EAB764" : "#FFF",
+            display: "none",
+          }}
+        >
+          {t("stake.nav_rewards")}
+        </Link>
+        <Link
+            to="/data/analytics"
+            onClick={() => {
+              handleClickActvie(5);
+            }}
+            style={{
+              color: active === 5 ? "#EAB764" : "#FFF",
+              fontSize: "18px",
+              marginRight: "25px",
+            }}
+          >
+            {t("stake.nav_analytics")}
+          </Link>
       </div>
     </div>
   );

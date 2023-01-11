@@ -880,7 +880,7 @@ export default function Page() {
             Your NUTs：{parseFloat(mynut).toFixed(3)}
           </span>
         </div>
-        <div className={style.box2}>
+        <div className={style.box2 + ' ' + styles.bigshow}>
           <Row style={{ padding: "10px 20px 5px"}}>
             <Col span={2}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
@@ -971,12 +971,96 @@ export default function Page() {
           />
           <div style={{ height: "35px" }}></div>
         </div>
+        <div className={style.box2 + ' ' + styles.smallshow}>
+          <Row style={{ padding: "10px 20px 5px"}}>
+          </Row>
+          {userOutQueue1.map((item: any) => {
+            return (
+              <div key={item.i}>
+                <Divider
+                  style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
+                />
+                <Row
+                  style={{
+                    padding: "5px 20px 5px",
+                    fontFamily: "Univa Nova Bold",
+                    fontSize: "16px",
+                  }}
+                >
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.PoolName")}:</span> {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.APR")}:</span> {parseFloat(item.arp.toString()).toFixed(1)}%
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.TotalLiquidity")}:</span> {parseFloat(item.totalLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>LPs in Pool:</span> {parseFloat(item.totalLPs.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.StakedLquidity")}:</span> {parseFloat(item.val.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.AvailableLquidity")}:</span> {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>Pending Rewards:</span> {parseFloat(item.pendingrewards.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={24}>
+                    <Button
+                      onClick={manage(
+                        item.i.toString(),
+                        item.myLiquidity.toString(),
+                        item.val.toString()
+                      )}
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      style={{
+                        background: "#161621",
+                        color: "#EAB966",
+                        border: 0,
+                        fontSize: "14px",
+                        marginRight: "10px",
+                        width: "100px",
+                      }}
+                    >
+                      {t("pools.Manage")}
+                    </Button>
+                    <Button
+                      onClick={claimRewards(item.i.toString())}
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      style={{
+                        background: "#161621",
+                        color: "#EAB966",
+                        border: 0,
+                        fontSize: "14px",
+                        marginRight: "10px",
+                        width: "130px",
+                      }}
+                    >
+                      {t("pools.Claimrewards")}
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            );
+          })}
+          <Divider
+            style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
+          />
+          <div style={{ height: "35px" }}></div>
+        </div>
         <div className={style.sub_nav2}>
           <Link to="/data/pools" style={{ color: "#FFF" }}>
             Other Pools
           </Link>
         </div>
-        <div className={style.box2}>
+        <div className={style.box2 + ' ' + styles.bigshow}>
           <Row style={{ padding: "10px 20px 5px" }}>
             <Col span={2}>{t("pools.PoolName")}</Col>
             <Col span={3}>{t("pools.APR")}</Col>
@@ -1013,6 +1097,84 @@ export default function Page() {
                     {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </Col>
                   <Col span={10} style={{ textAlign: "right" }}>
+                    <Button
+                      onClick={handleStake2(
+                        item.i.toString(),
+                        item.myLiquidity.toString()
+                      )}
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      style={{
+                        background: "#161621",
+                        color: "#EAB966",
+                        border: 0,
+                        fontSize: "14px",
+                        marginRight: "10px",
+                        width: "100px",
+                      }}
+                    >
+                      {t("pools.Stake")}
+                    </Button>
+                    <Button
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      style={{
+                        background: "#161621",
+                        color: "#EAB966",
+                        border: 0,
+                        fontSize: "14px",
+                        marginRight: "10px",
+                        width: "130px",
+                      }}
+                      target="_blank"
+                      href="https://integration.swappi.io/#/pool/v2"
+                    >
+                      {t("pools.AddLiquidity")}
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            );
+          })}
+          <Divider
+            style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
+          />
+          <div style={{ height: "35px" }}></div>
+        </div>
+        <div className={style.box2 + ' ' + styles.smallshow}>
+          <Row style={{ padding: "10px 20px 5px" }}>
+          </Row>
+          {userOutQueue2.map((item: any) => {
+            return (
+              <div key={item.i}>
+                <Divider
+                  style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
+                />
+                <Row
+                  style={{
+                    padding: "5px 20px 5px",
+                    fontFamily: "Univa Nova Bold",
+                    fontSize: "16px",
+                  }}
+                >
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.PoolName")}:</span> {item.i.toString() === "0" ? "NUT/CFX" : "xCFX/CFX"}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.APR")}:</span> {parseFloat(item.arp.toString()).toFixed(1)}%
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.TotalLiquidity")}:</span> {parseFloat(item.totalLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>LPs in Pool:</span> {parseFloat(item.totalLPs.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={12}>
+                  <span style={{fontWeight:"normal",color:"#ddd"}}>{t("pools.Myliquidity")}:</span> {parseFloat(item.myLiquidity.toString()).toFixed(3).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Col>
+                  <Col span={24}>
                     <Button
                       onClick={handleStake2(
                         item.i.toString(),
