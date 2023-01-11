@@ -178,15 +178,7 @@ export default function Layout() {
                     Home Page
                     </Link>
                   </p>
-                  <p>
-                    <a
-                      style={{ color: "#fff" }}
-                      target="_blank"
-                      href="https://docs.nucleon.network/"
-                    >
-                      Documentation
-                    </a>
-                  </p>
+                  
                   <p>
                     <a
                       style={{ color: "#fff" }}
@@ -211,45 +203,13 @@ export default function Layout() {
                 <Row>
                   <Col span={12}>
                     <div className={styles.t}>Information</div>
-                    <p style={{ cursor: "pointer" }}>
-                      {status !== "in-detecting" && status !== "active" && (
-                        <div style={{ display: "inline-block" }}>
-                          <div
-                            style={{
-                              color: "rgb(255, 255, 255)",
-                              fontFamily: "Univa Nova",
-                              cursor: "pointer",
-                            }}
-                            onClick={connect}
-                          >
-                            {status === "in-activating" && "connecting..."}
-                          </div>
-                          <div
-                            style={{
-                              color: "rgb(255, 255, 255)",
-                              fontFamily: "Univa Nova",
-                              cursor: "pointer",
-                            }}
-                            onClick={warning}
-                          >
-                            {status === "not-installed" && "Connect Wallet"}
-                          </div>
-                          <div
-                            style={{
-                              color: "rgb(255, 255, 255)",
-                              fontFamily: "Univa Nova",
-                              cursor: "pointer",
-                            }}
-                            onClick={connect}
-                          >
-                            {status === "not-active" && "Connect Wallet"}
-                          </div>
-                        </div>
-                      )}
-                      {status === "active" && <WalletInfo />}
+                    <p>
+                    <Link to="/" onClick={function() {
+                      window.scrollTo(0, 0)
+                      }} style={{ color: "#FFF" }}>
+                    Home Page
+                    </Link>
                     </p>
-                    <p>Analytics</p>
-                    <p>Lorem ipsum</p>
                   </Col>
                   <Col span={12}>
                     <div style={{ paddingLeft: "40px" }}>
@@ -257,14 +217,25 @@ export default function Layout() {
                         <a
                           style={{ color: "#fff" }}
                           target="_blank"
+                          href="https://docs.nucleon.network/"
+                    >
+                      Documentation
+                    </a>
+                  </p>
+                    <p>
+                    <a
+                      style={{ color: "#fff" }}
+                      target="_blank"
                           href="https://github.com/article-i/nucleon"
                         >
-                          Networks
+                          Developers
                         </a>
                       </p>
-                      <p>Governance</p>
-                      <p>Developers</p>
-                      <p>Community</p>
+                      <p>
+                    <Link to="/data/analytics" style={{ color: "#FFF" }}>
+                      Analytics
+                    </Link>
+                  </p>
                     </div>
                   </Col>
                 </Row>

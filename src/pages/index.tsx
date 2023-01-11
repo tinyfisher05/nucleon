@@ -1607,13 +1607,14 @@ export default function HomePage() {
           style={{
             textAlign: "right",
             display: "block",
-            margin: "8px 13px 50px",
+            fontSize: "20px",
+            margin: "25px 20px 50px",
           }}
           onClick={() => {
             hideMeun();
           }}
         >
-          close
+          X
         </span>
         <div>Documentation </div>
         <div>Community</div>
