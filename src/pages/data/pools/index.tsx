@@ -1254,11 +1254,9 @@ export default function Page() {
             }}
           >
             <div
-              className="ant-modal-content"
+              className={"ant-modal-content " + style.mymodal}
               style={{
                 backgroundColor: "#393942",
-                width: "40%",
-                maxWidth: "40%",
                 margin: "0 auto",
                 borderRadius: "20px",
               }}
@@ -1356,11 +1354,9 @@ export default function Page() {
             }}
           >
             <div
-              className="ant-modal-content"
+              className={"ant-modal-content " + style.mymodal}
               style={{
                 backgroundColor: "rgba(0,0,0,0)",
-                width: "50%",
-                maxWidth: "50%",
                 margin: "0 auto",
                 boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
               }}
@@ -1773,7 +1769,7 @@ export default function Page() {
           <div
             role="dialog"
             aria-modal="true"
-            className="ant-modal ant-modal-confirm ant-modal-confirm-info"
+            className={"ant-modal ant-modal-confirm ant-modal-confirm-info"}
             style={{
               zIndex: "100000",
               width: "100%",
@@ -1786,11 +1782,10 @@ export default function Page() {
             }}
           >
             <div
-              className="ant-modal-content"
+              className={"ant-modal-content " + style.mymodal}
               style={{
                 backgroundColor: "rgba(0,0,0,0)",
-                width: "50%",
-                maxWidth: "50%",
+                
                 margin: "0 auto",
                 boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
               }}
