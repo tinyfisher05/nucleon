@@ -1,48 +1,48 @@
 @font-face {
   font-family: 'Univa Nova';
-  src        : url('font/UnivaNova-SemiBold.eot');
-  src        : url('font/UnivaNova-SemiBold.eot?#iefix') format('embedded-opentype'),
+  src: url('font/UnivaNova-SemiBold.eot');
+  src: url('font/UnivaNova-SemiBold.eot?#iefix') format('embedded-opentype'),
     url('font/UnivaNova-SemiBold.woff2') format('woff2'),
     url('font/UnivaNova-SemiBold.woff') format('woff'),
     url('font/UnivaNova-SemiBold.svg#UnivaNova-SemiBold') format('svg');
-  font-weight : 600;
-  font-style  : normal;
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Univa Nova Bold';
-  src        : url('font/UnivaNova-Bold.eot');
-  src        : url('font/UnivaNova-Bold.eot?#iefix') format('embedded-opentype'),
+  src: url('font/UnivaNova-Bold.eot');
+  src: url('font/UnivaNova-Bold.eot?#iefix') format('embedded-opentype'),
     url('font/UnivaNova-Bold.woff2') format('woff2'),
     url('font/UnivaNova-Bold.woff') format('woff'),
     url('font/UnivaNova-Bold.svg#UnivaNova-Bold') format('svg');
-  font-weight : bold;
-  font-style  : normal;
+  font-weight: bold;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Univa Nova Regular';
-  src        : url('font/UnivaNova-Regular.eot');
-  src        : url('font/UnivaNova-Regular.eot?#iefix') format('embedded-opentype'),
+  src: url('font/UnivaNova-Regular.eot');
+  src: url('font/UnivaNova-Regular.eot?#iefix') format('embedded-opentype'),
     url('font/UnivaNova-Regular.woff2') format('woff2'),
     url('font/UnivaNova-Regular.woff') format('woff'),
     url('font/UnivaNova-Regular.svg#UnivaNova-Regular') format('svg');
-  font-weight : 600;
-  font-style  : normal;
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Univa Nova Thin';
-  src        : url('font/UnivaNova-Thin.eot');
-  src        : url('font/UnivaNova-Thin.eot?#iefix') format('embedded-opentype'),
+  src: url('font/UnivaNova-Thin.eot');
+  src: url('font/UnivaNova-Thin.eot?#iefix') format('embedded-opentype'),
     url('font/UnivaNova-Thin.woff2') format('woff2'),
     url('font/UnivaNova-Thin.woff') format('woff'),
     url('font/UnivaNova-Thin.svg#UnivaNova-Thin') format('svg');
-  font-weight : 600;
-  font-style  : normal;
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -52,28 +52,28 @@ html {
 }
 
 .homebg {
-  position           : absolute;
-  left               : 0;
-  top                : 110px;
-  width              : 100%;
-  z-index            : 0;
-  height             : 800px;
-  background-image   : url('../assets/universe.svg');
-  background-repeat  : no-repeat;
-  background-size    : cover;
+  position: absolute;
+  left: 0;
+  top: 110px;
+  width: 100%;
+  z-index: 0;
+  height: 800px;
+  background-image: url('../assets/universe.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center;
 }
 
 html,
 body {
-  padding         : 0;
-  margin          : 0;
-  height          : 100%;
-  width           : 100%;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
   background-color: #171520;
-  font-family     : 'Univa Nova Regular';
-  font-style      : normal;
-  font-weight     : 600;
+  font-family: 'Univa Nova Regular';
+  font-style: normal;
+  font-weight: 600;
 }
 
 .bg {
@@ -87,6 +87,7 @@ body {
   :global(.ant-modal-confirm-content) {
     color: #fff;
   }
+
   :global(.ant-btn-primary) {
     border-color: #EAB966;
     background: #EAB966;
@@ -96,11 +97,12 @@ body {
 
 canvas {
   position: absolute;
-  top     : 105px;
-  z-index : 0;
+  top: 105px;
+  z-index: 0;
 }
 
-.s1, .bigshow {
+.s1,
+.bigshow {
   display: block;
 }
 
@@ -115,30 +117,34 @@ canvas {
 }
 
 .inner {
-  width     : 100%;
-  max-width : 1440px;
-  margin    : 0 auto;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   box-sizing: border-box;
-  padding   : 0 30px;
+  padding: 0 30px;
 }
 
 .menus {
-  position           : fixed;
-  left               : 0;
-  top                : 0;
-  width              : 100%;
-  z-index            : 100000;
-  height             : 100%;
-  background-color   : #161621;
-  background-image   : url('../assets/universe.svg');
-  background-repeat  : no-repeat;
-  background-size    : cover;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 100000;
+  height: 100%;
+  background-color: #161621;
+  background-image: url('../assets/universe.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center top;
-  color              : #C4C4C4;
-  box-sizing         : border-box;
+  color: #C4C4C4;
+  box-sizing: border-box;
+
+  a:visited {
+    color: #C4C4C4;
+  }
 
   div {
-    padding  : 20px 50px 20px;
+    padding: 20px 50px 20px;
     font-size: 36px;
   }
 }
@@ -148,26 +154,26 @@ canvas {
 
   .logoimg,
   .logotxt {
-    display     : inline-block;
-    margin-top  : 12px;
+    display: inline-block;
+    margin-top: 12px;
     margin-right: 10px;
   }
 
   .menu {
-    float : right;
+    float: right;
     margin: 15px 0 0;
   }
 
   ul {
-    float     : right;
-    padding   : 10px 0 0;
+    float: right;
+    padding: 10px 0 0;
     list-style: none;
-    display   : flex;
+    display: flex;
   }
 
   li {
     margin-left: 40px;
-    font-size  : 20px;
+    font-size: 20px;
     font-weight: bold;
 
     a {
@@ -176,43 +182,43 @@ canvas {
   }
 
   .nav {
-    font-family     : 'Univa Nova';
+    font-family: 'Univa Nova';
     background-color: rgba(0, 0, 0, 0);
-    padding         : 30px 0 40px;
+    padding: 30px 0 40px;
   }
 
   .updown {
-    margin : 0 5px 0 0;
+    margin: 0 5px 0 0;
     padding: 0;
     display: inline-block;
-    height : 16px;
-    width  : 16px;
+    height: 16px;
+    width: 16px;
   }
 
   h2 {
-    font-family   : 'Univa Nova';
-    max-width     : 1200px;
-    width         : 100%;
-    color         : #fff;
-    text-align    : center;
-    font-size     : 80px;
+    font-family: 'Univa Nova';
+    max-width: 1200px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 80px;
     text-transform: uppercase;
-    font-weight   : bold;
-    margin        : 120px auto 0;
-    z-index       : 100;
-    position      : absolute;
-    left          : 50%;
-    top           : 380px;
-    transform     : translate(-50%, -80%);
+    font-weight: bold;
+    margin: 120px auto 0;
+    z-index: 100;
+    position: absolute;
+    left: 50%;
+    top: 380px;
+    transform: translate(-50%, -80%);
   }
 
   .btnbox {
-    position  : absolute;
-    width     : 100%;
+    position: absolute;
+    width: 100%;
     text-align: center;
-    top       : 580px;
-    left      : 0;
-    z-index   : 100;
+    top: 580px;
+    left: 0;
+    z-index: 100;
   }
 
   .btn {
@@ -220,15 +226,15 @@ canvas {
     transition: transform .4s;
 
     .custom {
-      border-color : #DD7C32;
-      color        : #fff;
-      font-weight  : 600;
-      font-size    : 16px;
-      line-height  : 18px;
-      width        : 202px;
-      height       : 50px;
-      background   : linear-gradient(180deg, #DE8035 0%, #EAB764 100%);
-      border       : 1px solid #DD7C32;
+      border-color: #DD7C32;
+      color: #fff;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 18px;
+      width: 202px;
+      height: 50px;
+      background: linear-gradient(180deg, #DE8035 0%, #EAB764 100%);
+      border: 1px solid #DD7C32;
       border-radius: 80px;
     }
   }
@@ -238,51 +244,51 @@ canvas {
   }
 
   .chartbg {
-    background     : rgba(103, 103, 103, 0.48);
+    background: rgba(103, 103, 103, 0.48);
     backdrop-filter: blur(10px);
-    border-radius  : 24px;
-    padding        : 0 15px;
+    border-radius: 24px;
+    padding: 0 15px;
 
     .tit1 {
-      font-weight   : 600;
-      font-size     : 18px;
-      text-align    : right;
+      font-weight: 600;
+      font-size: 18px;
+      text-align: right;
       letter-spacing: 1px;
     }
 
     .price {
-      font-size     : 12px;
-      line-height   : 17px;
+      font-size: 12px;
+      line-height: 17px;
       letter-spacing: 0.756px;
-      padding       : 0 10px 0;
-      color         : rgba(234, 185, 102, 1);
-      text-align    : right
+      padding: 0 10px 0;
+      color: rgba(234, 185, 102, 1);
+      text-align: right
     }
   }
 
   .main {
-    background-image   : url('../assets/line1.png');
-    background-repeat  : no-repeat;
+    background-image: url('../assets/line1.png');
+    background-repeat: no-repeat;
     background-position: center center;
-    background-size    : contain;
+    background-size: contain;
   }
 
   h3 {
-    margin     : 0;
-    padding    : 100px 0 20px 50px;
-    font-style : normal;
+    margin: 0;
+    padding: 100px 0 20px 50px;
+    font-style: normal;
     font-weight: 400;
-    font-size  : 90px;
+    font-size: 90px;
     line-height: 100px;
-    color      : #FFFFFF;
+    color: #FFFFFF;
   }
 
   .p {
-    font-style : normal;
+    font-style: normal;
     font-weight: 400;
-    font-size  : 18px;
+    font-size: 18px;
     line-height: 30px;
-    padding    : 20px 10px 0 50px;
+    padding: 20px 10px 0 50px;
 
     color: rgba(255, 255, 255, 0.54);
 
@@ -290,9 +296,9 @@ canvas {
   }
 
   .learn {
-    padding    : 20px 10px 0 50px;
+    padding: 20px 10px 0 50px;
     font-weight: 400;
-    font-size  : 22px;
+    font-size: 22px;
     line-height: 50px;
 
 
@@ -304,50 +310,50 @@ canvas {
 
     img {
       position: absolute;
-      top     : 40px;
-      left    : 190px;
+      top: 40px;
+      left: 190px;
     }
   }
 
   .brief {
     text-align: center;
-    color     : #fff;
-    margin    : 100px 0;
+    color: #fff;
+    margin: 100px 0;
 
     .txt {
-      padding   : 10px 0 40px;
-      font-size : 14px;
+      padding: 10px 0 40px;
+      font-size: 14px;
       font-style: normal;
     }
   }
 
   .tit3 {
     font-family: 'Univa Nova';
-    font-style : normal;
+    font-style: normal;
     font-weight: 600;
-    font-size  : 26px;
+    font-size: 26px;
     line-height: 36px;
-    color      : #FFFFFF;
+    color: #FFFFFF;
   }
 
   h4 {
     font-family: 'Univa Nova';
-    font-style : normal;
+    font-style: normal;
     font-weight: 600;
-    font-size  : 35px;
+    font-size: 35px;
     line-height: 42px;
-    text-align : center;
-    color      : #FFFFFF;
+    text-align: center;
+    color: #FFFFFF;
   }
 
   .h4des {
-    font-style : normal;
+    font-style: normal;
     font-weight: 400;
-    font-size  : 20px;
+    font-size: 20px;
     line-height: 24px;
-    text-align : center;
-    color      : #FFFFFF;
-    opacity    : 0.5;
+    text-align: center;
+    color: #FFFFFF;
+    opacity: 0.5;
 
     :global(a) {
       color: #fff;
@@ -357,77 +363,77 @@ canvas {
 }
 
 .analytics {
-  width     : 800px;
-  margin    : 30px auto 100px;
+  width: 800px;
+  margin: 30px auto 100px;
   text-align: center;
 
   .num {
-    font-family   : 'Univa Nova';
-    font-style    : normal;
-    font-weight   : 600;
-    font-size     : 30px;
-    line-height   : 100%;
+    font-family: 'Univa Nova';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 100%;
     letter-spacing: 0.02em;
-    color         : #EAB966;
+    color: #EAB966;
   }
 
   .item {
-    width        : 100%;
-    min-height   : 290px;
-    background   : rgba(255, 255, 255, 0.15);
+    width: 100%;
+    min-height: 290px;
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
-    margin       : 0 0 20px;
+    margin: 0 0 20px;
   }
 
   .line {
     opacity: 0.5;
-    border : 1px solid #FFFFFF;
-    width  : 90%;
-    margin : 25px auto 25px;
+    border: 1px solid #FFFFFF;
+    width: 90%;
+    margin: 25px auto 25px;
   }
 
   .t {
-    font-weight   : 600;
-    font-size     : 38px;
-    line-height   : 100%;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 100%;
     letter-spacing: 0.02em;
-    color         : #EAB966;
-    font-family   : 'Univa Nova';
+    color: #EAB966;
+    font-family: 'Univa Nova';
   }
 
   .v {
-    font-family   : "Univa Nova Thin";
-    display       : block;
+    font-family: "Univa Nova Thin";
+    display: block;
     padding-bottom: 5px;
-    font-weight   : 400;
-    font-size     : 14px;
-    margin        : 10px 0 0;
-    text-align    : center;
-    color         : #FFFFFF;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 10px 0 0;
+    text-align: center;
+    color: #FFFFFF;
   }
 
   .item2 {
-    width        : 100%;
-    min-height   : 260px;
-    background   : linear-gradient(180deg, #DD7C32 0%, #EAB966 100%);
+    width: 100%;
+    min-height: 260px;
+    background: linear-gradient(180deg, #DD7C32 0%, #EAB966 100%);
     border-radius: 12px;
-    margin       : 0 0 20px;
+    margin: 0 0 20px;
   }
 
   .sel {
-    text-align    : center;
-    color         : #FFFFFF;
-    width         : 58px;
-    line-height   : 38px;
-    height        : 38px;
-    font-style    : normal;
-    font-weight   : 400;
+    text-align: center;
+    color: #FFFFFF;
+    width: 58px;
+    line-height: 38px;
+    height: 38px;
+    font-style: normal;
+    font-weight: 400;
     letter-spacing: 0.02em;
-    border-radius : 11px;
-    font-size     : 12px;
-    display       : inline-block;
-    margin-right  : 20px;
-    cursor        : pointer;
+    border-radius: 11px;
+    font-size: 12px;
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
   }
 
   .act {
@@ -436,20 +442,20 @@ canvas {
 }
 
 .group {
-  font-size     : 13px;
-  display       : inline-block;
-  padding       : 1px 5px;
-  cursor        : pointer;
-  font-family   : 'SF Pro Text';
-  font-style    : normal;
-  font-weight   : 100;
-  line-height   : 17px;
+  font-size: 13px;
+  display: inline-block;
+  padding: 1px 5px;
+  cursor: pointer;
+  font-family: 'SF Pro Text';
+  font-style: normal;
+  font-weight: 100;
+  line-height: 17px;
   letter-spacing: 0.756px;
-  color         : #FFFFFF;
+  color: #FFFFFF;
 }
 
 .bg {
-  height               : 820px;
+  height: 820px;
   /*background-image   : url('../assets/image.jpg');
   background-repeat    : no-repeat;
   background-size      : 100% cover;
@@ -457,21 +463,21 @@ canvas {
 }
 
 .circle {
-  padding-top        : 55px;
-  height             : 150px;
-  width              : 150px;
-  background-image   : url('../assets/circle.png');
-  background-repeat  : no-repeat;
-  background-size    : cover;
+  padding-top: 55px;
+  height: 150px;
+  width: 150px;
+  background-image: url('../assets/circle.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center center;
-  margin             : 30px auto 0;
+  margin: 30px auto 0;
 }
 
 .box4 {
-  padding    : 70px 50px 30px 37px;
-  color      : #fff;
+  padding: 70px 50px 30px 37px;
+  color: #fff;
   font-weight: 400;
-  font-Size  : 16px;
+  font-Size: 16px;
   line-Height: 39px;
 }
 
@@ -484,36 +490,36 @@ canvas {
 }
 
 .box2 {
-  margin          : 50px 0 0;
+  margin: 50px 0 0;
   background-image: url('../assets/rectangle.png');
-  background-size : cover;
-  border-radius   : 24px;
-  width           : 100%;
-  height          : 430px;
-  overflow        : hidden;
+  background-size: cover;
+  border-radius: 24px;
+  width: 100%;
+  height: 430px;
+  overflow: hidden;
 
   .tit {
     font-family: "Univa Nova";
-    font-style : normal;
+    font-style: normal;
     font-weight: 600;
-    font-size  : 30px;
+    font-size: 30px;
     line-height: 36px;
-    padding    : 32px 0 0 35px;
-    color      : #FFFFFF;
+    padding: 32px 0 0 35px;
+    color: #FFFFFF;
   }
 
   .btn {
-    font-family  : "Univa Nova";
-    height       : 63px;
-    width        : 100%;
-    background   : linear-gradient(180deg, #DE8035 0%, #EAB764 100%);
-    box-shadow   : 0px 4px 20px rgba(1, 158, 76, 0.2);
+    font-family: "Univa Nova";
+    height: 63px;
+    width: 100%;
+    background: linear-gradient(180deg, #DE8035 0%, #EAB764 100%);
+    box-shadow: 0px 4px 20px rgba(1, 158, 76, 0.2);
     border-radius: 12px;
-    font-weight  : 600;
-    font-size    : 16px;
-    line-height  : 19px;
-    border       : 0;
-    color        : #fff;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    border: 0;
+    color: #fff;
     margin-bottom: 15px;
   }
 
@@ -523,22 +529,22 @@ canvas {
 
   .coin1 {
     margin-top: 25px;
-    height    : 80px;
+    height: 80px;
   }
 
   .coin2 {
     margin-top: 35px;
-    height    : 60px;
+    height: 60px;
   }
 }
 
 .box3 {
-  height         : auto;
-  padding        : 20px 20px 30px;
-  margin         : 10px;
-  background     : rgba(255, 255, 255, 0.15);
+  height: auto;
+  padding: 20px 20px 30px;
+  margin: 10px;
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
-  border-radius  : 24px;
+  border-radius: 24px;
 
   img {
     border-radius: 50%;
@@ -546,33 +552,33 @@ canvas {
 
   h5 {
     font-family: 'Univa Nova';
-    font-style : normal;
+    font-style: normal;
     font-weight: 600;
-    font-size  : 26px;
+    font-size: 26px;
     line-height: 36px;
-    text-align : left;
-    color      : #FFFFFF;
-    margin     : 15px 0 3px;
-    padding    : 0;
+    text-align: left;
+    color: #FFFFFF;
+    margin: 15px 0 3px;
+    padding: 0;
   }
 
   p {
     font-weight: 400;
-    font-size  : 20px;
+    font-size: 20px;
     line-height: 30px;
-    margin     : 0;
-    padding    : 0;
-    text-align : left;
+    margin: 0;
+    padding: 0;
+    text-align: left;
   }
 }
 
 .community {
   height: 80px;
-  width : 80px;
+  width: 80px;
 }
 
 .community2 {
-  height : 72px;
+  height: 72px;
   padding: 6px;
 }
 
@@ -582,8 +588,8 @@ canvas {
 
 
 .footer {
-  margin    : 200px 0 0;
-  height    : 426px;
+  margin: 200px 0 0;
+  height: 426px;
   background: #22222C;
 
   img {
@@ -592,22 +598,22 @@ canvas {
 
   .t {
     font-family: 'Univa Nova';
-    font-style : normal;
+    font-style: normal;
     font-weight: 600;
-    font-size  : 20px;
+    font-size: 20px;
     line-height: 29px;
-    color      : #FFFFFF;
-    padding    : 0 0 20px;
-    text-align : right;
+    color: #FFFFFF;
+    padding: 0 0 20px;
+    text-align: right;
   }
 
   p {
     font-family: 'Univa Nova';
-    font-style : normal;
+    font-style: normal;
     font-weight: 400;
-    font-size  : 16px;
+    font-size: 16px;
     line-height: 19px;
-    text-align : right;
+    text-align: right;
 
 
     color: #FFFFFF;
@@ -616,16 +622,16 @@ canvas {
 
     /* Inside auto layout */
 
-    flex     : none;
-    order    : 0;
+    flex: none;
+    order: 0;
     flex-grow: 0;
   }
 }
 
 .carouse {
-  color     : #fff;
-  margin    : 40px 0 0;
-  height    : 150px;
+  color: #fff;
+  margin: 40px 0 0;
+  height: 150px;
   text-align: center;
   background: '#364d79';
 }
@@ -634,7 +640,7 @@ canvas {
   margin-top: 30px;
 
   .tit3 {
-    color        : #DD7C32;
+    color: #DD7C32;
     margin-bottom: 20px;
   }
 }
@@ -659,12 +665,12 @@ canvas {
     }
 
     h3 {
-      font-size  : 70px;
+      font-size: 70px;
       line-height: 1em;
     }
 
     li {
-      font-size  : 20px;
+      font-size: 20px;
       margin-left: 30px;
     }
 
@@ -695,15 +701,15 @@ canvas {
     }
 
     h3 {
-      font-size     : 40px;
-      line-height   : 1em;
-      margin-bottom : 0;
+      font-size: 40px;
+      line-height: 1em;
+      margin-bottom: 0;
       padding-bottom: 0;
-      padding-top   : 40px;
+      padding-top: 40px;
     }
 
     li {
-      font-size  : 16px;
+      font-size: 16px;
       margin-left: 20px;
     }
 
@@ -720,8 +726,8 @@ canvas {
     }
 
     .p {
-      font-size     : 12px;
-      line-height   : 22px;
+      font-size: 12px;
+      line-height: 22px;
       padding-bottom: 0;
     }
 
@@ -741,23 +747,23 @@ canvas {
 
       h5 {
         padding-top: 5px;
-        font-size  : 14px;
+        font-size: 14px;
         line-height: 16px;
       }
 
       p {
-        font-size  : 12px;
+        font-size: 12px;
         line-height: 40px;
       }
 
       .community {
         height: 60px;
-        width : 60px;
+        width: 60px;
       }
 
       .community2 {
         height: 62px;
-        width : 62px;
+        width: 62px;
       }
 
       .community2plug {
@@ -770,7 +776,7 @@ canvas {
   }
 }
 
-/* 当页面宽度大于300px小于600px @media screen and (min-width:300px) and (max-width:600px) */ 
+/* 当页面宽度大于300px小于600px @media screen and (min-width:300px) and (max-width:600px) */
 @media screen and (max-width:600px) {
   ::-webkit-scrollbar {
     display: none;
@@ -784,9 +790,11 @@ canvas {
     top: 70px;
   }
 
-  .bigshow, .bigshowline {
+  .bigshow,
+  .bigshowline {
     display: none;
   }
+
   .smallshow {
     display: block;
   }
@@ -807,8 +815,8 @@ canvas {
 
   canvas {
     position: absolute;
-    top     : 70px;
-    z-index : 0;
+    top: 70px;
+    z-index: 0;
   }
 
   .container {
@@ -829,7 +837,7 @@ canvas {
     }
 
     h2 {
-      font-size : 50px;
+      font-size: 50px;
       margin-top: 40px;
     }
 
@@ -843,7 +851,7 @@ canvas {
 
     .chart {
       box-sizing: border-box;
-      width     : 100%;
+      width: 100%;
       overflow-x: scroll;
     }
 
@@ -857,7 +865,7 @@ canvas {
 
     .box2 {
       .btn {
-        height     : 49px;
+        height: 49px;
         line-height: 12px;
       }
 
@@ -867,17 +875,17 @@ canvas {
 
       .tit {
         font-size: 22px;
-        width    : 200px;
+        width: 200px;
       }
 
       .coin1 {
         margin-top: 35px;
-        height    : 40px;
+        height: 40px;
       }
 
       .coin2 {
         margin-top: 35px;
-        height    : 30px;
+        height: 30px;
       }
     }
 
@@ -886,25 +894,25 @@ canvas {
 
       h5 {
         padding-top: 0px;
-        font-size  : 12px;
+        font-size: 12px;
         line-height: 12px;
       }
 
       p {
-        font-size  : 10px;
+        font-size: 10px;
         line-height: 14px;
       }
 
       .community {
         margin-top: 12px;
-        height    : 30px;
-        width     : 30px;
+        height: 30px;
+        width: 30px;
       }
 
       .community2 {
         margin-top: 12px;
-        height    : 32px;
-        width     : 32px;
+        height: 32px;
+        width: 32px;
       }
 
       .community2plug {
@@ -914,12 +922,12 @@ canvas {
 
     .box4 {
       margin-top: -40px;
-      font-size : 12px;
+      font-size: 12px;
     }
 
     h4 {
       margin-top: 70px;
-      font-size : 30px;
+      font-size: 30px;
     }
 
     .analytics {
@@ -939,14 +947,14 @@ canvas {
     }
 
     .circle {
-      padding-top        : 40px;
-      height             : 110px;
-      width              : 110px;
-      background-image   : url('../assets/circle.png');
-      background-repeat  : no-repeat;
-      background-size    : cover;
+      padding-top: 40px;
+      height: 110px;
+      width: 110px;
+      background-image: url('../assets/circle.png');
+      background-repeat: no-repeat;
+      background-size: cover;
       background-position: center center;
-      margin             : 30px auto 0;
+      margin: 30px auto 0;
     }
 
     .footer {

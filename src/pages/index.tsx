@@ -97,6 +97,12 @@ function onToP1() {
 function onToP2() {
   window.scrollTo(0, 2100)
 }
+function onToP11() {
+  window.scrollTo(0, 3000)
+}
+function onToP22() {
+  window.scrollTo(0, 2400)
+}
 
 export default function HomePage() {
   var myChart: echarts.ECharts;
@@ -1616,10 +1622,14 @@ export default function HomePage() {
         >
           X
         </span>
-        <div>Documentation </div>
-        <div>Community</div>
-        <div>Analythics</div>
-        <div> Connect Wallet</div>
+        <div>
+          <a style={{ color: "##C4C4C4" }} target={"_blank"} href="https://docs.nucleon.network/">
+            Documentation
+          </a>
+        </div>
+        <div onClick={onToP11}>Community</div>
+        <div onClick={onToP22}>Analythics</div>
+
         <div
           style={{
             padding: "10px 40px 0",
@@ -1632,7 +1642,7 @@ export default function HomePage() {
           </a>
           <a
             target={"_blank"}
-            href="https://twitter.com/NUCLEON_OFFICAL?t=jfiVbLR2jOTbnGSxbdVFQA&s=09"
+            href="https://twitter.com/OfficialNucleon"
           >
             <img src={logo3} style={{ width: "40px" }} />
           </a>

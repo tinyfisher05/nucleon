@@ -901,6 +901,7 @@ export default function Page() {
                 backgroundColor: "#393942",
                 width: "60%",
                 maxWidth: "1300px",
+                minWidth: "400px",
                 margin: "0 auto",
                 borderRadius: "20px",
               }}
