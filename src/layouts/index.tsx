@@ -178,7 +178,15 @@ export default function Layout() {
                     Home Page
                     </Link>
                   </p>
-                  
+                  <p>
+                    <a
+                      style={{ color: "#fff" }}
+                      target="_blank"
+                      href="https://docs.nucleon.network/" 
+                    >
+                      Documentation
+                    </a>
+                  </p>
                   <p>
                     <a
                       style={{ color: "#fff" }}
