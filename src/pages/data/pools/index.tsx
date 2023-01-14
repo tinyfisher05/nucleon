@@ -440,9 +440,13 @@ export default function Page() {
         const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
         console.log("BBB",TxnHash);
         if(+isModalOpen1Val===0){
-          setOperation("Details:"+isModalOpen1Val3+" NUT/CFX lps is staked to this pool.")
+          setOperation("Details: "
+          +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+          +" NUT/CFX lps is staked to this pool.")
         }else if(+isModalOpen1Val===1){
-          setOperation("Details:"+isModalOpen1Val3+" xCFX/CFX lps is staked to this pool.")
+          setOperation("Details: "
+          +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+          +" xCFX/CFX lps is staked to this pool.")
         }
         
         setTimeout(setTranHash(TxnHash),3690);
@@ -484,9 +488,13 @@ export default function Page() {
       const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
       console.log("BBB",TxnHash);
       if(+isModalOpen2Val === 0){
-        setOperation("Details:"+isModalOpen2Val3+" NUT/CFX lps is transfered to your address.")
-      }else if(+isModalOpen3Val === 1){
-        setOperation("Details:"+isModalOpen2Val3+" xCFX/CFX lps is transfered to your address.")
+        setOperation("Details: "
+        +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+        +" NUT/CFX lps is transfered to your address.")
+      }else if(+isModalOpen2Val === 1){
+        setOperation("Details: "
+        +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+        +" xCFX/CFX lps is transfered to your address.")
       }
       setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
@@ -739,9 +747,13 @@ export default function Page() {
         const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
         console.log("BBB",TxnHash);
         if(+isModalOpen3Val === 0){
-          setOperation("Details:"+isModalOpen3Val3+" NUT/CFX lps is staked to this pool.")
+          setOperation("Details: "
+          +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+          +" NUT/CFX lps is staked to this pool.")
         }else if(+isModalOpen3Val === 1){
-          setOperation("Details:"+isModalOpen3Val3+" xCFX/CFX lps is staked to this pool.")
+          setOperation("Details: "
+          +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+          +" xCFX/CFX lps is staked to this pool.")
         }
         setTimeout(setTranHash(TxnHash),3690);
       } catch (error) {
