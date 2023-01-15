@@ -637,7 +637,7 @@ export default function HomePage() {
             goToSchoolP3.push(obj3);
             xLabelP3.push("");
 
-            setTotal4(y.toFixed(4));
+            setTotal4(y.toFixed(3));
             const val4 = y.toString();
             const day4 = element.created_at.toString();
             let obj4 = { date: day4, value: val4 };
