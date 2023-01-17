@@ -439,11 +439,11 @@ const onSwitchNetwork = async () => {
       return;
     }
     if (+xcfxAmount < 1) {
-      setBurnVal(BigNumber(0));
-      setXcfxVal(BigNumber(0));
+      setBurnVal(0);
+      setXcfxVal(0);
     } else {
-      const val = await xcfxContract.balanceOf(account);// val ~= xcfxAmount; val is more accurate;
-      // const val = Unit.fromStandardUnit(+xcfxAmount.toString()).toHexMinUnit();
+      // const val = await xcfxContract.balanceOf(account);// val ~= xcfxAmount; val is more accurate;
+      const val = Unit.fromStandardUnit(+xcfxAmount.toString()).toHexMinUnit();
       console.log(xcfxAmount,val);
       setBurnVal(parseFloat((+xcfxAmount).toString()).toFixed(3));
       const rest = await excContract.XCFX_burn_estim(val);

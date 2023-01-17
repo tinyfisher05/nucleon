@@ -414,8 +414,8 @@ export default function Page() {
       return;
     }
     if (+staketotal < 1) {
-      setBurnVal(BigNumber(0));
-      setXcfxVal(BigNumber(0));
+      setBurnVal(0);
+      setXcfxVal(0);
     } else {
       const val = Unit.fromStandardUnit((+staketotal - 1).toString()).toHexMinUnit();
       setBurnVal(parseFloat((+staketotal - 1).toString()).toFixed(3));
