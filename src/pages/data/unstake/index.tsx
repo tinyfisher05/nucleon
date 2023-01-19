@@ -313,7 +313,7 @@ const onSwitchNetwork = async () => {
         setOperation("Details: "+burnVal+ "xCFX Unstaked; "
                     + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
                     +" CFX will unfreeze after about "
-                    +"15 days.")
+                    +"16 days.")
       }else{
         setOperation("Details: "+burnVal+ "xCFX Unstaked; "
                     + Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX()
@@ -754,7 +754,7 @@ const onSwitchNetwork = async () => {
                 </Col>
                 <Col span={16}>Estimated Cool Down Period</Col>
                 <Col span={8} style={{ textAlign: "right" }}>
-                  {period === 1 ? "48 hours" : "15 days"}
+                  {period === 1 ? "48 hours" : "16 days"}
                 </Col>
                 <Col span={12}>Current Block Number</Col>
                 <Col span={12} style={{ textAlign: "right" }}>

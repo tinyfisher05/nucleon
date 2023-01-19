@@ -327,7 +327,9 @@ export default function Page() {
       const TxnHash = await sendTransaction(txParams);
       const txReceipt = await waitTransactionReceipt(TxnHash);//cfx_back, speedMode
       console.log("CCC",TxnHash);
-      setOperation("Details: "+unclaimed+ " NUT have been sent to your address.")
+      setOperation("Details: "
+      +(Drip(Unit.fromStandardUnit(txReceipt.logs[1].data).toDecimalStandardUnit()).toCFX())
+      + " NUT have been sent to your address.")
       setTimeout(setTranHash(TxnHash),3690);
     } catch (error) {
       setIsModalOpen("none");
