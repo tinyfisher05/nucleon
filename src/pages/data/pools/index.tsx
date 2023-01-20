@@ -14,8 +14,8 @@ import "./../../../locales/config"; // 引用配置文件
 import { useTranslation, Trans } from "react-i18next";
 
 import type { SliderMarks } from "antd/es/slider";
-import { Button, Col, Row, Slider, Divider, InputNumber, Modal } from "antd";
-import Icon, { CloseOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { Button, Col, Row, Slider, Divider, InputNumber, Modal, Spin } from "antd";
+import Icon, { CloseOutlined, LoadingOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const marks: SliderMarks = {
@@ -50,6 +50,15 @@ const marks: SliderMarks = {
     label: <strong>100%</strong>,
   },
 };
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
 // 区块链部分
 import {
@@ -130,6 +139,8 @@ export default function Page() {
 
   const [userOutQueue1, setUserOutQueue1] = useState([]);
   const [userOutQueue2, setUserOutQueue2] = useState([]);
+  const [spinShow1, setSpinShow1] = useState(true);
+  const [spinShow2, setSpinShow2] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState("none");
   const [isModalOpen2, setIsModalOpen2] = useState("none");
   const [isModalOpen3, setIsModalOpen3] = useState("none");
@@ -867,7 +878,9 @@ export default function Page() {
       }
 
       setUserOutQueue1(tmp1);
+      setSpinShow1(false);
       setUserOutQueue2(tmp2);
+      setSpinShow2(false);
     }
   }
 
@@ -983,6 +996,8 @@ export default function Page() {
           <Divider
             style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
           />
+          <div style={{textAlign:"center", display:spinShow1?"block":"none"}}>
+            <Spin indicator={antIcon} /></div>
           <div style={{ height: "35px" }}></div>
         </div>
         <div className={style.box2 + ' ' + styles.smallshow}>
@@ -1155,6 +1170,8 @@ export default function Page() {
           <Divider
             style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
           />
+          <div style={{textAlign:"center", display:spinShow2?"block":"none"}}>
+            <Spin indicator={antIcon} /></div>
           <div style={{ height: "35px" }}></div>
         </div>
         <div className={style.box2 + ' ' + styles.smallshow}>

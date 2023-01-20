@@ -251,7 +251,7 @@ export default function Page() {
         grid: {
           top: "3%",
           left: "5%",
-          right: "10%",
+          right: "80px",
           bottom: "15%",
           // containLabel: true
         },
@@ -417,7 +417,7 @@ export default function Page() {
         grid: {
           top: "3%",
           left: "5%",
-          right: "10%",
+          right: "80px",
           bottom: "15%",
           // containLabel: true
         },
@@ -583,7 +583,7 @@ export default function Page() {
         grid: {
           top: "3%",
           left: "5%",
-          right: "10%",
+          right: "80px",
           bottom: "15%",
           // containLabel: true
         },
@@ -749,7 +749,7 @@ export default function Page() {
         grid: {
           top: "3%",
           left: "5%",
-          right: "10%",
+          right: "80px",
           bottom: "15%",
           // containLabel: true
         },
@@ -915,7 +915,7 @@ export default function Page() {
         grid: {
           top: "3%",
           left: "5%",
-          right: "10%",
+          right: "80px",
           bottom: "15%",
           // containLabel: true
         },
@@ -1081,7 +1081,7 @@ export default function Page() {
         grid: {
           top: "3%",
           left: "5%",
-          right: "10%",
+          right: "80px",
           bottom: "15%",
           // containLabel: true
         },
