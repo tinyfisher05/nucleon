@@ -370,10 +370,15 @@ const onSwitchNetwork = async () => {
         Unit.fromStandardUnit(unlocked).toHexMinUnit(),
       ]);
       (document.getElementById("spinner") as any).style.display = "block";
+      try {
       const TxnHash = await sendTransaction({
         to: addressExc,
         data,
       });
+      }
+      catch (error) {
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
       // const txReceipt = await waitTransactionReceipt(txnHash);//cfx_back, speedMode
       console.log("CCC",TxnHash);
       setOperation("Details: "+unlocked+" CFX will be transfered to your address.")
