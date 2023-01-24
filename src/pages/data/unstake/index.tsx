@@ -369,16 +369,13 @@ const onSwitchNetwork = async () => {
       const data = excinterface.encodeFunctionData("getback_CFX", [
         Unit.fromStandardUnit(unlocked).toHexMinUnit(),
       ]);
-      (document.getElementById("spinner") as any).style.display = "block";
       try {
+      (document.getElementById("spinner") as any).style.display = "block";
       const TxnHash = await sendTransaction({
         to: addressExc,
         data,
       });
-      }
-      catch (error) {
-        (document.getElementById("spinner") as any).style.display = "none";
-      }
+      
       // const txReceipt = await waitTransactionReceipt(txnHash);//cfx_back, speedMode
       console.log("CCC",TxnHash);
       setOperation("Details: "+unlocked+" CFX will be transfered to your address.")
@@ -388,6 +385,10 @@ const onSwitchNetwork = async () => {
         // 加载隐藏
         (document.getElementById("spinner") as any).style.display = "none";
       }, 10000);
+      }
+      catch (error) {
+        (document.getElementById("spinner") as any).style.display = "none";
+      }
     }, [account]);
     return (
       <Button
@@ -407,6 +408,7 @@ const onSwitchNetwork = async () => {
         {t("stake.Claim")}
       </Button>
     );
+    
   });
 
   // web3 钱包登录状态
