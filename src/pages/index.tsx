@@ -1628,7 +1628,7 @@ export default function HomePage() {
           </a>
         </div>
         <div onClick={onToP11}>Community</div>
-        <div onClick={onToP22}>Analythics</div>
+        <div onClick={onToP22}>Analytics</div>
 
         <div
           style={{
