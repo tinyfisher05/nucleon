@@ -378,7 +378,7 @@ const onSwitchNetwork = async () => {
       
       // const txReceipt = await waitTransactionReceipt(txnHash);//cfx_back, speedMode
       console.log("CCC",TxnHash);
-      setOperation("Details: "+unlocked+" CFX will be transfered to your address.")
+      setOperation("Details: "+unlocked+" CFX will be Transferred to your address.")
       setTimeout(setTranHash(TxnHash),3690);
       setTimeout(() => {
         init();
