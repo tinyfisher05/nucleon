@@ -134,7 +134,7 @@ export default function Layout() {
                     <a
                       target="_blank"
                       style={{ color: "#fff" }}
-                      href={"https://tempneedtoadd.net/"}
+                      href={"https://github.com/article-i/nucleon-contracts-Audit"}
                     >
                       Audited by Hacken
                     </a>
@@ -281,7 +281,7 @@ export default function Layout() {
                   <a
                     target="_blank"
                     style={{ color: "#fff" }}
-                    href={"https://tempneedtoadd.net/"}
+                    href={"https://github.com/article-i/nucleon-contracts-Audit"}
                   >
                     Audited by Hacken
                   </a>
