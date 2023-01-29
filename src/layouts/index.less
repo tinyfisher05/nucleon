@@ -362,6 +362,8 @@ canvas {
 
 }
 
+
+
 .analytics {
   width: 800px;
   margin: 30px auto 100px;
@@ -775,12 +777,19 @@ canvas {
 
   }
 }
-
+.welhome {
+  display: none;
+}
 /* 当页面宽度大于300px小于600px @media screen and (min-width:300px) and (max-width:600px) */
 @media screen and (max-width:600px) {
   ::-webkit-scrollbar {
     display: none;
   }
+
+  .welhome, .homebox {
+    display: block;
+  }
+  
 
   .auxiliary {
     display: none;

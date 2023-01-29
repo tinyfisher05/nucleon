@@ -59,10 +59,10 @@ function getStatistics(cond: string, limit = 24): Promise<any> {
       resolve(
         axios.get(
           domain +
-            "/api/v1/statistics?condition=" +
-            cond +
-            "&offset=0&limit=" +
-            limit
+          "/api/v1/statistics?condition=" +
+          cond +
+          "&offset=0&limit=" +
+          limit
         )
       );
     }, 1000);
@@ -143,7 +143,7 @@ export default function HomePage() {
   const [closingPrice4, setClosingPrice4] = useState("");
   const [nutPrice, setNutPrice] = useState("");
   const [circulatingNUT, setCirculatingNUT] = useState("--");
-  const [nutSupply, setNutSupply] = useState("--"); 
+  const [nutSupply, setNutSupply] = useState("--");
 
   const [xcfxvalues, setXcfxvalues] = useState("");
 
@@ -532,11 +532,11 @@ export default function HomePage() {
   const warning = () => {
     Modal.warning({
       wrapClassName: styles.zzzz,
-      bodyStyle: {backgroundColor:"#393942",color:"#ffffff"},
+      bodyStyle: { backgroundColor: "#393942", color: "#ffffff" },
       content: 'Fluent Or MetaMask Not Install',
     });
   };
-  
+
   useEffect(() => {
     // 监听
     window.addEventListener("resize", resizeChange);
@@ -1580,15 +1580,21 @@ export default function HomePage() {
             document.getElementById("main5") as HTMLElement
           );
           myChart5.setOption(optionL);
-        } catch (error) {}
+
+          (document.getElementById("homebox") as any).style.display = "none";
+        } catch (error) { }
       }, 500);
 
       const nutbalance = await nutContract.balanceOf(addressPool);
-      const nutbalanceCFX:any = new Drip(nutbalance).toCFX();
+      const nutbalanceCFX: any = new Drip(nutbalance).toCFX();
       setNutSupply((300000 - nutbalanceCFX).toString());
-      setCirculatingNUT(((300000 - nutbalanceCFX)/3000).toString());
-
+      setCirculatingNUT(((300000 - nutbalanceCFX) / 3000).toString());      
     })();
+
+    setTimeout(() => {
+      (document.getElementById("homebox") as any).style.display = "block";
+      (document.getElementById("welhome") as any).style.display = "none";
+    }, 4000);
   }, []);
   // /public/js/index.js <script src="/js/index.js?r=3"></script>
   return (
@@ -1598,6 +1604,27 @@ export default function HomePage() {
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <title>Nucleon</title>
       </Helmet>
+      <div id="welhome" className={styles.welhome} style={{
+        position: "fixed",
+        left: "0",
+        top: "0",
+        right: "0",
+        bottom: "0",
+        width: "100%",
+        height: "160%",
+        backgroundColor: "#181623",
+        zIndex: "90000"
+      }}>
+        <video
+          src={logomp4}
+          style={{
+            width: "100%",
+          }}
+          muted={true}
+          autoPlay
+          loop={true}
+        ></video>
+      </div>
       <div className={styles.menus} style={{ display: showMenu }}>
         <img
           className={styles.logoimg}
@@ -1714,7 +1741,7 @@ export default function HomePage() {
         </Row>
       </div>
       <div className={styles.homebg}></div>
-      <div style={{ padding: "0 20px" }}>
+      <div id="homebox" className={styles.homebox} style={{ padding: "0 20px" }}>
         <h2>
           Unlocking Liquidity
           <br />
@@ -1789,9 +1816,9 @@ export default function HomePage() {
                             style={
                               chart1Tab === 0
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1807,9 +1834,9 @@ export default function HomePage() {
                             style={
                               chart1Tab === 1
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1825,9 +1852,9 @@ export default function HomePage() {
                             style={
                               chart1Tab === 2
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1843,9 +1870,9 @@ export default function HomePage() {
                             style={
                               chart1Tab === 3
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1861,9 +1888,9 @@ export default function HomePage() {
                             style={
                               chart1Tab === 4
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1906,7 +1933,7 @@ export default function HomePage() {
                     </div>
                     <div className={styles.price}>
                       {parseFloat(total2) - parseFloat(closingPrice2) > 0 ||
-                      parseFloat(total2) - parseFloat(closingPrice2) === 0 ? (
+                        parseFloat(total2) - parseFloat(closingPrice2) === 0 ? (
                         <img className={styles.updown} src={up} />
                       ) : (
                         <img className={styles.updown} src={down} />
@@ -1934,9 +1961,9 @@ export default function HomePage() {
                             style={
                               chart2Tab === 0
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1952,9 +1979,9 @@ export default function HomePage() {
                             style={
                               chart2Tab === 1
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1970,9 +1997,9 @@ export default function HomePage() {
                             style={
                               chart2Tab === 2
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -1988,9 +2015,9 @@ export default function HomePage() {
                             style={
                               chart2Tab === 3
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2006,9 +2033,9 @@ export default function HomePage() {
                             style={
                               chart2Tab === 4
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2087,9 +2114,9 @@ export default function HomePage() {
                             style={
                               chart3Tab === 0
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2105,9 +2132,9 @@ export default function HomePage() {
                             style={
                               chart3Tab === 1
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2123,9 +2150,9 @@ export default function HomePage() {
                             style={
                               chart3Tab === 2
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2141,9 +2168,9 @@ export default function HomePage() {
                             style={
                               chart3Tab === 3
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2159,9 +2186,9 @@ export default function HomePage() {
                             style={
                               chart3Tab === 4
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2242,9 +2269,9 @@ export default function HomePage() {
                             style={
                               chart4Tab === 0
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2260,9 +2287,9 @@ export default function HomePage() {
                             style={
                               chart4Tab === 1
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2278,9 +2305,9 @@ export default function HomePage() {
                             style={
                               chart4Tab === 2
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2296,9 +2323,9 @@ export default function HomePage() {
                             style={
                               chart4Tab === 3
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2314,9 +2341,9 @@ export default function HomePage() {
                             style={
                               chart4Tab === 4
                                 ? {
-                                    background: " #EAB966",
-                                    borderRadius: "7px",
-                                  }
+                                  background: " #EAB966",
+                                  borderRadius: "7px",
+                                }
                                 : {}
                             }
                             className={styles.group}
@@ -2414,7 +2441,7 @@ export default function HomePage() {
                     </Col>
                     <Col span={12}>NUT Circulating Supply:</Col>
                     <Col span={12} style={{ textAlign: "right" }}>
-                      { parseFloat(nutSupply).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }
+                      {parseFloat(nutSupply).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </Col>
                   </Row>
                   <Row style={{ padding: "0 50px 0 37px" }} gutter={22}>
@@ -2479,10 +2506,10 @@ export default function HomePage() {
             >
               <h3>Welcome To Nucleon</h3>
               <div className={styles.p}>
-              Nucleon is a liquid staking solution for Conflux PoS. Nucleon enables users to stake CFX without the overhead of illiquid assets. Users can enjoy liquidity while remaining secure, earning interest, and accessing the broader DeFi ecosystem.
+                Nucleon is a liquid staking solution for Conflux PoS. Nucleon enables users to stake CFX without the overhead of illiquid assets. Users can enjoy liquidity while remaining secure, earning interest, and accessing the broader DeFi ecosystem.
               </div>
               <div className={styles.p}>
-              Nucleon's goal is to solve the problems associated with Conflux PoS staking - liquidity, immovability, and accessibility - by making staked CFX liquid. Nucleon aims to open PoS participation with flexible amounts of CFX to improve the security of the Conflux Network.
+                Nucleon's goal is to solve the problems associated with Conflux PoS staking - liquidity, immovability, and accessibility - by making staked CFX liquid. Nucleon aims to open PoS participation with flexible amounts of CFX to improve the security of the Conflux Network.
               </div>
               <div className={styles.learn}>
                 <a
@@ -2640,7 +2667,7 @@ export default function HomePage() {
                     >
                       Year
                     </div>
-                    <span style={{float:"right", marginRight:"27px", color:"#fff"}}>Nucleon Platform – TVL</span>
+                    <span style={{ float: "right", marginRight: "27px", color: "#fff" }}>Nucleon Platform – TVL</span>
                   </div>
                   <div
                     className={styles.main5}
@@ -2662,26 +2689,26 @@ export default function HomePage() {
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
               <div className={styles.box3}>
                 <a target="_blank" href="https://github.com/article-i/nucleon">
-                <Row>
-                  <Col
-                    xs={6}
-                    sm={6}
-                    md={10}
-                    lg={10}
-                    xl={10}
-                    style={{ textAlign: "center" }}
-                  >
-                    <img src={logo4} className={styles.community} />
-                  </Col>
-                  <Col xs={18} sm={18} md={14} lg={14} xl={14}>
-                    <h5>Github</h5>
-                    <p><span style={{color:"#fff"}}>@nucleon.space</span></p>
-                  </Col>
-                </Row>
+                  <Row>
+                    <Col
+                      xs={6}
+                      sm={6}
+                      md={10}
+                      lg={10}
+                      xl={10}
+                      style={{ textAlign: "center" }}
+                    >
+                      <img src={logo4} className={styles.community} />
+                    </Col>
+                    <Col xs={18} sm={18} md={14} lg={14} xl={14}>
+                      <h5>Github</h5>
+                      <p><span style={{ color: "#fff" }}>@nucleon.space</span></p>
+                    </Col>
+                  </Row>
                 </a>
               </div>
             </Col>
-            <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{display:"none"}}>
+            <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: "none" }}>
               <div className={styles.box3}>
                 <Row>
                   <Col
@@ -2703,27 +2730,27 @@ export default function HomePage() {
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
               <div className={styles.box3}>
-              <a target="_blank" href="https://twitter.com/OfficialNucleon">
-                <Row>
-                  <Col
-                    xs={6}
-                    sm={6}
-                    md={10}
-                    lg={10}
-                    xl={10}
-                    style={{ textAlign: "center" }}
-                  >
-                    <img src={logo3} className={styles.community} />
-                  </Col>
-                  <Col xs={18} sm={18} md={14} lg={14} xl={14}>
-                    <h5>Twitter</h5>
-                    <p style={{color:"#fff"}}>@nucleon.space</p>
-                  </Col>
-                </Row>
+                <a target="_blank" href="https://twitter.com/OfficialNucleon">
+                  <Row>
+                    <Col
+                      xs={6}
+                      sm={6}
+                      md={10}
+                      lg={10}
+                      xl={10}
+                      style={{ textAlign: "center" }}
+                    >
+                      <img src={logo3} className={styles.community} />
+                    </Col>
+                    <Col xs={18} sm={18} md={14} lg={14} xl={14}>
+                      <h5>Twitter</h5>
+                      <p style={{ color: "#fff" }}>@nucleon.space</p>
+                    </Col>
+                  </Row>
                 </a>
               </div>
             </Col>
-            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{display:"none"}}>
+            <Col xs={12} sm={12} md={12} lg={12} xl={12} style={{ display: "none" }}>
               <div className={styles.box3}>
                 <Row>
                   <Col
@@ -2745,45 +2772,45 @@ export default function HomePage() {
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
               <div className={styles.box3}>
-              <a target="_blank" href="https://t.me/nucleonspace">
-                <Row>
-                  <Col
-                    xs={6}
-                    sm={6}
-                    md={10}
-                    lg={10}
-                    xl={10}
-                    style={{ textAlign: "center" }}
-                  >
-                    <img src={logo2} className={styles.community} />
-                  </Col>
-                  <Col xs={18} sm={18} md={14} lg={14} xl={14}>
-                    <h5>Telegram</h5>
-                    <p style={{color:"#fff"}}>@nucleon.space</p>
-                  </Col>
-                </Row>
+                <a target="_blank" href="https://t.me/nucleonspace">
+                  <Row>
+                    <Col
+                      xs={6}
+                      sm={6}
+                      md={10}
+                      lg={10}
+                      xl={10}
+                      style={{ textAlign: "center" }}
+                    >
+                      <img src={logo2} className={styles.community} />
+                    </Col>
+                    <Col xs={18} sm={18} md={14} lg={14} xl={14}>
+                      <h5>Telegram</h5>
+                      <p style={{ color: "#fff" }}>@nucleon.space</p>
+                    </Col>
+                  </Row>
                 </a>
               </div>
             </Col>
             <Col xs={12} sm={12} md={12} lg={12} xl={12}>
               <div className={styles.box3}>
-                 <a target="_blank" href="https://nucleon-official.medium.com/">
-                <Row>
-                  <Col
-                    xs={6}
-                    sm={6}
-                    md={10}
-                    lg={10}
-                    xl={10}
-                    style={{ textAlign: "center" }}
-                  >
-                    <img src={logo6} className={styles.community2} />
-                  </Col>
-                  <Col xs={18} sm={18} md={14} lg={14} xl={14}>
-                    <h5>Medium</h5>
-                    <p style={{color:"#fff"}}>@nucleon.space</p>
-                  </Col>
-                </Row>
+                <a target="_blank" href="https://nucleon-official.medium.com/">
+                  <Row>
+                    <Col
+                      xs={6}
+                      sm={6}
+                      md={10}
+                      lg={10}
+                      xl={10}
+                      style={{ textAlign: "center" }}
+                    >
+                      <img src={logo6} className={styles.community2} />
+                    </Col>
+                    <Col xs={18} sm={18} md={14} lg={14} xl={14}>
+                      <h5>Medium</h5>
+                      <p style={{ color: "#fff" }}>@nucleon.space</p>
+                    </Col>
+                  </Row>
                 </a>
               </div>
             </Col>
