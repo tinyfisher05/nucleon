@@ -490,18 +490,30 @@ export default function Page() {
           },
           i: any
         ) => {
-          const balancevalueT2 = parseFloat(
-            (+element.xcfxvalues * +element.price).toString()
-          ).toFixed(4);
+          // const balancevalueT2 = parseFloat(
+          //   (+element.xcfxvalues * +element.price).toString()
+          // ).toFixed(4);
+
+          // const xcfxvalues = element.xcfxvalues;
+          // const valT = xcfxvalues * +balancevalueT2;
+          // const dayT = element.created_at.toString();
+          // let objT = { date: dayT, value: valT };
+          // objT.value = valT;
+          // objT.date = dayT;
+          // xLabel0.push(i);
+          // xgoToSchool0.push(objT);
 
           const xcfxvalues = element.xcfxvalues;
-          const valT = xcfxvalues * +balancevalueT2;
-          const dayT = element.created_at.toString();
-          let objT = { date: dayT, value: valT };
-          objT.value = valT;
-          objT.date = dayT;
-          xLabel0.push(i);
-          xgoToSchool0.push(objT);
+          const y = new BigNumber(xcfxvalues);
+          const val4 = +y.toString() * +element.price;
+          const day4 = element.created_at.toString();
+          let obj4 = { date: day4, value: val4 };
+          obj4.value = val4;
+          obj4.date = day4;
+          xgoToSchool0.push(obj4);
+          xLabel0.push("");
+
+
         }
       );
 

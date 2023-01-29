@@ -1082,6 +1082,8 @@ export default function Page() {
           <Divider
             style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
           />
+          <div style={{textAlign:"center", display:spinShow1?"block":"none"}}>
+            <Spin indicator={antIcon} /></div>
           <div style={{ height: "35px" }}></div>
         </div>
         <div className={style.sub_nav2}>
@@ -1250,6 +1252,8 @@ export default function Page() {
           <Divider
             style={{ borderTop: "1px solid #EAB966", margin: "12px 0" }}
           />
+          <div style={{textAlign:"center", display:spinShow2?"block":"none"}}>
+            <Spin indicator={antIcon} /></div>
           <div style={{ height: "35px" }}></div>
         </div>
         <h4>About Nucleon Pools</h4>
