@@ -84,6 +84,7 @@ const {
   addressXCFX_CFX,
   abiLP,
 } = require("./../../../ABI/Lp.json");
+const { addressMulticall, abiMulticall } = require("./../../../ABI/Multicall.json");
 const provider = new ethers.providers.JsonRpcProvider(
   "https://evmtestnet.confluxrpc.com"
 );
@@ -98,6 +99,9 @@ const xcfxCfxInterface = new utils.Interface(abiLP);
 //币种
 const nutContract = new ethers.Contract(addressNut, abiNut, provider);
 const nutInterface = new utils.Interface(abiNut);
+//Multicall
+const multicallContract = new ethers.Contract(addressMulticall, abiMulticall, provider);
+const multicallInterface = new utils.Interface(abiMulticall);
 
 let myacc: any;
 let timer: any;
@@ -789,11 +793,25 @@ export default function Page() {
 
   async function init() {
     if (myacc) {
-      const mynut = await nutContract.balanceOf(myacc);
+      const promises = [
+        [nutContract.address ,nutContract.interface.encodeFunctionData('balanceOf',[myacc])],
+        [poolsContract.address ,poolsContract.interface.encodeFunctionData('totalAllocPoint')],
+        [poolsContract.address ,poolsContract.interface.encodeFunctionData('sushiPerBlock')]
+      ]
+      const multival = await multicallContract.callStatic.aggregate(promises);
+      // console.log(multival);
+      // const multimy = multival.returnData[0];
+      // console.log(multimy);
+      // console.log(Drip(multimy).toCFX());
+      const mynut = multival.returnData[0]; //await nutContract.balanceOf(myacc);        //  1
+      // console.log(mynut);
+      // console.log(Drip(mynut).toCFX());
       //const nutinfo = await nutContract.getReserves();
-      const totalpoint = await poolsContract.totalAllocPoint();
+      const totalpoint = multival.returnData[1]; //await poolsContract.totalAllocPoint();//  2
+      // console.log(totalpoint);
       // console.log(Drip(totalpoint).toCFX());
-      const nutPerBlock = await poolsContract.sushiPerBlock();
+      const nutPerBlock = multival.returnData[2]; //await poolsContract.sushiPerBlock(); //  3
+      // console.log(nutPerBlock);
       // console.log(Drip(nutPerBlock).toCFX());
       setMynut(Drip(mynut.toString()).toCFX().toString());
       const confluxscanData = await axios.get(
@@ -813,10 +831,9 @@ export default function Page() {
       
       let tmp1: any = [];
       let tmp2: any = [];
+      let promises2: any = [];
       for (let index = 0; index < 2; index++) {
-        const pools = await poolsContract.userInfo(index, myacc);
-        const pendingrewards = await poolsContract.pendingSushi(index, myacc);
-        const pointInfo = await poolsContract.poolInfo(index);
+        
         //console.log(pointInfo);
         let myLiquidity = 0;
         let val = 0;
@@ -825,36 +842,73 @@ export default function Page() {
         let lpinfo:any;
         let arp:any;
         if (index === 0) {
-          val = await nutCfxContract.totalSupply();
-          myLiquidity = await nutCfxContract.balanceOf(myacc);
-          lpinfo = await nutCfxContract.getReserves();
+          promises2 = [
+            [nutCfxContract.address, nutCfxContract.interface.encodeFunctionData('totalSupply')],
+            [nutCfxContract.address, nutCfxContract.interface.encodeFunctionData('balanceOf',[myacc])],
+            [nutCfxContract.address, nutCfxContract.interface.encodeFunctionData('getReserves')],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('userInfo',[index, myacc])],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('pendingSushi',[index, myacc])],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('poolInfo',[index])],
+            [nutCfxContract.address, nutCfxContract.interface.encodeFunctionData('getReserves')],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('PoolLPSum',[index])]
+          ]
+          // val = await nutCfxContract.totalSupply();
+          // myLiquidity = await nutCfxContract.balanceOf(myacc);
+          // lpinfo = await nutCfxContract.getReserves();
         } else if (index === 1) {
-          val = await xcfxCfxContract.totalSupply();
-          myLiquidity = await xcfxCfxContract.balanceOf(myacc);
-          lpinfo = await xcfxCfxContract.getReserves();
+          promises2 = [
+            [xcfxCfxContract.address, xcfxCfxContract.interface.encodeFunctionData('totalSupply')],
+            [xcfxCfxContract.address, xcfxCfxContract.interface.encodeFunctionData('balanceOf',[myacc])],
+            [xcfxCfxContract.address, xcfxCfxContract.interface.encodeFunctionData('getReserves')],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('userInfo',[index, myacc])],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('pendingSushi',[index, myacc])],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('poolInfo',[index])],
+            [nutCfxContract.address, nutCfxContract.interface.encodeFunctionData('getReserves')],
+            [poolsContract.address, poolsContract.interface.encodeFunctionData('PoolLPSum',[index])]
+          ]
+          // val = await xcfxCfxContract.totalSupply();
+          // myLiquidity = await xcfxCfxContract.balanceOf(myacc);
+          // lpinfo = await xcfxCfxContract.getReserves();
         }
-        //console.log(lpinfo);
-        lpinfoNUT = await nutCfxContract.getReserves();
-        const NUTPrice = lpinfoNUT[0]/lpinfoNUT[1];
-        LpPricearr[index] =cfxprice*lpinfo[0]*2/val;
-        //console.log(lpToken2Price);
-        totalLPs = await poolsContract.PoolLPSum(index);
+        const multival2 = await multicallContract.callStatic.aggregate(promises2);
+        console.log(multival2);
+        val = multival2.returnData[0]; //await xcfxCfxContract.totalSupply();
+        myLiquidity = multival2.returnData[1]; //await xcfxCfxContract.balanceOf(myacc);
+        lpinfo = multival2.returnData[2]; //await xcfxCfxContract.getReserves();
+        console.log(lpinfo);
+        const pools = multival2.returnData[3]; //await poolsContract.userInfo(index, myacc);
+        console.log(pools);
+        const pendingrewards = multival2.returnData[4]; //await poolsContract.pendingSushi(index, myacc);
+        const pointInfo = multival2.returnData[5]; //await poolsContract.poolInfo(index);
+        
+        lpinfoNUT = multival2.returnData[6]; //await nutCfxContract.getReserves();
+        // console.log(lpinfoNUT);
+        // console.log(lpinfoNUT.substring(0, 66));
+        // console.log('0x'+lpinfoNUT.substring(66, 130));
+        const NUTPrice = Drip(lpinfoNUT.substring(0, 66)).toCFX()/Drip('0x'+lpinfoNUT.substring(66, 130)).toCFX();
+        LpPricearr[index] =cfxprice*2*lpinfo.substring(0, 66)/val;
+        // console.log(NUTPrice);
+        totalLPs = Drip(multival2.returnData[7]).toCFX(); //await poolsContract.PoolLPSum(index);
+        console.log(totalLPs);
+        
+
+
         if(totalLPs>0){
-          // console.log(NUTPrice,secondperyear,Drip(nutPerBlock).toCFX(),Drip(pointInfo[2]).toCFX(),Drip(val).toCFX());
-          arp = (100*NUTPrice*secondperyear*Drip(nutPerBlock).toCFX()*Drip(pointInfo[2]).toCFX()*Drip(val).toCFX()/((Drip(totalpoint).toCFX()*Drip(totalLPs).toCFX())*Drip(lpinfo[0]).toCFX()*2)).toString();
-          
+          console.log(NUTPrice,secondperyear,Drip(nutPerBlock).toCFX(),Drip('0x'+pointInfo.substring(130, 194)).toCFX(),Drip(val).toCFX(),Drip(totalpoint).toCFX(),Drip(lpinfo.substring(0, 66)).toCFX());
+          arp = (100*NUTPrice*secondperyear*Drip(nutPerBlock).toCFX()*Drip('0x'+pointInfo.substring(130, 194)).toCFX()*Drip(val).toCFX()/((Drip(totalpoint).toCFX()*totalLPs)*Drip(lpinfo.substring(0, 66)).toCFX()*2)).toString();
+          console.log(arp);
           arp = (arp.split('.')[0]+'.'+arp.split('.')[1].slice(0, 8));
         }else{
           arp = "--"
         }
         
         // console.log(arp);
-        totalLPs = Drip(totalLPs).toCFX();
-        console.log(pools[0].toString());
-        if (pools[0].toString() === "0") {
+        totalLPs = (totalLPs);
+        console.log(pools.substring(0, 66));
+        if (Drip(pools.substring(0, 66)).toCFX() === "0") {
           tmp2.push({
             i: index,
-            val: Drip(pools[0]).toCFX(),
+            val: Drip(pools.substring(0, 66)).toCFX(),
             arp: arp,
             totalLiquidity: Drip(val).toCFX(),
             myLiquidity: Drip(myLiquidity).toCFX(),
@@ -863,7 +917,7 @@ export default function Page() {
         } else {
           tmp1.push({
             i: index,
-            val: Drip(pools[0]).toCFX(),
+            val: Drip(pools.substring(0, 66)).toCFX(),
             arp: arp,
             totalLiquidity: Drip(val).toCFX(),
             myLiquidity: Drip(myLiquidity).toCFX(),
@@ -871,8 +925,8 @@ export default function Page() {
             pendingrewards: Drip(pendingrewards).toCFX(),
           });
         }
-      MyLiquilityarr[index]=parseFloat(Drip(pools[0]).toCFX().toString()).toFixed(3);
-      ShareOfPoolarr[index]=parseFloat((100*Drip(pools[0]).toCFX()/totalLPs).toString()).toFixed(3)+'%';
+      MyLiquilityarr[index]=parseFloat(Drip(pools.substring(0, 66)).toCFX().toString()).toFixed(3);
+      ShareOfPoolarr[index]=parseFloat((100*Drip(pools.substring(0, 66)).toCFX()/totalLPs).toString()).toFixed(3)+'%';
       Aprarr[index]=parseFloat((arp).toString()).toFixed(1);
 
       }
