@@ -1569,11 +1569,11 @@ export default function Page() {
                                   margin: " 0 0 0 10px",
                                 }}
                               >
-                                <div>
+                                <div className={style.smalltxt}>
                                   CFX/
                                   {isModalOpen1Val === "1" ? "xCFX" : "NUT"}
                                 </div>
-                                <div style={{ fontSize: "14px" }}>
+                                <div style={{ fontSize: "12px" }}>
                                 {lpprice}
                                 </div>
                               </div>
@@ -1729,11 +1729,11 @@ export default function Page() {
                                   margin: " 0 0 0 10px",
                                 }}
                               >
-                                <div>
+                                <div className={style.smalltxt}>
                                   CFX/
                                   {isModalOpen2Val === "1" ? "xCFX" : "NUT"}
                                 </div>
-                                <div style={{ fontSize: "14px" }}>
+                                <div style={{ fontSize: "12px" }}>
                                 {lpprice}
                                 </div>
                               </div>
@@ -1845,7 +1845,7 @@ export default function Page() {
                         color: "#161621",
                       }}
                     >
-                      <b style={{ fontFamily: "Univa Nova Bold" }}>
+                      <b style={{ fontFamily: "Univa Nova Bold" }} className={style.smallbtn}>
                         {t("pools.StakeLiquidity")}
                       </b>
                     </Button>
@@ -1972,11 +1972,11 @@ export default function Page() {
                                   margin: " 0 0 0 10px",
                                 }}
                               >
-                                <div>
+                                <div className={style.smalltxt}>
                                   CFX/
                                   {isModalOpen3Val === "1" ? "xCFX" : "NUT"}
                                 </div>
-                                <div style={{ fontSize: "14px" }}>
+                                <div style={{ fontSize: "12px" }}>
                                 {lpprice}
                                 </div>
                               </div>
@@ -2068,7 +2068,7 @@ export default function Page() {
                         color: "#161621",
                       }}
                     >
-                      <b style={{ fontFamily: "Univa Nova Bold" }}>
+                      <b style={{ fontFamily: "Univa Nova Bold" }}  className={style.smallbtn}>
                         {t("pools.StakeLiquidity")}
                       </b>
                     </Button>
