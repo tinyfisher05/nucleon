@@ -564,14 +564,14 @@ export default function Page() {
     //window.addEventListener("resize", resizeChange);
     (async () => {
       axios
-        .get("https://evmtestnet.confluxscan.net/v1/homeDashboard")
+        .get("https://evmtestnet.confluxscan.io/v1/homeDashboard")
         .then(async (response) => {
           setBlockNumber(response.data.result.blockNumber);
         });
 
       axios
         .get(
-          " https://evmtestnet.confluxscan.net/stat/tokens/by-address?address=0x092690013ef7aF87eaf45030906baa86b8fAA411&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+          " https://evmtestnet.confluxscan.io/stat/tokens/by-address?address=0x092690013ef7aF87eaf45030906baa86b8fAA411&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
         )
         .then(async (response) => {
           setHolderCount(response.data.result.holderCount);
