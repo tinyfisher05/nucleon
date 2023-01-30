@@ -422,11 +422,14 @@ export default function Page() {
           parseInt(new Date().getTime().toString()) - t <= time;
         );
       }
+      else{
+        break;
+      }
     }
-    for (
-      var t = parseInt(new Date().getTime().toString());
-      parseInt(new Date().getTime().toString()) - 3600 <= time;
-    );
+    // for (
+    //   var t = parseInt(new Date().getTime().toString());
+    //   parseInt(new Date().getTime().toString()) - 3600 <= time;
+    // );
 
     clearTimeout(timer);
     (document.getElementById("spinner") as any).style.display = "block";
@@ -730,11 +733,14 @@ export default function Page() {
           parseInt(new Date().getTime().toString()) - t <= time;
         );
       }
+      else{
+        break;
+      }
     }
-    for (
-      var t = parseInt(new Date().getTime().toString());
-      parseInt(new Date().getTime().toString()) - 3600 <= time;
-    );
+    // for (
+    //   var t = parseInt(new Date().getTime().toString());
+    //   parseInt(new Date().getTime().toString()) - 3600 <= time;
+    // );
     //精确执行
     let tempaccuratevalues = '0';
     if(isModalOpen3Val3==isModalOpen3Val2){
