@@ -489,7 +489,7 @@ const onSwitchNetwork = async () => {
       setExchangeRate(xcfxvalues);
 
       const confluxscanData = await axios.get(
-        "https://www.confluxscan.net/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
+        "https://www.confluxscan.io/stat/tokens/by-address?address=cfx%3Aacg158kvr8zanb1bs048ryb6rtrhr283ma70vz70tx&fields=iconUrl&fields=transferCount&fields=price&fields=totalPrice&fields=quoteUrl"
       );
       const data = confluxscanData.data.data;
       const holderCount = data.holderCount;
